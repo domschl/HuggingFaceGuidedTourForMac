@@ -4,7 +4,7 @@ A guided tour on how to install optimized `tensorflow` and `pytorch` on Apple Si
 
 We will perform the following steps:
 
-- Install `homebrew` and `miniforge` (a minimal version of `anaconda`)
+- Install `homebrew` and `miniconda` (a minimal version of `anaconda`)
 - [Optionally] install tensorflow with metal optimization
 - Install pytorch with MPS (metal performance shaders) support
 - Install `jupyter lab` to run notebooks
