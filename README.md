@@ -4,7 +4,7 @@ A guided tour on how to install optimized `tensorflow` and `pytorch` on Apple Si
 
 We will perform the following steps:
 
-- Install `homebrew` and `miniforge` (a minimal version of `anaconda`)
+- Install `homebrew` and `miniconda` (a minimal version of `anaconda`)
 - [Optionally] install tensorflow with metal optimization
 - Install pytorch with MPS (metal performance shaders) support
 - Install `jupyter lab` to run notebooks
@@ -17,9 +17,9 @@ We will perform the following steps:
 If you haven't done so, go to <https://brew.sh/> and follow the instructions to install homebrew.
 Once done, open a terminal and type `brew --version` to check that it is installed correctly.
 
-### 1.2 Install `miniforge` and switch to `conda-forge` channel
+### 1.2 Install `miniconda` and switch to `conda-forge` channel
 
-In terminal, type `brew install miniforge` to install `miniforge` (a minimal version of `anaconda`).
+In terminal, type `brew install miniconda` to install `miniconda` (a minimal version of `anaconda`).
 We will use the package manager `conda` to install the necessary packages both for `tensorflow` and `pytorch`.
 
 Reopen your terminal and check that `conda` is installed correctly by typing `conda --version`.
@@ -199,27 +199,66 @@ Your should see something like this:
 
 If you've received a label classification of `POSITIVE` with a score of `0.99`, then you are ready to start experimenting with HuggingFace!
 
+You can use the [`00-SystemCheck.ipynb`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/00-SystemCheck.ipynb) notebook for this test too.
+
 > **Note:** You'll see that the `HuggingFace` libraries are downloading all sorts of large binary blobs containing the trained model data. That data is stored in your home directory at: `~/.cache/huggingface/hub`. You can remove these models at any time by deleting this directory or parts of it's content.
 
 ### 2.2 Minimal chat-bot
 
+You can open the notebook [`01-ChatBot.ipynb`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/01-ChatBot.ipynb) to try out a very simple chatbot on your Mac.
+
+The python code used is:
+
 ```python
+import torch 
 from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers.utils import logging
 
-tokenizer = AutoTokenizer.from_pretrained("microsoft/DialoGPT-small")
-model = AutoModelForCausalLM.from_pretrained("microsoft/DialoGPT-small")
+# Disable warnings about padding_side that cannot be rectified with current software:
+logging.set_verbosity_error()
 
-# Let's chat for 5 lines
-for step in range(5):
+model_names = ["microsoft/DialoGPT-small", "microsoft/DialoGPT-medium", "microsoft/DialoGPT-large"]
+use_model_index = 1  # Change 0: small model, 1: medium, 2: large model (requires most resources!)
+model_name = model_names[use_model_index]
+          
+tokenizer = AutoTokenizer.from_pretrained(model_name) # , padding_side='left')
+model = AutoModelForCausalLM.from_pretrained(model_name)
+
+# The chat function: received a user input and chat-history and returns the model's reply and chat-history:
+def reply(input_text, history=None):
     # encode the new user input, add the eos_token and return a tensor in Pytorch
-    new_user_input_ids = tokenizer.encode(input(">> User:") + tokenizer.eos_token, return_tensors='pt')
+    new_user_input_ids = tokenizer.encode(input_text + tokenizer.eos_token, return_tensors='pt')
 
     # append the new user input tokens to the chat history
-    bot_input_ids = torch.cat([chat_history_ids, new_user_input_ids], dim=-1) if step > 0 else new_user_input_ids
+    bot_input_ids = torch.cat([history, new_user_input_ids], dim=-1) if history is not None else new_user_input_ids
 
     # generated a response while limiting the total chat history to 1000 tokens, 
     chat_history_ids = model.generate(bot_input_ids, max_length=1000, pad_token_id=tokenizer.eos_token_id)
 
     # pretty print last ouput tokens from bot
-    print("DialoGPT: {}".format(tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)))
+    return tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True), chat_history_ids
+
+history = None
+while True:
+    input_text = input("> ")
+    if input_text in ["", "bye", "quit", "exit"]:
+        break
+    reply_text, history_new = reply(input_text, history)
+    history=history_new
+    if history.shape[1]>80:
+        old_shape = history.shape
+        history = history[:,-80:]
+        print(f"History cut from {old_shape} to {history.shape}")
+    # history_text = tokenizer.decode(history[0])
+    # print(f"Current history: {history_text}")
+    print(f"D_GPT: {reply_text}")
 ```
+
+This shows a (quite limited and repetitive) chatbot using Microsoft's [DialoGPT](https://huggingface.co/microsoft/DialoGPT-medium?text=Hey+my+name+is+Mariama%21+How+are+you%3F) models.
+
+Things to try:
+
+- By changing `use_model_index` between `0..2`, you can select either a small, medium or large language model.
+- To see the history that the model maintains you can uncomment the two `history_text` related lines above.
+- To get rid of the downloaded models, clean up `~/.cache/huggingface/hub`. Missing stuff is automatically re-downloaded when needed.
+
