@@ -19,7 +19,7 @@ Once done, open a terminal and type `brew --version` to check that it is install
 
 ### 1.2 Install `miniforge` and switch to `conda-forge` channel
 
-In terminal, type `brew install miniforge` to install `miniforge` (a minimal version of `anaconda`).
+In terminal, type `brew install miniconda` to install `miniconda` (a minimal version of `anaconda`).
 We will use the package manager `conda` to install the necessary packages both for `tensorflow` and `pytorch`.
 
 Reopen your terminal and check that `conda` is installed correctly by typing `conda --version`.
