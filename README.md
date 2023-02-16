@@ -17,7 +17,7 @@ We will perform the following steps:
 If you haven't done so, go to <https://brew.sh/> and follow the instructions to install homebrew.
 Once done, open a terminal and type `brew --version` to check that it is installed correctly.
 
-### 1.2 Install `miniforge` and switch to `conda-forge` channel
+### 1.2 Install `miniconda` and switch to `conda-forge` channel
 
 In terminal, type `brew install miniconda` to install `miniconda` (a minimal version of `anaconda`).
 We will use the package manager `conda` to install the necessary packages both for `tensorflow` and `pytorch`.
