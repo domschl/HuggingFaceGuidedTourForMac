@@ -5,8 +5,8 @@ A guided tour on how to install optimized `tensorflow` and `pytorch` on Apple Si
 We will perform the following steps:
 
 - Install `homebrew` and `miniconda` (a minimal version of `anaconda`)
-- [Optionally] install tensorflow with metal optimization
-- Install pytorch with MPS (metal performance shaders) support
+- [Optionally] install tensorflow with metal optimization (from Apple's conda repos)
+- Install pytorch with MPS (metal performance shaders) support [02/2023: currently requires nightly build!]
 - Install `jupyter lab` to run notebooks
 - Install `HuggingFace` and run some pre-trained language models using `transformers` and just a few lines of code within jupyter lab.
 
@@ -36,6 +36,8 @@ channels:
 
 This will allow us to install the latest version of `pytorch` and `tensorflow` and switches to the `conda-forge` channel for all other packages.
 
+**Notes:** As of 2023-Feb, the required 2.0 version of pytorch that supports Apple's metal performance shaders (MPS) is only in the `pytorch-nightly` channel. After release of pytorch 2, this can be replaced by the `pytorch` channel
+
 #### 1.2.1 Check `conda` installation
 
 Check with `conda config --get channels` that the channels are correctly set.
@@ -56,6 +58,18 @@ To verify your conda environment, type `conda info --envs` and you should see so
 ![](Resources/conda-envs.png)
 
 Now install either `pytorch` or `tensorflow` or both. Note: most projects nowadays use `pytorch`, so if you want to install only one deep learning platform, choose `pytorch`.
+
+#### Uninstallation notes
+
+**Note:** All subsequent installations both with `conda install` and `pip install` will end up within the path shown above with `conda info --envs`. On uninstallation of conda, all of it is gone.
+
+`brew uninstall miniconda`
+
+Additional modifications are (all of them are inactive, once miniconda is removed):
+
+- `~/.condarc` (list of channels), and `~/.conda\`.
+- `~/.zshrc` (or `.bashrc`) for the setup of path and environment.
+- After using hugginface models, large model binary blobs may reside at: `~/.cache/huggingface/hub`. Simply remove the directory.
 
 ### 1.3 Install `tensorflow` [optional]
 
