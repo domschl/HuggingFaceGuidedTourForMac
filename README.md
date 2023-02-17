@@ -36,7 +36,7 @@ channels:
 
 This will allow us to install the latest version of `pytorch`, `tensorflow`, and `huggingface` and switches to the `conda-forge` channel (for more up-to-date packages) for all other packages.
 
-**Notes:** As of 2023-Feb, the required 2.0 version of pytorch that supports Apple's metal performance shaders (MPS) is only in the `pytorch-nightly` channel. After release of pytorch 2, this can be replaced by the `pytorch` channel
+> **Note:** As of 2023-Feb, the required 2.0 version of pytorch that supports Apple's metal performance shaders (MPS) is only in the `pytorch-nightly` channel. After release of pytorch 2, this can be replaced by the `pytorch` channel
 
 #### 1.2.1 Check `conda` installation
 
@@ -96,7 +96,7 @@ to install the basic dependencies for `tensorflow` from apple's channel. Then we
 pip install tensorflow-macos tensorflow-metal
 ```
 
-Note: to update `tensorflow` at any later stage, you would:
+> **Note:** to update `tensorflow` at any later stage, you would use `conda update -c apple` and `pip install -U`
 
 ```bash
 conda update -c apple tensorflow-deps
@@ -230,7 +230,7 @@ You can use the [`00-SystemCheck.ipynb`](https://github.com/domschl/HuggingFaceG
 
 You can open the notebook [`01-ChatBot.ipynb`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/01-ChatBot.ipynb) to try out a very simple chatbot on your Mac.
 
-**Note:** You might encounter version problems with huggingface's `transformers` library that is installed via `conda`. If you see a corresponding error, simply install a newer version with `pip install -U transformers`.
+> **Note:** You might encounter version problems with huggingface's `transformers` library that is installed via `conda`. If you see a corresponding error, simply install a newer version with `pip install -U transformers`.
 
 The python code used is:
 
