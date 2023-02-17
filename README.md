@@ -34,7 +34,7 @@ channels:
   - apple
 ```
 
-This will allow us to install the latest version of `pytorch` and `tensorflow` and switches to the `conda-forge` channel for all other packages.
+This will allow us to install the latest version of `pytorch`, `tensorflow`, and `huggingface` and switches to the `conda-forge` channel (for more up-to-date packages) for all other packages.
 
 **Notes:** As of 2023-Feb, the required 2.0 version of pytorch that supports Apple's metal performance shaders (MPS) is only in the `pytorch-nightly` channel. After release of pytorch 2, this can be replaced by the `pytorch` channel
 
@@ -55,7 +55,15 @@ All the following instructions depend on the `conda` envirnment for `base` being
 
 To verify your conda environment, type `conda info --envs` and you should see something like:
 
-![](Resources/conda-envs.png)
+```bash
+$ conda info --env
+
+# conda environments:
+#
+base                  *  /opt/homebrew/Caskroom/miniconda/base
+```
+
+Everything installed with `conda` or `pip` while `conda base` is active, will end up within this path.
 
 Now install either `pytorch` or `tensorflow` or both. Note: most projects nowadays use `pytorch`, so if you want to install only one deep learning platform, choose `pytorch`.
 
@@ -186,6 +194,7 @@ conda install transformers
 
 > **Note:** Some of the models will require additional models to be installed. As a rule of thumb, if you get an error about a missing module `missing_module`, try first to install with `conda install missing_module` and if that fails, try `pip install missing_module`.
 
+> **Note:** In case of version-incompatibilites with your `transformers` library installed via conda, try: `pip install -U transformers`.
 
 ## 2.0 Experiments
 
@@ -220,6 +229,8 @@ You can use the [`00-SystemCheck.ipynb`](https://github.com/domschl/HuggingFaceG
 ### 2.2 Minimal chat-bot
 
 You can open the notebook [`01-ChatBot.ipynb`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/01-ChatBot.ipynb) to try out a very simple chatbot on your Mac.
+
+**Note:** You might encounter version problems with huggingface's `transformers` library that is installed via `conda`. If you see a corresponding error, simply install a newer version with `pip install -U transformers`.
 
 The python code used is:
 
