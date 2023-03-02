@@ -67,6 +67,38 @@ Everything installed with `conda` or `pip` while `conda base` is active, will en
 
 Now install either `pytorch` or `tensorflow` or both. Note: most projects nowadays use `pytorch`, so if you want to install only one deep learning platform, choose `pytorch`.
 
+#### Select an alternative conda-environment and/or a newer python version
+
+If you which to create a specific environment for your tests, use:
+
+```bash
+conda create -n "lead"
+```
+
+`lead` is any arbitrary name for your environment.
+
+If you are **not** planning to use tensorflow, you can create an environment that uses the considerable speed-advantage of Python 3.11:
+
+```bash
+conda create -n "lead" python=3.11
+```
+
+At the time of this writing (2023-03-02), Apple's tensorflow did not support Python 3.11, however both pytorch-nightly `pytorch` and huggingface's `transformers` are available for Python 3.11.
+
+##### Working with multiple environments
+
+Use `conda info --env` to list the available environments:
+
+```
+# conda environments:
+#
+base                     /opt/homebrew/Caskroom/miniconda/base
+lead                  *  /opt/homebrew/Caskroom/miniconda/base/envs/lead
+```
+
+Use `conda activate <env_name>` to activate an environment with name `<env_name>`, `conda deactivate` to deactivate it, and `conda deactivate`
+and `conda remove -n <env_name> --all`. Note: you cannot remove the last `base` env with those commands, see Uninstallation notes below.
+
 #### Uninstallation notes
 
 **Note:** All subsequent installations both with `conda install` and `pip install` will end up within the path shown above with `conda info --envs`. On uninstallation of conda, all of it is gone.
