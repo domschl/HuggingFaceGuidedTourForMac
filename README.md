@@ -6,7 +6,7 @@ We will perform the following steps:
 
 - Install `homebrew` and `miniconda` (a minimal version of `anaconda`)
 - [Optionally] install tensorflow with metal optimization (from Apple's conda repos)
-- Install pytorch with MPS (metal performance shaders) support [02/2023: currently requires nightly build!]
+- Install pytorch with MPS (metal performance shaders) support (make sure to install v. 2.x)
 - Install `jupyter lab` to run notebooks
 - Install `HuggingFace` and run some pre-trained language models using `transformers` and just a few lines of code within jupyter lab.
 
@@ -28,7 +28,7 @@ Modify the default channels used by `conda` by editing the file `~/.condarc` and
 
 ```yaml
 channels:
-  - pytorch-nightly
+  - pytorch
   - huggingface
   - conda-forge
   - apple
@@ -36,7 +36,7 @@ channels:
 
 This will allow us to install the latest version of `pytorch`, `tensorflow`, and `huggingface` and switches to the `conda-forge` channel (for more up-to-date packages) for all other packages.
 
-> **Note:** As of 2023-Feb, the required 2.0 version of pytorch that supports Apple's metal performance shaders (MPS) is only in the `pytorch-nightly` channel. After release of pytorch 2, this can be replaced by the `pytorch` channel
+> **Note:** Make sure to install at least pytorch v. 2.x to ensure MPS support.
 
 #### 1.2.1 Check `conda` installation
 
@@ -83,7 +83,7 @@ If you are **not** planning to use tensorflow, you can create an environment tha
 conda create -n "lead" python=3.11
 ```
 
-At the time of this writing (2023-03-02), Apple's tensorflow did not support Python 3.11, however both pytorch-nightly `pytorch` and huggingface's `transformers` are available for Python 3.11.
+At the time of this writing (2023-03-02), Apple's tensorflow did not support Python 3.11, however both `pytorch` and huggingface's `transformers` are available for Python 3.11.
 
 ##### Working with multiple environments
 
@@ -151,19 +151,19 @@ You should see something like:
 
 ### 1.4 Install `pytorch`
 
-Following `https://pytorch.org`, we will install `pytorch-nightly` with `conda`. We use the `nightly` version
+Following `https://pytorch.org`, we will install `pytorch` with `conda`. We use at least version 2.0 
 in order to get MPS (Metal Performance Shaders) support within pytorch, which offers significant performance advantage.
 
-To install nightly `pytorch` with `conda`, type:
+To install `pytorch` with `conda`, type:
 
 ```bash
-conda install pytorch torchvision torchaudio -c pytorch-nightly
+conda install pytorch torchvision torchaudio -c pytorch
 ```
 
 To update at a later stage, type:
 
 ```bash
-conda update pytorch torchvision torchaudio -c pytorch-nightly
+conda update pytorch torchvision torchaudio -c pytorch
 ```
 
 #### 1.4.1 Quick-test
@@ -319,3 +319,6 @@ Things to try:
 - To see the history that the model maintains you can uncomment the two `history_text` related lines above.
 - To get rid of the downloaded models, clean up `~/.cache/huggingface/hub`. Missing stuff is automatically re-downloaded when needed.
 
+## Changes
+
+- 2023-03-16: Since `pytorch` v2.0 is now released, the channel `pytorch-nightly` can now be replaced by `pytorch` in the installation instructions. The `pytorch-nightly` channel is no longer needed for MPS support.
