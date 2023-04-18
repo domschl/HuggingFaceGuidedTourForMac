@@ -31,7 +31,7 @@ source /opt/homebrew/Caskroom/miniconda/base/bin/activate
 conda init zsh
 ```
 
-This will modify your `.zshrc` with the conda environment initialization.
+This will modify your `.zshrc` with the conda environment initialization. You will need to restart your terminal to activate the changes.
 
 If you do not want the conda environment to be activated by default, use:
 
