@@ -22,6 +22,25 @@ Once done, open a terminal and type `brew --version` to check that it is install
 In terminal, type `brew install miniconda` to install `miniconda` (a minimal version of `anaconda`).
 We will use the package manager `conda` to install the necessary packages both for `tensorflow` and `pytorch`.
 
+#### Conda initialization
+
+For homebrew manual install, and since macOS uses `zsh` by default, you will instead need to run the following initialiation:
+
+```bash
+source /opt/homebrew/Caskroom/miniconda/base/bin/activate
+conda init zsh
+```
+
+This will modify your `.zshrc` with the conda environment initialization.
+
+If you do not want the conda environment to be activated by default, use:
+
+```bash
+conda config --set auto_activate_base false
+```
+
+#### Checking Conda installation
+
 Reopen your terminal and check that `conda` is installed correctly by typing `conda --version`.
 
 Modify the default channels used by `conda` by editing the file `~/.condarc` and adding the following lines:
