@@ -63,7 +63,7 @@ Check with `conda config --get channels` that the channels are correctly set.
 
 Update your `conda` installation by typing 
 
-```
+```bash
 conda update conda
 conda update --all
 ```
