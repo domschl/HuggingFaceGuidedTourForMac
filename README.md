@@ -10,7 +10,7 @@ We will perform the following steps:
 - Install `jupyter lab` to run notebooks
 - Install `HuggingFace` and run some pre-trained language models using `transformers` and just a few lines of code within jupyter lab.
 
-> **Note:** Previous versions of this guide used conda and specific conda chanels to install custom version of pytorch and tensorflow and its support software. This kind of special versions are _no longer required_! The recommendation is to uninstall conda and use Python's `venv` to install the required softare. See bottom of this readme for uninstallation instructions for `conda`.
+> **Note:** Previous versions of this guide used conda and specific conda chanels to install custom version of pytorch and tensorflow and its support software. This kind of special versions are _no longer required_! The recommendation is to uninstall conda and use Python's `venv` to install the required software. See below at the end of this readme for uninstallation instructions for `conda`.
 
 ## 1. Preparations
 
@@ -43,11 +43,16 @@ Now create a Python environment for this project and activate it:
 
 ```bash
 python -m venv HuggingFaceGuidedTourForMac
+# This adds the files required for the virtual python environment to the project we just cloned.
 cd HuggingFaceGuidedTourForMac
 source bin/activate
 ```
 
-Now the directory `HuggingFaceGuidedTourForMac` contains the content of the github repository (e.g. `00-SystemCheck.ipynb`) _and_ the the files for the virtual env (e.g. `bin/`) 
+Now the directory `HuggingFaceGuidedTourForMac` contains the content of the github repository (e.g. `00-SystemCheck.ipynb`) _and_ the the files for the virtual env (e.g. `bin/`):
+
+![[Resources/ProjectFolder.png]]
+
+### 1.3 When you done with your project
 
 Do deactivate this virtual environment, simply use:
 
@@ -55,13 +60,23 @@ Do deactivate this virtual environment, simply use:
 deactivate
 ```
 
+To re-activate it, enter the directory `HuggingFaceGuidedTourForMac` and use:
+
+```bash
+source bin/activate
+```
+
 > **Note:** See <https://docs.python.org/3/tutorial/venv.html> for more information about Python virtual environments.
 
-## 2. Install `tensorflow` [optional]
+## 2. Install `tensorflow`
 
 > **Note:** Since `tensorflow` version 2.13, installation has significantly simplified since the standard tensorflow can be used with addition of the (pluggable) metal driver.
 
-Following <https://developer.apple.com/metal/tensorflow-plugin/>, we will install `tensorflow` with `pip`.
+Make sure that your virtual environment is active with `pip -V` (uppercase V), this should show a path for `pip` within your project:
+
+`<your-path>/HuggingFaceGuidedTourForMac/lib/python3.11/site-packages/pip (python 3.11)`
+
+Following <https://developer.apple.com/metal/tensorflow-plugin/>, we will install `tensorflow` with `pip` within our `venv`:
 
 ```bash
 pip install -U tensorflow tensorflow-metal
@@ -85,7 +100,7 @@ You should see something like:
 
 Following `https://pytorch.org`, we will install Pytorch with `pip`. The current version 2 in order to get MPS (Metal Performance Shaders) support within pytorch, which offers significant performance advantage on Apple Silicon.
 
-To install `pytorch`:
+To install `pytorch` into the `venv`:
 
 ```bash
 pip install -U torch torchvision torchaudio
