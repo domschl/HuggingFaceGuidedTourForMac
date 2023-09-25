@@ -50,7 +50,7 @@ source bin/activate
 
 Now the directory `HuggingFaceGuidedTourForMac` contains the content of the github repository (e.g. `00-SystemCheck.ipynb`) _and_ the the files for the virtual env (e.g. `bin/`):
 
-![[Resources/ProjectFolder.png]]
+![Folder content](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/Resources/ProjectFolder.png)
 
 ### 1.3 When you done with your project
 
