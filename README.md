@@ -43,7 +43,10 @@ Now create a Python environment for this project and activate it:
 
 ```bash
 python -m venv HuggingFaceGuidedTourForMac
-# This adds the files required for the virtual python environment to the project we just cloned.
+```
+This added the files required (python binaries, libraries, configs) for the virtual python environment to the project we just cloned.
+
+```bash
 cd HuggingFaceGuidedTourForMac
 source bin/activate
 ```
