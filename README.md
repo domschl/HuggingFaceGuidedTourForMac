@@ -1,6 +1,6 @@
 # HuggingFace and Deep Learning guided tour for Macs with Apple Silicon (Version 2)
 
-A guided tour on how to install optimized `tensorflow` and `pytorch` on Apple Silicon Mac and how to use `HuggingFace` large language models for your own experiments.
+A guided tour on how to install optimized `tensorflow` and `pytorch` on Apple Silicon Mac and how to use `HuggingFace` large language models for your own experiments. Recent Mac show good performance for machine learning tasks, see [here](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md#some-benchmarks) for some benchmarks comparing M1 and M2 with Intel CPU and Nivida.
 
 We will perform the following steps:
 
@@ -252,7 +252,7 @@ Things to try:
 
 ## Next steps
 
-- Your Mac can run large language models that rival the performance of commercial solutions. An excellent example is the [`llama.cpp` project](https://github.com/ggerganov/llama.cpp) that implements the inference code necessary to run LLMs in highly optimized C++ code, supporting the Mac's Metal acceleration.<br>A step-by-step guide to compile and run Llama 2 chat can be found here:<br>[Llama.cpp chat using the Llama 2 model](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md)
+- Your Mac can run large language models that rival the performance of commercial solutions. An excellent example is the [`llama.cpp` project](https://github.com/ggerganov/llama.cpp) that implements the inference code necessary to run LLMs in highly optimized C++ code, supporting the Mac's Metal acceleration.<br>A step-by-step guide to compile and run Llama 2 first for benchmarking and then for chat can be found here:<br>[Llama.cpp chat using the Llama 2 model](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md)
 
 ## Conda uninstallation notes
 
