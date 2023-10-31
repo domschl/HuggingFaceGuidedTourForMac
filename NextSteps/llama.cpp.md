@@ -58,7 +58,9 @@ into the GGUF format (currently) been used by `llama.cpp` can be optained from:
 
 - <https://huggingface.co/TheBloke/Llama-2-7B-GGUF>
 
-Enter the tab 'Files and versions' and look for the file `llama-2-7b.Q4_0.gguf`. Click the download icon to right of the filename.
+Enter the tab 'Files and versions' and look for the file `llama-2-7b.Q4_0.gguf`. Click the download icon to right of the filename:
+
+![Folder content](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/Resources/llama-model.png)
 
 > **Note:** Alternatively, you can download the entire model project with all models using git lfs with: `git clone https://huggingface.co/TheBloke/Llama-2-7B-GGUF`.
 
