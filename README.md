@@ -173,6 +173,8 @@ pip install -U transformers
 
 Within the directory `HuggingFaceGuidedTourForMac` start `jupyter lab` and load the `00-SystemCheck.ipynb` notebook. Use `<Shift>-Enter` to run the notebook's cells.
 
+> **Note:** If you started Jupyter Lab before installing Huggingface, you either need to restart the python kernel in Jupyter or simply restart Jupyter Lab, otherwise it won't find the Transformers library.
+
 Your should see something like this:
 
 ![](Resources/huggingface-transformers.png)
