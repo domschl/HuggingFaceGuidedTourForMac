@@ -43,7 +43,10 @@ Now create a Python environment for this project and activate it:
 
 ```bash
 python -m venv HuggingFaceGuidedTourForMac
-# This adds the files required for the virtual python environment to the project we just cloned.
+```
+This added the files required (python binaries, libraries, configs) for the virtual python environment to the project we just cloned.
+
+```bash
 cd HuggingFaceGuidedTourForMac
 source bin/activate
 ```
@@ -170,6 +173,8 @@ pip install -U transformers
 
 Within the directory `HuggingFaceGuidedTourForMac` start `jupyter lab` and load the `00-SystemCheck.ipynb` notebook. Use `<Shift>-Enter` to run the notebook's cells.
 
+> **Note:** If you started Jupyter Lab before installing Huggingface, you either need to restart the python kernel in Jupyter or simply restart Jupyter Lab, otherwise it won't find the Transformers library.
+
 Your should see something like this:
 
 ![](Resources/huggingface-transformers.png)
@@ -177,6 +182,10 @@ Your should see something like this:
 If you've received a label classification of `POSITIVE` with a score of `0.99`, then you are ready to start experimenting with HuggingFace!
 
 > **Note:** You'll see that the `HuggingFace` libraries are downloading all sorts of large binary blobs containing the trained model data. That data is stored in your home directory at: `~/.cache/huggingface/hub`. You can remove these models at any time by deleting this directory or parts of it's content.
+
+#### Trouble-shooting
+
+- If self-tests fail ('xyz not found!'), make sure that tensorflow (optional), pytorch, jupyter, and huggingface are all installed into the same, active Python virtual environment, otherwise the components won't 'see' each other!
 
 ### 6.2 Minimal chat-bot
 
@@ -251,5 +260,6 @@ Additional modifications are (all of them are inactive, once miniconda is remove
 
 ## Changes
 
+- 2023-10-30: Restested with macOS 14.1 Sonoma, Tensorflow 2.14, Pytorch 2.1.
 - 2023-09-25: (Guide version 2.0) Switched from `conda` to `pip` and `venv` for latest versions of tensorflow 2.13, Pytorch 2, macOS Sonoma, installation is now much simpler.
 - 2023-03-16: Since `pytorch` v2.0 is now released, the channel `pytorch-nightly` can now be replaced by `pytorch` in the installation instructions. The `pytorch-nightly` channel is no longer needed for MPS support.
