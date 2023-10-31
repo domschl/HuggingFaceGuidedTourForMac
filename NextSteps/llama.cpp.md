@@ -122,3 +122,7 @@ A typical dialog looks like this:
 
 ![Huggingface model download](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/Resources/llama2-chat.png)
 
+## References
+
+- The [`llama.cpp`](https://github.com/ggerganov/llama.cpp) project
+- A large collection of models by [TheBloke on Huggingface](https://huggingface.co/TheBloke). This contains ready-to-run models for the llama.cpp and other formats, and is usually up-to-date with the latest and greatest models.
