@@ -10,6 +10,10 @@ We will perform the following steps:
 - Install `jupyter lab` to run notebooks
 - Install `HuggingFace` and run some pre-trained language models using `transformers` and just a few lines of code within jupyter lab.
 
+Then we provide additional HowTos for:
+
+- Running large language models (LLMs) that rival commercial projects: Llama 2 with llama.cpp (s.b.) using Mac Metal acceleration.
+
 > **Note:** Previous versions of this guide used conda and specific conda chanels to install custom version of pytorch and tensorflow and its support software. This kind of special versions are _no longer required_! The recommendation is to uninstall conda and use Python's `venv` to install the required software. See below at the end of this readme for uninstallation instructions for `conda`.
 
 ## 1. Preparations
@@ -264,6 +268,6 @@ Additional modifications are (all of them are inactive, once miniconda is remove
 
 ## Changes
 
-- 2023-10-30: Restested with macOS 14.1 Sonoma, Tensorflow 2.14, Pytorch 2.1.
+- 2023-10-30: Restested with macOS 14.1 Sonoma, Tensorflow 2.14, Pytorch 2.1. Next steps added for more advanced projects.
 - 2023-09-25: (Guide version 2.0) Switched from `conda` to `pip` and `venv` for latest versions of tensorflow 2.13, Pytorch 2, macOS Sonoma, installation is now much simpler.
 - 2023-03-16: Since `pytorch` v2.0 is now released, the channel `pytorch-nightly` can now be replaced by `pytorch` in the installation instructions. The `pytorch-nightly` channel is no longer needed for MPS support.
