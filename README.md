@@ -246,6 +246,10 @@ Things to try:
 - To see the history that the model maintains you can uncomment the two `history_text` related lines above.
 - To get rid of the downloaded models, clean up `~/.cache/huggingface/hub`. Missing stuff is automatically re-downloaded when needed.
 
+## Next steps
+
+- Your Mac can run large language models that rival the performance of commercial solutions. An excellent example is the [`llama.cpp` project](https://github.com/ggerganov/llama.cpp) that implements the inference code necessary to run LLMs in highly optimized C++ code, supporting the Mac's Metal acceleration.<br>A step-by-step guide to compile and run Llama 2 chat can be found here:<br>[Llama.cpp chat using the Llama 2 model](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md)
+
 ## Conda uninstallation notes
 
 > **Note:** This paragraph is to uninstall conda that was used in older versions of this guide:
