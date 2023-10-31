@@ -183,6 +183,10 @@ If you've received a label classification of `POSITIVE` with a score of `0.99`, 
 
 > **Note:** You'll see that the `HuggingFace` libraries are downloading all sorts of large binary blobs containing the trained model data. That data is stored in your home directory at: `~/.cache/huggingface/hub`. You can remove these models at any time by deleting this directory or parts of it's content.
 
+#### Trouble-shooting
+
+- If self-tests fail ('xyz not found!'), make sure that tensorflow (optional), pytorch, jupyter, and huggingface are all installed into the same, active Python virtual environment, otherwise the components won't 'see' each other!
+
 ### 6.2 Minimal chat-bot
 
 You can open the notebook [`01-ChatBot.ipynb`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/01-ChatBot.ipynb) to try out a very simple chatbot on your Mac.
@@ -256,5 +260,6 @@ Additional modifications are (all of them are inactive, once miniconda is remove
 
 ## Changes
 
+- 2023-10-30: Restested with macOS 14.1 Sonoma, Tensorflow 2.14, Pytorch 2.1.
 - 2023-09-25: (Guide version 2.0) Switched from `conda` to `pip` and `venv` for latest versions of tensorflow 2.13, Pytorch 2, macOS Sonoma, installation is now much simpler.
 - 2023-03-16: Since `pytorch` v2.0 is now released, the channel `pytorch-nightly` can now be replaced by `pytorch` in the installation instructions. The `pytorch-nightly` channel is no longer needed for MPS support.
