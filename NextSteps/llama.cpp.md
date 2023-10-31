@@ -1,8 +1,10 @@
-## Using Metal acceleration with [`llama.cpp`](https://github.com/ggerganov/llama.cpp) and high quality chat models like llama s
+## Using Metal acceleration with [`llama.cpp`](https://github.com/ggerganov/llama.cpp) and high quality chat models such as llama 2
 
 ### Preparations
 
-This project is independent of Python, Jupyter, Tensorflow, Pytorch, and Huggingface. We use the `llama.cpp` project to access the Mac's accelerator Hardware directly via metal. First, let's install some tools useful for C++ development:
+This project is independent of Python, Jupyter, Tensorflow, Pytorch. We use Huggingface's site as source for models, and the `llama.cpp` project to access the Mac's accelerator Hardware directly via metal. 
+
+First, let's install some tools useful for C++ development:
 
 > **Note:** This installation is optional, since the core-tools (compiler and make) are already installed, if Homebrew is installed, or as part of macOS. This simply installs newer versions and optional compilers and build-tools:
 
@@ -10,7 +12,7 @@ This project is independent of Python, Jupyter, Tensorflow, Pytorch, and Hugging
 brew install llvm gcc make cmake
 ```
 
-In order to download large models from Huggingface, we need larg-file-support (LFS) for GIT:
+In order to download large model projects from Huggingface, we need larg-file-support (LFS) for GIT:
 
 ```bash
 brew install git-lfs
@@ -60,7 +62,7 @@ into the GGUF format (currently) been used by `llama.cpp` can be optained from:
 
 Enter the tab 'Files and versions' and look for the file `llama-2-7b.Q4_0.gguf`. Click the download icon to right of the filename:
 
-![Folder content](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/Resources/llama-model.png)
+![Huggingface model download](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/Resources/llama-model.png)
 
 > **Note:** Alternatively, you can download the entire model project with all models using git lfs with: `git clone https://huggingface.co/TheBloke/Llama-2-7B-GGUF`.
 
@@ -87,3 +89,29 @@ Some results:
 | Mac mini M1 | llama 7B mostly Q4_0 | 3.56 GiB | 6.74 B | Metal | 99 | tg 128 | 14.17 ± 0.08 |
 | Macbook Pro M2 Max | llama 7B mostly Q4_0  | 3.56 GiB | 6.74 B | Metal | 99 | pp 512 | 535.90 ± 0.26 |
 | Macbook Pro M2 Max | llama 7B mostly Q4_0  | 3.56 GiB | 6.74 B | Metal | 99 | tg 128 | 58.80 ± 3.11 |
+
+Note that it is difficult to compare benchmarks with [output from the project](https://github.com/ggerganov/llama.cpp/tree/master/examples/llama-bench), since the exact provenance of the used model is undefined.
+
+#### Chat with Llama 2
+
+The official documentation for the `main` program used for chatting is at:
+
+- <https://github.com/ggerganov/llama.cpp/tree/master/examples/main>
+
+The most important part, to get a model into 'chat-mode', is an appropriate prompt. We follow the project's example and insert our model-file for Llama 2:
+
+In directory `llama.cpp` execute:
+
+```bash
+./main -m models/7B/llama-2-7b.Q4_0.gguf  -n -1 --color -r "User:" --in-prefix " " -i -p \
+'User: Hi
+AI: Hello. I am an AI chatbot. Would you like to talk?
+User: Sure!
+AI: What would you like to talk about?
+User:'
+```
+
+A typical dialog looks like this:
+
+![Huggingface model download](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/Resources/llama2-chat.png)
+
