@@ -81,5 +81,7 @@ Some results:
 
 | machine | model | size | params | backend | ngl | test | t/s |
 | ------- | ----- | ---: | -----: | ------- | --: | ---- | --: |
-| Mac mini m1 | llama 7B mostly Q4_0 | 3.56 GiB | 6.74 B | Metal | 99 | pp 512 | 114.39 ± 1.64 |
-| Mac mini m1 | llama 7B mostly Q4_0 | 3.56 GiB | 6.74 B | Metal | 99 | tg 128 | 14.17 ± 0.08 |
+| Mac mini M1 | llama 7B mostly Q4_0 | 3.56 GiB | 6.74 B | Metal | 99 | pp 512 | 114.39 ± 1.64 |
+| Mac mini M1 | llama 7B mostly Q4_0 | 3.56 GiB | 6.74 B | Metal | 99 | tg 128 | 14.17 ± 0.08 |
+| Macbook Pro M2 Max | llama 7B mostly Q4_0  | 3.56 GiB | 6.74 B | Metal | 99 | pp 512 | 535.90 ± 0.26 |
+| Macbook Pro M2 Max | llama 7B mostly Q4_0  | 3.56 GiB | 6.74 B | Metal | 99 | tg 128 | 58.80 ± 3.11 |
