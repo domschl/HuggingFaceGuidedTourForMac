@@ -71,7 +71,9 @@ mkdir models/7B
 mv ~/Downloads/llama-2-7b.Q4_0.gguf models/7B
 ```
 
-As a first test, use the benchmark tool (built in directory `llama.cpp`):
+#### Some benchmarks
+
+As a first test, use the [benchmark tool](https://github.com/ggerganov/llama.cpp/tree/master/examples/llama-bench) (built in directory `llama.cpp`):
 
 ```bash
 ./llama-bench -m models/7B/llama-2-7b.Q4_0.gguf
