@@ -23,17 +23,33 @@ Then we provide additional HowTos for:
 If you haven't done so, go to <https://brew.sh/> and follow the instructions to install homebrew.
 Once done, open a terminal and type `brew --version` to check that it is installed correctly.
 
-Now use `brew` to install more recent versions of `python` and `git`:
+Now use `brew` to install more recent versions of `python` (see next chapter, _Python version considerations_, before going ahead!) and `git`:
 
 ```bash
-brew install python git
+brew install python@3.11 git
 ```
 
-To update at a later time:
+With release of Python 3.12, which homebrew immediately started to provide as the default version, things had became a bit more complicated:
+
+- Python 3.12 no longer allows (or at least makes it easy) to install `pip` libraries into the global context
+- At the time of this writing (2023/12) most deep learning software does not support Python 3.12, resulting in installation errors.
+
+We therefore installed Python 3.11 and will use Python virtual envs to use this specific version.
+
+#### Optional: make homebrew's Python 3.11 the system-default:
+
+**Note:** If, for some reason you want to use Python 3.11 globaly, the easiest way
+way to do so (after `brew install python@3.11`):
+
+Edit `.zshrc` and insert:
 
 ```bash
-brew upgrade
+# This is OPTIONAL and only required if you want to make homebrew's Python 3.11 as the global version:
+export PATH="/opt/homebrew/opt/python@3.11/bin:$PATH"                     
+export PATH=/opt/homebrew/opt/python@3.11/libexec/bin:$PATH
 ```
+
+(Restart your terminal to activate the path changes, or enter `source ~/.zshrc` in your current terminal session.)
 
 ### 1.2 Test project
 
@@ -43,10 +59,10 @@ Now clone this project as a test project:
 git clone https://github.com/domschl/HuggingFaceGuidedTourForMac
 ```
 
-Now create a Python environment for this project and activate it:
+Now create a Python 3.11 environment for this project and activate it:
 
 ```bash
-python -m venv HuggingFaceGuidedTourForMac
+python3.11 -m venv HuggingFaceGuidedTourForMac
 ```
 This added the files required (python binaries, libraries, configs) for the virtual python environment to the project we just cloned.
 
@@ -268,6 +284,7 @@ Additional modifications are (all of them are inactive, once miniconda is remove
 
 ## Changes
 
+- 2023-12-14: Pin python version of homebrew to 3.11.
 - 2023-10-30: Restested with macOS 14.1 Sonoma, Tensorflow 2.14, Pytorch 2.1. Next steps added for more advanced projects.
 - 2023-09-25: (Guide version 2.0) Switched from `conda` to `pip` and `venv` for latest versions of tensorflow 2.13, Pytorch 2, macOS Sonoma, installation is now much simpler.
 - 2023-03-16: Since `pytorch` v2.0 is now released, the channel `pytorch-nightly` can now be replaced by `pytorch` in the installation instructions. The `pytorch-nightly` channel is no longer needed for MPS support.
