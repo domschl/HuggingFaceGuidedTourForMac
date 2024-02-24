@@ -1,11 +1,11 @@
 # HuggingFace and Deep Learning guided tour for Macs with Apple Silicon (Version 3)
 
-A guided tour on how to install optimized `pytorch` and optionally Apple's new `MLX` and/or Google's `tensorflow` on Apple Silicon Mac and how to use `HuggingFace` large language models for your own experiments. Recent Mac show good performance for machine learning tasks, see [here](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md#some-benchmarks) for some benchmarks comparing M1 or M2 with Intel CPU and Nivida.
+A guided tour on how to install optimized `pytorch` and optionally Apple's new `MLX` and/or Google's `tensorflow` on Apple Silicon Macs and how to use `HuggingFace` large language models for your own experiments. Recent Mac show good performance for machine learning tasks, see [here](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md#some-benchmarks) for some benchmarks comparing M1 or M2 with Intel CPU and Nivida.
 
 We will perform the following steps:
 
 - Install `homebrew` 
-- Install Pytorch with MPS (metal performance shaders) support 
+- Install Pytorch with MPS (metal performance shaders) support using Apple Silicon GPUs
 - (optional) Install Apple's new MLX framework
 - (optional) Install Tensorflow with and Apple's metal pluggable metal driver  optimizations
 - Install `jupyter lab` to run notebooks
@@ -54,7 +54,7 @@ Note: you can install both versions of Python and then create a virtual environm
 
 #### Optional: make homebrew's Python the system-default:
 
-**Note:** If, for some reason you want to use Python 3.11 or 3.12 globaly, the easiest way
+**Note:** If, for some reason you want to use Python 3.11 or 3.12 globally, the easiest way
 way to do so (after `brew install python@3.12` or `3.11`):
 
 Edit `.zshrc` and insert:
