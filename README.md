@@ -23,7 +23,7 @@ Then we provide additional HowTos for:
 
 Tensorflow, Pytorch, and MLX are deep-learning platforms that provide the required libraries to perform optimized tensor operations used in training and inference. On high level, the functionality of all three is equivalent. Huggingface builds on top of any of the those platforms and provides a library of pretrained models, ready to use or to customize plus a number of convenience library for easy get-started.
 
-- Pytorch is the most general and currently most widely use deep learning platform. In case of doubt, use Pytorch. It supports many different hardware platforms (including Apple Silicon optimizations).
+- Pytorch is the most general and currently most widely used deep learning platform. In case of doubt, use Pytorch. It supports many different hardware platforms (including Apple Silicon optimizations).
 - Tensorflow is the 'Cobol' of deep learning. If you are not forced to use Tensorflow (because your organisation already uses it), ignore it.
 - MLX is Apple's new kid on the block, and thus overall support and documentation is (currently) much more limited than the other two. It is beautiful and well designed, yet it is closely tied to Apple Silicon. It's best for students that have Apple hardware and want to learn or experiment with deep learning. Things you learn with MLX easily transfer to Pytorch, yet be aware that conversion of models and porting of training and inference code is needed in order to deploy whatever you developed into the non-Apple universe.
 
@@ -55,7 +55,7 @@ Note: you can install both versions of Python and then create a virtual environm
 #### Optional: make homebrew's Python the system-default:
 
 **Note:** If, for some reason you want to use Python 3.11 or 3.12 globaly, the easiest way
-way to do so (after `brew install python@3.11`):
+way to do so (after `brew install python@3.12` or `3.11`):
 
 Edit `.zshrc` and insert:
 
@@ -77,6 +77,8 @@ Now clone this project as a test project:
 git clone https://github.com/domschl/HuggingFaceGuidedTourForMac
 ```
 
+This clones the test-project into a directory `HuggingFaceGuidedTourForMac`
+
 #### Virtual environment
 
 Now create a Python 3.12 environment for this project and activate it:
@@ -87,7 +89,7 @@ Now create a Python 3.12 environment for this project and activate it:
 python3.12 -m venv HuggingFaceGuidedTourForMac
 ```
 
-This added the files required (python binaries, libraries, configs) for the virtual python environment to the project we just cloned.
+This added the files required (python binaries, libraries, configs) for the virtual python environment to the project we just cloned, using again the same directory `HuggingFaceGuidedTourForMac`. Enter the directory and activate the virtual environment:
 
 ```bash
 cd HuggingFaceGuidedTourForMac
