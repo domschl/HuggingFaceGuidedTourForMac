@@ -5,14 +5,27 @@ A guided tour on how to install optimized `tensorflow` and `pytorch` on Apple Si
 We will perform the following steps:
 
 - Install `homebrew` 
-- Install tensorflow with and Apple's metal pluggable metal driver  optimizations
-- Install pytorch with MPS (metal performance shaders) support 
+- Install Pytorch with MPS (metal performance shaders) support 
+- (optional) Install Apple's new MLX framework
+- (optional) Install Tensorflow with and Apple's metal pluggable metal driver  optimizations
 - Install `jupyter lab` to run notebooks
 - Install `HuggingFace` and run some pre-trained language models using `transformers` and just a few lines of code within jupyter lab.
 
 Then we provide additional HowTos for:
 
 - Running large language models (LLMs) that rival commercial projects: Llama 2 with llama.cpp (s.b.) using Mac Metal acceleration.
+
+## Optional Notes
+
+(skip to **1. Preparations** if you know which platform you are going to use)
+
+### What is Tensorflow vs. Pytorch vs. MLX and how relates Huggingface to it all?
+
+Tensorflow, Pytorch, and MLX are deep-learning platforms that provide the required libraries to perform optimized tensor operations used in training and inference. On high level, the functionality of all three is equivalent. Huggingface builds on top of any of the those platforms and provides a library of pretrained models, ready to use or to customize plus a number of convenience library for easy get-started.
+
+- Pytorch is the most general and currently most widely use deep learning platform. In case of doubt, use Pytorch. It supports many different hardware platforms (including Apple Silicon optimizations).
+- Tensorflow is the 'Cobol' of deep learning. If you are not forced to use Tensorflow (because your organisation already uses it), ignore it.
+- MLX is Apple's new kid on the block, and thus overall support and documentation is (currently) much more limited than the other two. It is beautiful and well designed, yet it is closely tied to Apple Silicon. It's best for students that have Apple hardware and want to learn or experiment with deep learning. Things you learn with MLX easily transfer to Pytorch, yet be aware that conversion of models and porting of training and inference code is needed in order to deploy whatever you developed into the non-Apple universe.
 
 > **Note:** Previous versions of this guide used conda and specific conda chanels to install custom version of pytorch and tensorflow and its support software. This kind of special versions are _no longer required_! The recommendation is to uninstall conda and use Python's `venv` to install the required software. See below at the end of this readme for uninstallation instructions for `conda`.
 
@@ -23,31 +36,36 @@ Then we provide additional HowTos for:
 If you haven't done so, go to <https://brew.sh/> and follow the instructions to install homebrew.
 Once done, open a terminal and type `brew --version` to check that it is installed correctly.
 
-Now use `brew` to install more recent versions of `python` (see next chapter, _Python version considerations_, before going ahead!) and `git`:
+Now use `brew` to install more recent versions of `python` and `git`. You need to decide, which main Python version you are going to use. If you want to try tensorflow or if you dislike virtual environments, `venv`, use python 3.11 (2024-02 status). As of 2024-02, both Pytorch and MLX support Python 3.12
+
+#### Legacy installations (Tensorflow), Python 3.11
 
 ```bash
 brew install python@3.11 git
 ```
 
-With release of Python 3.12, which homebrew immediately started to provide as the default version, things had became a bit more complicated:
+#### Current Python for Pytorch and MLX, Python 3.12, Homebrew default
 
-- Python 3.12 no longer allows (or at least makes it easy) to install `pip` libraries into the global context
-- At the time of this writing (2023/12) most deep learning software does not support Python 3.12, resulting in installation errors.
+```bash
+brew install python@3.12 git
+```
 
-We therefore installed Python 3.11 and will use Python virtual envs to use this specific version.
+Note: you can install both versions of Python and then create a virtual environment using the specific python version you need for each case.
 
-#### Optional: make homebrew's Python 3.11 the system-default:
+#### Optional: make homebrew's Python the system-default:
 
-**Note:** If, for some reason you want to use Python 3.11 globaly, the easiest way
+**Note:** If, for some reason you want to use Python 3.11 or 3.12 globaly, the easiest way
 way to do so (after `brew install python@3.11`):
 
 Edit `.zshrc` and insert:
 
 ```bash
-# This is OPTIONAL and only required if you want to make homebrew's Python 3.11 as the global version:
-export PATH="/opt/homebrew/opt/python@3.11/bin:$PATH"                     
-export PATH=/opt/homebrew/opt/python@3.11/libexec/bin:$PATH
+# This is OPTIONAL and only required if you want to make homebrew's Python 3.12 as the global version:
+export PATH="/opt/homebrew/opt/python@3.12/bin:$PATH"                     
+export PATH=/opt/homebrew/opt/python@3.12/libexec/bin:$PATH
 ```
+
+Change all references of `3.12` to `3.11` when using Python 3.11
 
 (Restart your terminal to activate the path changes, or enter `source ~/.zshrc` in your current terminal session.)
 
@@ -59,11 +77,16 @@ Now clone this project as a test project:
 git clone https://github.com/domschl/HuggingFaceGuidedTourForMac
 ```
 
-Now create a Python 3.11 environment for this project and activate it:
+#### Virtual environment
+
+Now create a Python 3.12 environment for this project and activate it:
+
+(Again: replace with `3.11`, if you need)
 
 ```bash
-python3.11 -m venv HuggingFaceGuidedTourForMac
+python3.12 -m venv HuggingFaceGuidedTourForMac
 ```
+
 This added the files required (python binaries, libraries, configs) for the virtual python environment to the project we just cloned.
 
 ```bash
@@ -91,9 +114,52 @@ source bin/activate
 
 > **Note:** See <https://docs.python.org/3/tutorial/venv.html> for more information about Python virtual environments.
 
-## 2. Install `tensorflow`
+### 2 Install `pytorch`
 
-> **Note:** Since `tensorflow` version 2.13, installation has significantly simplified since the standard tensorflow can be used with addition of the (pluggable) metal driver.
+Make sure that your virtual environment is active with `pip -V` (uppercase V), this should show a path for `pip` within your project:
+
+`<your-path>/HuggingFaceGuidedTourForMac/lib/python3.12/site-packages/pip (python 3.12)`
+
+Following `https://pytorch.org`, we will install Pytorch with `pip`. The current version 2 in order to get MPS (Metal Performance Shaders) support within pytorch, which offers significant performance advantage on Apple Silicon.
+
+To install `pytorch` into the `venv`:
+
+```bash
+pip install -U torch torchvision torchaudio
+```
+
+#### 2.1 Quick-test pytorch
+
+To test that `pytorch` is installed correctly, and MPS metal performance shaders are available, open a terminal, type `python` and within the python shell, enter:
+
+```python
+import torch
+# check if MPS is available:
+torch.backends.mps.is_available()
+```
+
+This should return `True`.
+
+### 3 Install `MLX` (optional)
+
+```bash
+pip install -U mlx
+```
+
+#### 3.1 Quick-test MLX
+
+Again, start `python` and enter:
+
+```python
+import mlx.core as mx
+print(mx.__version__)
+```
+
+This should print a version, such as `0.4.0` (2024-02)
+
+## 4. Install `tensorflow` (optional)
+
+> **Note:** Tensorflow is currently (2024-02) not supported with Python 3.12, so use Python 3.11:
 
 Make sure that your virtual environment is active with `pip -V` (uppercase V), this should show a path for `pip` within your project:
 
@@ -105,7 +171,7 @@ Following <https://developer.apple.com/metal/tensorflow-plugin/>, we will instal
 pip install -U tensorflow tensorflow-metal
 ```
 
-#### 2.1 Quick-test
+#### 4.1 Quick-test Tensorflow
 
 To test that `tensorflow` is installed correctly, open a terminal, type `python` and within the python shell, enter:
 
@@ -119,33 +185,11 @@ You should see something like:
 [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
 ```
 
-### 3 Install `pytorch`
+### 5 Jupyter lab
 
-Following `https://pytorch.org`, we will install Pytorch with `pip`. The current version 2 in order to get MPS (Metal Performance Shaders) support within pytorch, which offers significant performance advantage on Apple Silicon.
+At this point, your Apple Silicon Mac should be ready to run `pytorch` and optionally `MLX` and/or `tensorflow` with hardware acceleration support, using the Apple Metal framework.
 
-To install `pytorch` into the `venv`:
-
-```bash
-pip install -U torch torchvision torchaudio
-```
-
-#### 3.1 Quick-test
-
-To test that `pytorch` is installed correctly, and MPS metal performance shaders are available, open a terminal, type `python` and within the python shell, enter:
-
-```python
-import torch
-# check if MPS is available:
-torch.backends.mps.is_available()
-```
-
-This should return `True`.
-
-### 4 Jupyter lab
-
-At this point, your Apple Silicon Mac should be ready to run `tensorflow` and `pytorch` with hardware acceleration support, using the Apple Metal framework.
-
-To test this, you can use `jupyter lab` to run some notebooks. To install `jupyter lab`, type:
+To test this, you can use `jupyter lab` to run some notebooks. To install `jupyter lab`, first make sure the virtual environment you want to use is active, and type:
 
 ```bash
 pip install -U jupyterlab ipywidgets
@@ -171,11 +215,11 @@ print("Pytorch version:", torch.__version__)
 
 If this completed successful, your Mac is now ready for Deep Learning experiments.
 
-## 5 HuggingFace
+## 6 HuggingFace
 
 HuggingFace is a great resource for NLP and Deep Learning experiments. It provides a large number of pre-trained language models and a simple API to use them. It will allow us to quickly get started with Deep Learning experiments.
 
-### 5.1 Install `transformers`
+### 6.1 Install `transformers`
 
 
 From the [huggingface installation instructions](https://huggingface.co/docs/transformers/installation), we use `pip` to install `transformers`:
@@ -187,9 +231,9 @@ pip install -U transformers
 > **Note:** When experimenting with HuggingFace, you will download large models that will be stored in your home directory at: `~/.cache/huggingface/hub`. 
 > You can remove these models at any time by deleting this directory or parts of it's content.
 
-## 6 Experiments
+## 7 Experiments
 
-### 6.1 Simple sentiment analysis
+### 7.1 Simple sentiment analysis
 
 Within the directory `HuggingFaceGuidedTourForMac` start `jupyter lab` and load the `00-SystemCheck.ipynb` notebook. Use `<Shift>-Enter` to run the notebook's cells.
 
@@ -207,7 +251,7 @@ If you've received a label classification of `POSITIVE` with a score of `0.99`, 
 
 - If self-tests fail ('xyz not found!'), make sure that tensorflow (optional), pytorch, jupyter, and huggingface are all installed into the same, active Python virtual environment, otherwise the components won't 'see' each other!
 
-### 6.2 Minimal chat-bot
+### 7.2 Minimal chat-bot
 
 You can open the notebook [`01-ChatBot.ipynb`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/01-ChatBot.ipynb) to try out a very simple chatbot on your Mac.
 
@@ -284,6 +328,7 @@ Additional modifications are (all of them are inactive, once miniconda is remove
 
 ## Changes
 
+- 2024-02-24: Updates for Python 3.12 and Apple MLX framework.
 - 2023-12-14: Pin python version of homebrew to 3.11.
 - 2023-10-30: Restested with macOS 14.1 Sonoma, Tensorflow 2.14, Pytorch 2.1. Next steps added for more advanced projects.
 - 2023-09-25: (Guide version 2.0) Switched from `conda` to `pip` and `venv` for latest versions of tensorflow 2.13, Pytorch 2, macOS Sonoma, installation is now much simpler.
