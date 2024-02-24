@@ -208,10 +208,8 @@ This should open a browser window with `jupyter lab` running. You can then creat
 ![](Resources/jupyterlab.png)
 
 ```python
-import tensorflow as tf
 import torch
 
-print("Tensorflow version:", tf.__version__)
 print("Pytorch version:", torch.__version__)
 ```
 
