@@ -1,4 +1,4 @@
-# HuggingFace and Deep Learning guided tour for Macs with Apple Silicon (Version 2)
+# HuggingFace and Deep Learning guided tour for Macs with Apple Silicon (Version 3)
 
 A guided tour on how to install optimized `tensorflow` and `pytorch` on Apple Silicon Mac and how to use `HuggingFace` large language models for your own experiments. Recent Mac show good performance for machine learning tasks, see [here](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md#some-benchmarks) for some benchmarks comparing M1 and M2 with Intel CPU and Nivida.
 
@@ -328,7 +328,7 @@ Additional modifications are (all of them are inactive, once miniconda is remove
 
 ## Changes
 
-- 2024-02-24: Updates for Python 3.12 and Apple MLX framework.
+- 2024-02-24: (Guide version 3.0) Updates for Python 3.12 and Apple MLX framework, Tensorflow is legacy-option.
 - 2023-12-14: Pin python version of homebrew to 3.11.
 - 2023-10-30: Restested with macOS 14.1 Sonoma, Tensorflow 2.14, Pytorch 2.1. Next steps added for more advanced projects.
 - 2023-09-25: (Guide version 2.0) Switched from `conda` to `pip` and `venv` for latest versions of tensorflow 2.13, Pytorch 2, macOS Sonoma, installation is now much simpler.
