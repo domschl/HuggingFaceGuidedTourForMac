@@ -157,6 +157,8 @@ print(mx.__version__)
 
 This should print a version, such as `0.4.0` (2024-02)
 
+Visit the Apple [MLX project](https://github.com/ml-explore/) and especially [mlx-examples](https://github.com/ml-explore/mlx-examples)!
+
 ## 4. Install `tensorflow` (optional)
 
 > **Note:** Tensorflow is currently (2024-02) not supported with Python 3.12, so use Python 3.11:
