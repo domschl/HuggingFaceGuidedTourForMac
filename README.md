@@ -38,16 +38,16 @@ Once done, open a terminal and type `brew --version` to check that it is install
 
 Now use `brew` to install more recent versions of `python` and `git`. You need to decide, which main Python version you are going to use. If you want to try tensorflow or if you dislike virtual environments, `venv`, use python 3.11 (2024-02 status). As of 2024-02, both Pytorch and MLX support Python 3.12
 
-#### Legacy installations (Tensorflow), Python 3.11
-
-```bash
-brew install python@3.11 git
-```
-
 #### Current Python for Pytorch and MLX, Python 3.12, Homebrew default
 
 ```bash
 brew install python@3.12 git
+```
+
+#### Legacy installations (Tensorflow), Python 3.11
+
+```bash
+brew install python@3.11 git
 ```
 
 Note: you can install both versions of Python and then create a virtual environment using the specific python version you need for each case.
@@ -125,7 +125,7 @@ Following `https://pytorch.org`, we will install Pytorch with `pip`. The current
 To install `pytorch` into the `venv`:
 
 ```bash
-pip install -U torch torchvision torchaudio
+pip install -U torch numpy torchvision torchaudio
 ```
 
 #### 2.1 Quick-test pytorch
