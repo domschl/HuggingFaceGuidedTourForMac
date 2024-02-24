@@ -5,3 +5,6 @@ share/
 lib/
 pyvenv.cfg
 .ipynb_checkpoints/
+.virtual_documents/
+Untitled*.ipynb
+.DS_Store
