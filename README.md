@@ -1,14 +1,33 @@
-# HuggingFace and Deep Learning guided tour for Macs with Apple Silicon
+# HuggingFace and Deep Learning guided tour for Macs with Apple Silicon (Version 3)
 
-A guided tour on how to install optimized `tensorflow` and `pytorch` on Apple Silicon Mac and how to use `HuggingFace` large language models for your own experiments.
+A guided tour on how to install optimized `pytorch` and optionally Apple's new `MLX` and/or Google's `tensorflow` on Apple Silicon Macs and how to use `HuggingFace` large language models for your own experiments. Recent Mac show good performance for machine learning tasks, see [here](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md#some-benchmarks) for some benchmarks comparing M1 or M2 with Intel CPU and Nivida.
 
 We will perform the following steps:
 
-- Install `homebrew` and `miniconda` (a minimal version of `anaconda`)
-- [Optionally] install tensorflow with metal optimization (from Apple's conda repos)
-- Install pytorch with MPS (metal performance shaders) support (make sure to install v. 2.x)
+- Install `homebrew` 
+- Install Pytorch with MPS (metal performance shaders) support using Apple Silicon GPUs
+- (optional) Install Apple's new MLX framework
+- (optional) Install Tensorflow with and Apple's metal pluggable metal driver  optimizations
 - Install `jupyter lab` to run notebooks
 - Install `HuggingFace` and run some pre-trained language models using `transformers` and just a few lines of code within jupyter lab.
+
+Then we provide additional HowTos for:
+
+- Running large language models (LLMs) that rival commercial projects: Llama 2 with llama.cpp (s.b.) using Mac Metal acceleration.
+
+## Optional Notes
+
+(skip to **1. Preparations** if you know which platform you are going to use)
+
+### What is Tensorflow vs. Pytorch vs. MLX and how relates Huggingface to it all?
+
+Tensorflow, Pytorch, and MLX are deep-learning platforms that provide the required libraries to perform optimized tensor operations used in training and inference. On high level, the functionality of all three is equivalent. Huggingface builds on top of any of the those platforms and provides a library of pretrained models, ready to use or to customize plus a number of convenience library for easy get-started.
+
+- Pytorch is the most general and currently most widely used deep learning platform. In case of doubt, use Pytorch. It supports many different hardware platforms (including Apple Silicon optimizations).
+- Tensorflow is the 'Cobol' of deep learning. If you are not forced to use Tensorflow (because your organisation already uses it), ignore it.
+- MLX is Apple's new kid on the block, and thus overall support and documentation is (currently) much more limited than the other two. It is beautiful and well designed, yet it is closely tied to Apple Silicon. It's best for students that have Apple hardware and want to learn or experiment with deep learning. Things you learn with MLX easily transfer to Pytorch, yet be aware that conversion of models and porting of training and inference code is needed in order to deploy whatever you developed into the non-Apple universe.
+
+> **Note:** Previous versions of this guide used conda and specific conda chanels to install custom version of pytorch and tensorflow and its support software. This kind of special versions are _no longer required_! The recommendation is to uninstall conda and use Python's `venv` to install the required software. See below at the end of this readme for uninstallation instructions for `conda`.
 
 ## 1. Preparations
 
@@ -17,144 +36,146 @@ We will perform the following steps:
 If you haven't done so, go to <https://brew.sh/> and follow the instructions to install homebrew.
 Once done, open a terminal and type `brew --version` to check that it is installed correctly.
 
-### 1.2 Install `miniconda` and switch to `conda-forge` channel
+Now use `brew` to install more recent versions of `python` and `git`. You need to decide, which main Python version you are going to use. If you want to try tensorflow or if you dislike virtual environments, `venv`, use python 3.11 (2024-02 status). As of 2024-02, both Pytorch and MLX support Python 3.12
 
-In terminal, type `brew install miniconda` to install `miniconda` (a minimal version of `anaconda`).
-We will use the package manager `conda` to install the necessary packages both for `tensorflow` and `pytorch`.
-
-#### Conda initialization
-
-For homebrew manual install, and since macOS uses `zsh` by default, you will instead need to run the following initialiation:
+#### Current Python for Pytorch and MLX, Python 3.12, Homebrew default
 
 ```bash
-source /opt/homebrew/Caskroom/miniconda/base/bin/activate
-conda init zsh
+brew install python@3.12 git
 ```
 
-This will modify your `.zshrc` with the conda environment initialization. You will need to restart your terminal to activate the changes.
-
-If you do not want the conda environment to be activated by default, use:
+#### Legacy installations (Tensorflow), Python 3.11
 
 ```bash
-conda config --set auto_activate_base false
+brew install python@3.11 git
 ```
 
-#### Checking Conda installation
+Note: you can install both versions of Python and then create a virtual environment using the specific python version you need for each case.
 
-Reopen your terminal and check that `conda` is installed correctly by typing `conda --version`.
+#### Optional: make homebrew's Python the system-default:
 
-Modify the default channels used by `conda` by editing the file `~/.condarc` and adding the following lines:
+**Note:** If, for some reason you want to use Python 3.11 or 3.12 globally, the easiest way
+way to do so (after `brew install python@3.12` or `3.11`):
 
-```yaml
-channels:
-  - pytorch
-  - huggingface
-  - conda-forge
-  - apple
-```
-
-This will allow us to install the latest version of `pytorch`, `tensorflow`, and `huggingface` and switches to the `conda-forge` channel (for more up-to-date packages) for all other packages.
-
-> **Note:** Make sure to install at least pytorch v. 2.x to ensure MPS support.
-
-#### 1.2.1 Check `conda` installation
-
-Check with `conda config --get channels` that the channels are correctly set.
-
-Update your `conda` installation by typing 
+Edit `.zshrc` and insert:
 
 ```bash
-conda update conda
-conda update --all
+# This is OPTIONAL and only required if you want to make homebrew's Python 3.12 as the global version:
+export PATH="/opt/homebrew/opt/python@3.12/bin:$PATH"                     
+export PATH=/opt/homebrew/opt/python@3.12/libexec/bin:$PATH
 ```
 
-> **Note:** All installation by `conda` will now install software to the default `base` environment. This also applies to installations with `pip`. You can switch off the `conda` environment by typing `conda deactivate`, and switch back to the `base` environment by typing `conda activate`.
+Change all references of `3.12` to `3.11` when using Python 3.11
 
-All the following instructions depend on the `conda` envirnment for `base` being active.
+(Restart your terminal to activate the path changes, or enter `source ~/.zshrc` in your current terminal session.)
 
-To verify your conda environment, type `conda info --envs` and you should see something like:
+### 1.2 Test project
+
+Now clone this project as a test project:
 
 ```bash
-$ conda info --env
-
-# conda environments:
-#
-base                  *  /opt/homebrew/Caskroom/miniconda/base
+git clone https://github.com/domschl/HuggingFaceGuidedTourForMac
 ```
 
-Everything installed with `conda` or `pip` while `conda base` is active, will end up within this path.
+This clones the test-project into a directory `HuggingFaceGuidedTourForMac`
 
-Now install either `pytorch` or `tensorflow` or both. Note: most projects nowadays use `pytorch`, so if you want to install only one deep learning platform, choose `pytorch`.
+#### Virtual environment
 
-#### Select an alternative conda-environment and/or a newer python version
+Now create a Python 3.12 environment for this project and activate it:
 
-If you which to create a specific environment for your tests, use:
+(Again: replace with `3.11`, if you need)
 
 ```bash
-conda create -n "lead"
+python3.12 -m venv HuggingFaceGuidedTourForMac
 ```
 
-`lead` is any arbitrary name for your environment.
-
-If you are **not** planning to use tensorflow, you can create an environment that uses the considerable speed-advantage of Python 3.11:
+This added the files required (python binaries, libraries, configs) for the virtual python environment to the project we just cloned, using again the same directory `HuggingFaceGuidedTourForMac`. Enter the directory and activate the virtual environment:
 
 ```bash
-conda create -n "lead" python=3.11
+cd HuggingFaceGuidedTourForMac
+source bin/activate
 ```
 
-At the time of this writing (2023-03-02), Apple's tensorflow did not support Python 3.11, however both `pytorch` and huggingface's `transformers` are available for Python 3.11.
+Now the directory `HuggingFaceGuidedTourForMac` contains the content of the github repository (e.g. `00-SystemCheck.ipynb`) _and_ the the files for the virtual env (e.g. `bin/`):
 
-##### Working with multiple environments
+![Folder content](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/Resources/ProjectFolder.png)
 
-Use `conda info --env` to list the available environments:
+### 1.3 When you done with your project
 
-```
-# conda environments:
-#
-base                     /opt/homebrew/Caskroom/miniconda/base
-lead                  *  /opt/homebrew/Caskroom/miniconda/base/envs/lead
-```
-
-Use `conda activate <env_name>` to activate an environment with name `<env_name>`, `conda deactivate` to deactivate it, and `conda deactivate`
-and `conda remove -n <env_name> --all`. Note: you cannot remove the last `base` env with those commands, see Uninstallation notes below.
-
-#### Uninstallation notes
-
-**Note:** All subsequent installations both with `conda install` and `pip install` will end up within the path shown above with `conda info --envs`. On uninstallation of conda, all of it is gone.
-
-`brew uninstall miniconda`
-
-Additional modifications are (all of them are inactive, once miniconda is removed):
-
-- `~/.condarc` (list of channels), and `~/.conda\`.
-- `~/.zshrc` (or `.bashrc`) for the setup of path and environment.
-- After using hugginface models, large model binary blobs may reside at: `~/.cache/huggingface/hub`. Simply remove the directory.
-
-### 1.3 Install `tensorflow` [optional]
-
-Following <https://developer.apple.com/metal/tensorflow-plugin/>, we will install `tensorflow` with `conda`.
-Note that Apple's instructions also contain x86 instructions, but this guide is only for Apple Silicon.
-
-We will reuse the same `conda` environment for all our software. To install `tensorflow`, type:
+Do deactivate this virtual environment, simply use:
 
 ```bash
-conda install -c apple tensorflow-deps
+deactivate
 ```
 
-to install the basic dependencies for `tensorflow` from apple's channel. Then we use pip to install `tensorflow-macos` and `tensorflow-metal`:
+To re-activate it, enter the directory `HuggingFaceGuidedTourForMac` and use:
 
 ```bash
-pip install tensorflow-macos tensorflow-metal
+source bin/activate
 ```
 
-> **Note:** to update `tensorflow` at any later stage, you would use `conda update -c apple` and `pip install -U`
+> **Note:** See <https://docs.python.org/3/tutorial/venv.html> for more information about Python virtual environments.
+
+### 2 Install `pytorch`
+
+Make sure that your virtual environment is active with `pip -V` (uppercase V), this should show a path for `pip` within your project:
+
+`<your-path>/HuggingFaceGuidedTourForMac/lib/python3.12/site-packages/pip (python 3.12)`
+
+Following `https://pytorch.org`, we will install Pytorch with `pip`. The current version 2 in order to get MPS (Metal Performance Shaders) support within pytorch, which offers significant performance advantage on Apple Silicon.
+
+To install `pytorch` into the `venv`:
 
 ```bash
-conda update -c apple tensorflow-deps
-pip install --upgrade tensorflow-macos tensorflow-metal
+pip install -U torch numpy torchvision torchaudio
 ```
 
-#### 1.3.1 Quick-test
+#### 2.1 Quick-test pytorch
+
+To test that `pytorch` is installed correctly, and MPS metal performance shaders are available, open a terminal, type `python` and within the python shell, enter:
+
+```python
+import torch
+# check if MPS is available:
+torch.backends.mps.is_available()
+```
+
+This should return `True`.
+
+### 3 Install `MLX` (optional)
+
+```bash
+pip install -U mlx
+```
+
+#### 3.1 Quick-test MLX
+
+Again, start `python` and enter:
+
+```python
+import mlx.core as mx
+print(mx.__version__)
+```
+
+This should print a version, such as `0.4.0` (2024-02)
+
+Visit the Apple [MLX project](https://github.com/ml-explore/) and especially [mlx-examples](https://github.com/ml-explore/mlx-examples)!
+
+## 4. Install `tensorflow` (optional)
+
+> **Note:** Tensorflow is currently (2024-02) not supported with Python 3.12, so use Python 3.11:
+
+Make sure that your virtual environment is active with `pip -V` (uppercase V), this should show a path for `pip` within your project:
+
+`<your-path>/HuggingFaceGuidedTourForMac/lib/python3.11/site-packages/pip (python 3.11)`
+
+Following <https://developer.apple.com/metal/tensorflow-plugin/>, we will install `tensorflow` with `pip` within our `venv`:
+
+```bash
+pip install -U tensorflow tensorflow-metal
+```
+
+#### 4.1 Quick-test Tensorflow
 
 To test that `tensorflow` is installed correctly, open a terminal, type `python` and within the python shell, enter:
 
@@ -168,46 +189,17 @@ You should see something like:
 [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
 ```
 
-### 1.4 Install `pytorch`
+### 5 Jupyter lab
 
-Following `https://pytorch.org`, we will install `pytorch` with `conda`. We use at least version 2.0 
-in order to get MPS (Metal Performance Shaders) support within pytorch, which offers significant performance advantage.
+At this point, your Apple Silicon Mac should be ready to run `pytorch` and optionally `MLX` and/or `tensorflow` with hardware acceleration support, using the Apple Metal framework.
 
-To install `pytorch` with `conda`, type:
-
-```bash
-conda install pytorch torchvision torchaudio -c pytorch
-```
-
-To update at a later stage, type:
+To test this, you can use `jupyter lab` to run some notebooks. To install `jupyter lab`, first make sure the virtual environment you want to use is active, and type:
 
 ```bash
-conda update pytorch torchvision torchaudio -c pytorch
+pip install -U jupyterlab ipywidgets
 ```
 
-#### 1.4.1 Quick-test
-
-To test that `pytorch` is installed correctly, and MPS metal performance shaders are available, open a terminal, type `python` and within the python shell, enter:
-
-```python
-import torch
-# check if MPS is available:
-torch.backends.mps.is_available()
-```
-
-This should return `True`.
-
-### 1.5 Jupyter lab
-
-At this point, your Apple Silicon Mac should be ready to run `tensorflow` and `pytorch` with hardware acceleration support, using the Apple Metal framework.
-
-To test this, you can use `jupyter lab` to run some notebooks. To install `jupyter lab`, type:
-
-```bash
-conda install jupyterlab
-```
-
-To start `jupyter lab`, type:
+To start Jupyter lab, type:
 
 ```bash
 jupyter lab
@@ -218,54 +210,36 @@ This should open a browser window with `jupyter lab` running. You can then creat
 ![](Resources/jupyterlab.png)
 
 ```python
-import tensorflow as tf
 import torch
 
-print("Tensorflow version:", tf.__version__)
 print("Pytorch version:", torch.__version__)
 ```
 
 If this completed successful, your Mac is now ready for Deep Learning experiments.
 
-## 1.6 HuggingFace
+## 6 HuggingFace
 
 HuggingFace is a great resource for NLP and Deep Learning experiments. It provides a large number of pre-trained language models and a simple API to use them. It will allow us to quickly get started with Deep Learning experiments.
 
-### 1.6.1 Install `transformers`
+### 6.1 Install `transformers`
 
 
-From the [huggingface installation instructions](https://huggingface.co/docs/transformers/installation), we use `conda` to install `transformers`, using the `huggingface` channel we have set up before. Type:
+From the [huggingface installation instructions](https://huggingface.co/docs/transformers/installation), we use `pip` to install `transformers`:
 
 ```bash
-conda install transformers
+pip install -U transformers
 ```
 
 > **Note:** When experimenting with HuggingFace, you will download large models that will be stored in your home directory at: `~/.cache/huggingface/hub`. 
 > You can remove these models at any time by deleting this directory or parts of it's content.
 
-> **Note:** Some of the models will require additional models to be installed. As a rule of thumb, if you get an error about a missing module `missing_module`, try first to install with `conda install missing_module` and if that fails, try `pip install missing_module`.
+## 7 Experiments
 
-> **Note:** In case of version-incompatibilites with your `transformers` library installed via conda, try: `pip install -U transformers`.
+### 7.1 Simple sentiment analysis
 
-## 2.0 Experiments
+Within the directory `HuggingFaceGuidedTourForMac` start `jupyter lab` and load the `00-SystemCheck.ipynb` notebook. Use `<Shift>-Enter` to run the notebook's cells.
 
-From terminal, create a directly for your experiments, e.g. 
-
-```bash
-mkdir ~/lab
-cd ~/lab
-```
-
-Now start `jupyter lab` and create a new 'Python 3' notebook. You can then run the following code to test that `transformers` is working correctly:
-
-### 2.1 System check with basic sentiment analysis
-
-```python
-from transformers import pipeline
-
-nlp = pipeline("sentiment-analysis")
-nlp("We are very happy to show you the 🤗 Transformers library.")
-```
+> **Note:** If you started Jupyter Lab before installing Huggingface, you either need to restart the python kernel in Jupyter or simply restart Jupyter Lab, otherwise it won't find the Transformers library.
 
 Your should see something like this:
 
@@ -273,15 +247,15 @@ Your should see something like this:
 
 If you've received a label classification of `POSITIVE` with a score of `0.99`, then you are ready to start experimenting with HuggingFace!
 
-You can use the [`00-SystemCheck.ipynb`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/00-SystemCheck.ipynb) notebook for this test too.
-
 > **Note:** You'll see that the `HuggingFace` libraries are downloading all sorts of large binary blobs containing the trained model data. That data is stored in your home directory at: `~/.cache/huggingface/hub`. You can remove these models at any time by deleting this directory or parts of it's content.
 
-### 2.2 Minimal chat-bot
+#### Trouble-shooting
+
+- If self-tests fail ('xyz not found!'), make sure that tensorflow (optional), pytorch, jupyter, and huggingface are all installed into the same, active Python virtual environment, otherwise the components won't 'see' each other!
+
+### 7.2 Minimal chat-bot
 
 You can open the notebook [`01-ChatBot.ipynb`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/01-ChatBot.ipynb) to try out a very simple chatbot on your Mac.
-
-> **Note:** You might encounter version problems with huggingface's `transformers` library that is installed via `conda`. If you see a corresponding error, simply install a newer version with `pip install -U transformers`.
 
 The python code used is:
 
@@ -338,6 +312,26 @@ Things to try:
 - To see the history that the model maintains you can uncomment the two `history_text` related lines above.
 - To get rid of the downloaded models, clean up `~/.cache/huggingface/hub`. Missing stuff is automatically re-downloaded when needed.
 
+## Next steps
+
+- Your Mac can run large language models that rival the performance of commercial solutions. An excellent example is the [`llama.cpp` project](https://github.com/ggerganov/llama.cpp) that implements the inference code necessary to run LLMs in highly optimized C++ code, supporting the Mac's Metal acceleration.<br>A step-by-step guide to compile and run Llama 2 first for benchmarking and then for chat can be found here:<br>[Llama.cpp chat using the Llama 2 model](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md)
+
+## Conda uninstallation notes
+
+> **Note:** This paragraph is to uninstall conda that was used in older versions of this guide:
+
+`brew uninstall miniconda`
+
+Additional modifications are (all of them are inactive, once miniconda is removed):
+
+- `~/.condarc` (list of channels), and `~/.conda\`.
+- `~/.zshrc` (or `.bashrc`) for the setup of path and environment.
+- After using hugginface models, large model binary blobs may reside at: `~/.cache/huggingface/hub`. Simply remove the directory.
+
 ## Changes
 
+- 2024-02-24: (Guide version 3.0) Updates for Python 3.12 and Apple MLX framework, Tensorflow is legacy-option.
+- 2023-12-14: Pin python version of homebrew to 3.11.
+- 2023-10-30: Restested with macOS 14.1 Sonoma, Tensorflow 2.14, Pytorch 2.1. Next steps added for more advanced projects.
+- 2023-09-25: (Guide version 2.0) Switched from `conda` to `pip` and `venv` for latest versions of tensorflow 2.13, Pytorch 2, macOS Sonoma, installation is now much simpler.
 - 2023-03-16: Since `pytorch` v2.0 is now released, the channel `pytorch-nightly` can now be replaced by `pytorch` in the installation instructions. The `pytorch-nightly` channel is no longer needed for MPS support.
