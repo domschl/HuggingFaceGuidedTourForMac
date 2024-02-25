@@ -50,7 +50,9 @@ brew install python@3.12 git
 brew install python@3.11 git
 ```
 
-Note: you can install both versions of Python and then create a virtual environment using the specific python version you need for each case.
+> **Note:**  you can install both versions of Python and then create a virtual environment using the specific python version you need for each case.
+
+> **Note:** If you plan to also use Linux, be aware that Python version support often differs between Mac and Linux version of platform. At the time of this writing (2024-02), torch's Dynamo compiler doesn't support Python 3.12 yet.
 
 #### Optional: make homebrew's Python the system-default:
 
@@ -197,6 +199,13 @@ To test this, you can use `jupyter lab` to run some notebooks. To install `jupyt
 
 ```bash
 pip install -U jupyterlab ipywidgets
+```
+
+> **Note:** If you have other Jupyter versions installed, the path to the newly installed jupyter version within the `venv` is often not updated correctly, re-activate the environment to make sure that the correct local Jupyter version is used:
+
+```bash
+deactivate
+source bin/activate
 ```
 
 To start Jupyter lab, type:
