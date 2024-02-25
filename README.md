@@ -52,7 +52,7 @@ brew install python@3.11 git
 
 > **Note:**  you can install both versions of Python and then create a virtual environment using the specific python version you need for each case.
 
-> **Note:** If you plan to also use Linux, be aware that Python version support often differs between Mac and Linux version of platform. At the time of this writing (2024-02), torch's Dynamo compiler doesn't support Python 3.12 yet.
+> **Note:** If you plan to also use Linux, be aware that Python version support often differs between Mac and Linux version of platforms. At the time of this writing (2024-02), torch's Dynamo (Linux, Nvidia) doesn't support Python 3.12 yet.
 
 #### Optional: make homebrew's Python the system-default:
 
