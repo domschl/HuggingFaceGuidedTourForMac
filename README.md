@@ -56,7 +56,7 @@ brew install python@3.11 git
 
 #### Optional: make homebrew's Python the system-default:
 
-> **Note:** Apple does not put energy into keeping MacOS's python up-to-date. If you want to use an up-to-date default python, it makes sense to make homebrew's python the default system python.
+> **Note:** Apple does not put to much energy into keeping MacOS's python up-to-date. If you want to use an up-to-date default python, it makes sense to make homebrew's python the default system python.
 So, if, you want to use homebrew's Python 3.11 or 3.12 system-globally, the easiest way
 way to do so (after `brew install python@3.12` or `3.11`):
 
@@ -132,6 +132,8 @@ To re-activate it, enter the directory that contains the `venv`, here: `HuggingF
 ```bash
 source bin/activate
 ```
+
+> **Warning:** A very **unintuitive property of `venv`** is the fact: while you enter an environment by activating it in the subdirectory of your project (with `source bin/activate`), the `venv` **stays active** when you leave the project folder and start working on something completely different _until you explicitly deactivate the `venv` with `deactivate`. There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Checkout [`powerline`](https://powerline.readthedocs.io/en/master/installation/osx.html), or [`powerlevel10k`](https://github.com/romkatv/powerlevel10k) [recommended], or, if you like embellishment [`Oh My Zsh`](https://ohmyz.sh/).
 
 > **Note:** See <https://docs.python.org/3/tutorial/venv.html> for more information about Python virtual environments.
 
