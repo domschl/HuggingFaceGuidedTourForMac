@@ -107,7 +107,7 @@ Now the directory `HuggingFaceGuidedTourForMac` contains the content of the gith
 
 ![Folder content](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/Resources/ProjectFolder.png)
 
-** Alternatives:** If you have many different python versions installed, you can create an environment that uses a specific version by specifying the path of the python that is used to create the `venv`, e.g.: 
+**Alternatives:** If you have many different python versions installed, you can create an environment that uses a specific version by specifying the path of the python that is used to create the `venv`, e.g.: 
 
 ```bash
 /opt/homebrew/opt/python@3.12/bin/python3.12 -m venv my_new_312_env
