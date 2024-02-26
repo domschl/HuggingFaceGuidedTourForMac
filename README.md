@@ -135,6 +135,14 @@ source bin/activate
 
 > **Warning:** A very **unintuitive property of `venv`** is the fact: while you enter an environment by activating it in the subdirectory of your project (with `source bin/activate`), the `venv` **stays active** when you leave the project folder and start working on something completely different _until you explicitly deactivate the `venv` with `deactivate`. There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Checkout [`powerline`](https://powerline.readthedocs.io/en/master/installation/osx.html), or [`powerlevel10k`](https://github.com/romkatv/powerlevel10k) [recommended], or, if you like embellishment [`Oh My Zsh`](https://ohmyz.sh/).
 
+![No venv active](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/Resources/no_venv.png)
+_Example with `powerlevel10k` installed. The left side of the system prompt shows the current directory, the right side would show the name of the `venv`. Currently, no `venv` is active._
+
+After activating a `venv` in `HuggingFaceGuidedTourForMac`:
+
+![venv is still active](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/Resources/venv_remind.png)
+_Even is the working directoy is changed (here to `home`), since the `venv` is still active, it's name is displayed on the right side by `powerlevel10k`. Very handy._
+
 > **Note:** See <https://docs.python.org/3/tutorial/venv.html> for more information about Python virtual environments.
 
 ### 2 Install `pytorch`
