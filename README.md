@@ -103,7 +103,7 @@ cd HuggingFaceGuidedTourForMac
 source bin/activate
 ```
 
-Now the directory `HuggingFaceGuidedTourForMac` contains the content of the github repository (e.g. `00-SystemCheck.ipynb`) _and_ the the files for the virtual env (e.g. `bin/`):
+Now the directory `HuggingFaceGuidedTourForMac` contains the content of the github repository (e.g. `00-SystemCheck.ipynb`) _and_ the the files for the virtual env (e.g. `bin`, `lib`, `etc`, `include`, `share`, `pyvenv.cfg`):
 
 ![Folder content](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/Resources/ProjectFolder.png)
 
