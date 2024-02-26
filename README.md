@@ -1,6 +1,6 @@
 # HuggingFace and Deep Learning guided tour for Macs with Apple Silicon (Version 3)
 
-A guided tour on how to install optimized `pytorch` and optionally Apple's new `MLX` and/or Google's `tensorflow` on Apple Silicon Macs and how to use `HuggingFace` large language models for your own experiments. Recent Mac show good performance for machine learning tasks, see [here](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md#some-benchmarks) for some benchmarks comparing M1 or M2 with Intel CPU and Nivida.
+A guided tour on how to install optimized `pytorch` and optionally Apple's new `MLX` and/or Google's `tensorflow` on Apple Silicon Macs and how to use `HuggingFace` large language models for your own experiments. Recent Mac show good performance for machine learning tasks.
 
 We will perform the following steps:
 
@@ -21,11 +21,11 @@ Then we provide additional HowTos for:
 
 ### What is Tensorflow vs. Pytorch vs. MLX and how relates Huggingface to it all?
 
-Tensorflow, Pytorch, and MLX are deep-learning platforms that provide the required libraries to perform optimized tensor operations used in training and inference. On high level, the functionality of all three is equivalent. Huggingface builds on top of any of the those platforms and provides a library of pretrained models, ready to use or to customize plus a number of convenience library for easy get-started.
+Tensorflow, Pytorch, and MLX are deep-learning platforms that provide the required libraries to perform optimized tensor operations used in training and inference. On high level, the functionality of all three is equivalent. Huggingface builds on top of any of the those platforms and provides a large library of pretrained models for many different use-cases, ready to use or to customize plus a number of convenience libraries and sample code for easy getting-started.
 
 - Pytorch is the most general and currently most widely used deep learning platform. In case of doubt, use Pytorch. It supports many different hardware platforms (including Apple Silicon optimizations).
-- Tensorflow is the 'Cobol' of deep learning. If you are not forced to use Tensorflow (because your organisation already uses it), ignore it.
-- MLX is Apple's new kid on the block, and thus overall support and documentation is (currently) much more limited than the other two. It is beautiful and well designed, yet it is closely tied to Apple Silicon. It's best for students that have Apple hardware and want to learn or experiment with deep learning. Things you learn with MLX easily transfer to Pytorch, yet be aware that conversion of models and porting of training and inference code is needed in order to deploy whatever you developed into the non-Apple universe.
+- Tensorflow is the 'COBOL' of deep learning. If you are not forced to use Tensorflow (because your organisation already uses it), ignore it.
+- MLX is Apple's new kid on the block, and thus overall support and documentation is (currently) much more limited than for the other two platforms. It is beautiful and well designed (they took lessons learned for torch and tensorflow), yet it is closely tied to Apple Silicon. It's currently best for students that have Apple hardware and want to learn or experiment with deep learning. Things you learn with MLX easily transfer to Pytorch, yet be aware that conversion of models and porting of training and inference code is needed in order to deploy whatever you developed into the non-Apple universe.
 
 > **Note:** Previous versions of this guide used conda and specific conda chanels to install custom version of pytorch and tensorflow and its support software. This kind of special versions are _no longer required_! The recommendation is to uninstall conda and use Python's `venv` to install the required software. See below at the end of this readme for uninstallation instructions for `conda`.
 
@@ -56,7 +56,8 @@ brew install python@3.11 git
 
 #### Optional: make homebrew's Python the system-default:
 
-**Note:** If, for some reason you want to use Python 3.11 or 3.12 globally, the easiest way
+> **Note:** Apple does not put energy into keeping MacOS's python up-to-date. If you want to use an up-to-date default python, it makes sense to make homebrew's python the default system python.
+So, if, you want to use homebrew's Python 3.11 or 3.12 system-globally, the easiest way
 way to do so (after `brew install python@3.12` or `3.11`):
 
 Edit `.zshrc` and insert:
@@ -67,9 +68,11 @@ export PATH="/opt/homebrew/opt/python@3.12/bin:$PATH"
 export PATH=/opt/homebrew/opt/python@3.12/libexec/bin:$PATH
 ```
 
-Change all references of `3.12` to `3.11` when using Python 3.11
+Change all references of `3.12` to `3.11` when wanting to make homebrew's Python 3.11 system-standard python.
 
 (Restart your terminal to activate the path changes, or enter `source ~/.zshrc` in your current terminal session.)
+
+> **Note:** Regardless of the system python in use, when creating a virtual environment, you can always select the specific python version you want to use in the `venv` by creating the `venv` with exactly that python. E.g. `/usr/bin/python3 -m venv my_venv_name` creates a virtual environment using Apple's macOS python (which at the time of this writing, 2024-02, is still stuck at 3.9.6). See below, **Virtual environments**, for more details.
 
 ### 1.2 Test project
 
@@ -91,7 +94,7 @@ Now create a Python 3.12 environment for this project and activate it:
 python3.12 -m venv HuggingFaceGuidedTourForMac
 ```
 
-This added the files required (python binaries, libraries, configs) for the virtual python environment to the project we just cloned, using again the same directory `HuggingFaceGuidedTourForMac`. Enter the directory and activate the virtual environment:
+Creating a venv adds the files required (python binaries, libraries, configs) for the virtual python environment to the project folder we just cloned, using again the same directory `HuggingFaceGuidedTourForMac`. Enter the directory and activate the virtual environment:
 
 ```bash
 cd HuggingFaceGuidedTourForMac
@@ -102,6 +105,20 @@ Now the directory `HuggingFaceGuidedTourForMac` contains the content of the gith
 
 ![Folder content](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/Resources/ProjectFolder.png)
 
+** Alternatives:** If you have many different python versions installed, you can create an environment that uses a specific version by specifying the path of the python that is used to create the `venv`, e.g.: 
+
+```bash
+/opt/homebrew/opt/python@3.12/bin/python3.12 -m venv my_new_312_env
+```
+
+uses homebrew's python explicitly to create a new `venv`, whereas
+
+```bash
+/usr/bin/python3 -m venv my_old_system_venv
+```
+
+would use Apple's macOS python version for the new environment.
+
 ### 1.3 When you done with your project
 
 Do deactivate this virtual environment, simply use:
@@ -110,7 +127,7 @@ Do deactivate this virtual environment, simply use:
 deactivate
 ```
 
-To re-activate it, enter the directory `HuggingFaceGuidedTourForMac` and use:
+To re-activate it, enter the directory that contains the `venv`, here: `HuggingFaceGuidedTourForMac` and use:
 
 ```bash
 source bin/activate
@@ -161,7 +178,8 @@ print(mx.__version__)
 
 This should print a version, such as `0.4.0` (2024-02)
 
-Visit the Apple [MLX project](https://github.com/ml-explore/) and especially [mlx-examples](https://github.com/ml-explore/mlx-examples)!
+- Visit the Apple [MLX project](https://github.com/ml-explore/) and especially [mlx-examples](https://github.com/ml-explore/mlx-examples)!
+- There is a vibrant MLX community on Huggingface that has ported many nets to MLX: [Huggingface MLX-Community](https://huggingface.co/mlx-community)
 
 ## 4. Install `tensorflow` (optional)
 
