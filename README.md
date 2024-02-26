@@ -151,7 +151,7 @@ Make sure that your virtual environment is active with `pip -V` (uppercase V), t
 
 `<your-path>/HuggingFaceGuidedTourForMac/lib/python3.12/site-packages/pip (python 3.12)`
 
-Following `https://pytorch.org`, we will install Pytorch with `pip`. The current version 2 in order to get MPS (Metal Performance Shaders) support within pytorch, which offers significant performance advantage on Apple Silicon.
+Following `https://pytorch.org`, we will install Pytorch with `pip`. You need at least version 2.x (default since 2023) in order to get MPS (Metal Performance Shaders) support within pytorch, which offers significant performance advantage on Apple Silicon.
 
 To install `pytorch` into the `venv`:
 
@@ -223,7 +223,7 @@ You should see something like:
 
 At this point, your Apple Silicon Mac should be ready to run `pytorch` and optionally `MLX` and/or `tensorflow` with hardware acceleration support, using the Apple Metal framework.
 
-To test this, you can use `jupyter lab` to run some notebooks. To install `jupyter lab`, first make sure the virtual environment you want to use is active, and type:
+To test this, you can use `jupyter lab` to run some notebooks. To install `jupyter lab`, first make sure the virtual environment you want to use is active (`pip -V`), and type:
 
 ```bash
 pip install -U jupyterlab ipywidgets
@@ -260,7 +260,6 @@ HuggingFace is a great resource for NLP and Deep Learning experiments. It provid
 
 ### 6.1 Install `transformers`
 
-
 From the [huggingface installation instructions](https://huggingface.co/docs/transformers/installation), we use `pip` to install `transformers`:
 
 ```bash
@@ -274,7 +273,7 @@ pip install -U transformers
 
 ### 7.1 Simple sentiment analysis
 
-Within the directory `HuggingFaceGuidedTourForMac` start `jupyter lab` and load the `00-SystemCheck.ipynb` notebook. Use `<Shift>-Enter` to run the notebook's cells.
+Within the directory `HuggingFaceGuidedTourForMac` and active `venv`, start `jupyter lab` and load the `00-SystemCheck.ipynb` notebook. Use `<Shift>-Enter` to run the notebook's cells.
 
 > **Note:** If you started Jupyter Lab before installing Huggingface, you either need to restart the python kernel in Jupyter or simply restart Jupyter Lab, otherwise it won't find the Transformers library.
 
