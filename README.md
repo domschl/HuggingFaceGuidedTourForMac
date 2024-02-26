@@ -6,8 +6,8 @@ We will perform the following steps:
 
 - Install `homebrew` 
 - Install `pytorch` with MPS (metal performance shaders) support using Apple Silicon GPUs
-- (optional) Install Apple's new `mlx` framework
-- (optional) Install `tensorflow` with and Apple's metal pluggable metal driver optimizations
+- Install Apple's new `mlx` framework ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
+- Install `tensorflow` with and Apple's metal pluggable metal driver optimizations ![Optional](http://img.shields.io/badge/legacy-optional-brightgreen.svg?style=flat)
 - Install `jupyter lab` to run notebooks
 - Install `huggingface` and run some pre-trained language models using `transformers` and just a few lines of code within jupyter lab.
 
@@ -15,7 +15,7 @@ Then we provide additional HowTos for:
 
 - Running large language models (LLMs) that rival commercial projects: Llama 2 with llama.cpp (s.b.) using Mac Metal acceleration.
 
-## Optional Notes
+## Additonal overview notes
 
 (skip to **1. Preparations** if you know which platform you are going to use)
 
@@ -27,7 +27,7 @@ Tensorflow, Pytorch, and MLX are deep-learning platforms that provide the requir
 - Tensorflow is the 'COBOL' of deep learning. If you are not forced to use Tensorflow (because your organisation already uses it), ignore it.
 - MLX is Apple's new kid on the block, and thus overall support and documentation is (currently) much more limited than for the other two platforms. It is beautiful and well designed (they took lessons learned for torch and tensorflow), yet it is closely tied to Apple Silicon. It's currently best for students that have Apple hardware and want to learn or experiment with deep learning. Things you learn with MLX easily transfer to Pytorch, yet be aware that conversion of models and porting of training and inference code is needed in order to deploy whatever you developed into the non-Apple universe.
 
-> **Note:** Previous versions of this guide used conda and specific conda chanels to install custom version of pytorch and tensorflow and its support software. This kind of special versions are _no longer required_! The recommendation is to uninstall conda and use Python's `venv` to install the required software. See below at the end of this readme for uninstallation instructions for `conda`.
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Previous versions of this guide used conda and specific conda chanels to install custom version of pytorch and tensorflow and its support software. This kind of special versions are _no longer required_! The recommendation is to uninstall conda and use Python's `venv` to install the required software. See below at the end of this readme for uninstallation instructions for `conda`.
 
 ## 1. Preparations
 
@@ -50,13 +50,13 @@ brew install python@3.12 git
 brew install python@3.11 git
 ```
 
-> **Note:**  you can install both versions of Python and then create a virtual environment using the specific python version you need for each case.
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat)  you can install both versions of Python and then create a virtual environment using the specific python version you need for each case.
 
-> **Note:** If you plan to also use Linux, be aware that Python version support often differs between Mac and Linux version of platforms. At the time of this writing (2024-02), torch's Dynamo (Linux, Nvidia) doesn't support Python 3.12 yet.
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) If you plan to also use Linux, be aware that Python version support often differs between Mac and Linux version of platforms. At the time of this writing (2024-02), torch's Dynamo (Linux, Nvidia) doesn't support Python 3.12 yet.
 
 #### Optional: make homebrew's Python the system-default:
 
-> **Note:** Apple does not put to much energy into keeping MacOS's python up-to-date. If you want to use an up-to-date default python, it makes sense to make homebrew's python the default system python.
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Apple does not put to much energy into keeping MacOS's python up-to-date. If you want to use an up-to-date default python, it makes sense to make homebrew's python the default system python.
 So, if, you want to use homebrew's Python 3.11 or 3.12 system-globally, the easiest way
 way to do so (after `brew install python@3.12` or `3.11`):
 
@@ -72,7 +72,7 @@ Change all references of `3.12` to `3.11` when wanting to make homebrew's Python
 
 (Restart your terminal to activate the path changes, or enter `source ~/.zshrc` in your current terminal session.)
 
-> **Note:** Regardless of the system python in use, when creating a virtual environment, you can always select the specific python version you want to use in the `venv` by creating the `venv` with exactly that python. E.g. `/usr/bin/python3 -m venv my_venv_name` creates a virtual environment using Apple's macOS python (which at the time of this writing, 2024-02, is still stuck at 3.9.6). See below, **Virtual environments**, for more details.
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Regardless of the system python in use, when creating a virtual environment, you can always select the specific python version you want to use in the `venv` by creating the `venv` with exactly that python. E.g. `/usr/bin/python3 -m venv my_venv_name` creates a virtual environment using Apple's macOS python (which at the time of this writing, 2024-02, is still stuck at 3.9.6). See below, **Virtual environments**, for more details.
 
 ### 1.2 Test project
 
@@ -133,7 +133,9 @@ To re-activate it, enter the directory that contains the `venv`, here: `HuggingF
 source bin/activate
 ```
 
-> **Warning:** A very **unintuitive property of `venv`** is the fact: while you enter an environment by activating it in the subdirectory of your project (with `source bin/activate`), the `venv` **stays active** when you leave the project folder and start working on something completely different _until you explicitly deactivate_ the `venv` with `deactivate`. There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Checkout [`powerline`](https://powerline.readthedocs.io/en/master/installation/osx.html), or [`powerlevel10k`](https://github.com/romkatv/powerlevel10k) [recommended], or, if you like embellishment [`Oh My Zsh`](https://ohmyz.sh/).
+> ![Warning](http://img.shields.io/badge/⚠️-Warning:-orange.svg?style=flat) A very **unintuitive property of `venv`** is the fact: while you enter an environment by activating it in the subdirectory of your project (with `source bin/activate`), the `venv` **stays active** when you leave the project folder and start working on something completely different _until you explicitly deactivate_ the `venv` with `deactivate`. 
+>
+> There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Checkout [`powerline`](https://powerline.readthedocs.io/en/master/installation/osx.html), or [`powerlevel10k`](https://github.com/romkatv/powerlevel10k) [recommended], or, if you like embellishment [`Oh My Zsh`](https://ohmyz.sh/).
 
 ![No venv active](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/Resources/no_venv.png)
 _Example with `powerlevel10k` installed. The left side of the system prompt shows the current directory, the right side would show the name of the `venv`. Currently, no `venv` is active._
@@ -143,7 +145,7 @@ After activating a `venv` in `HuggingFaceGuidedTourForMac`:
 ![venv is still active](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/Resources/venv_remind.png)
 _Even is the working directoy is changed (here to `home`), since the `venv` is still active, it's name is displayed on the right side by `powerlevel10k`. Very handy._
 
-> **Note:** See <https://docs.python.org/3/tutorial/venv.html> for more information about Python virtual environments.
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) See <https://docs.python.org/3/tutorial/venv.html> for more information about Python virtual environments.
 
 ### 2 Install `pytorch`
 
@@ -171,7 +173,7 @@ torch.backends.mps.is_available()
 
 This should return `True`.
 
-### 3 Install `MLX` (optional)
+### 3 Install `MLX` ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 
 ```bash
 pip install -U mlx
@@ -191,9 +193,9 @@ This should print a version, such as `0.4.0` (2024-02)
 - Visit the Apple [MLX project](https://github.com/ml-explore/) and especially [mlx-examples](https://github.com/ml-explore/mlx-examples)!
 - There is a vibrant MLX community on Huggingface that has ported many nets to MLX: [Huggingface MLX-Community](https://huggingface.co/mlx-community)
 
-## 4. Install `tensorflow` (optional)
+## 4. Install `tensorflow` ![Optional](http://img.shields.io/badge/legacy-optional-brightgreen.svg?style=flat)
 
-> **Note:** Tensorflow is currently (2024-02) not supported with Python 3.12, so use Python 3.11:
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Tensorflow is currently (2024-02) not supported with Python 3.12, so use Python 3.11:
 
 Make sure that your virtual environment is active with `pip -V` (uppercase V), this should show a path for `pip` within your project:
 
@@ -229,7 +231,7 @@ To test this, you can use `jupyter lab` to run some notebooks. To install `jupyt
 pip install -U jupyterlab ipywidgets
 ```
 
-> **Note:** If you have other Jupyter versions installed, the path to the newly installed jupyter version within the `venv` is often not updated correctly, re-activate the environment to make sure that the correct local Jupyter version is used:
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) If you have other Jupyter versions installed, the path to the newly installed jupyter version within the `venv` is often not updated correctly, re-activate the environment to make sure that the correct local Jupyter version is used:
 
 ```bash
 deactivate
@@ -266,7 +268,7 @@ From the [huggingface installation instructions](https://huggingface.co/docs/tra
 pip install -U transformers
 ```
 
-> **Note:** When experimenting with HuggingFace, you will download large models that will be stored in your home directory at: `~/.cache/huggingface/hub`. 
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) When experimenting with HuggingFace, you will download large models that will be stored in your home directory at: `~/.cache/huggingface/hub`. 
 > You can remove these models at any time by deleting this directory or parts of it's content.
 
 ## 7 Experiments
@@ -275,7 +277,7 @@ pip install -U transformers
 
 Within the directory `HuggingFaceGuidedTourForMac` and active `venv`, start `jupyter lab` and load the `00-SystemCheck.ipynb` notebook. Use `<Shift>-Enter` to run the notebook's cells.
 
-> **Note:** If you started Jupyter Lab before installing Huggingface, you either need to restart the python kernel in Jupyter or simply restart Jupyter Lab, otherwise it won't find the Transformers library.
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) If you started Jupyter Lab before installing Huggingface, you either need to restart the python kernel in Jupyter or simply restart Jupyter Lab, otherwise it won't find the Transformers library.
 
 Your should see something like this:
 
@@ -283,7 +285,7 @@ Your should see something like this:
 
 If you've received a label classification of `POSITIVE` with a score of `0.99`, then you are ready to start experimenting with HuggingFace!
 
-> **Note:** You'll see that the `HuggingFace` libraries are downloading all sorts of large binary blobs containing the trained model data. That data is stored in your home directory at: `~/.cache/huggingface/hub`. You can remove these models at any time by deleting this directory or parts of it's content.
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) You'll see that the `HuggingFace` libraries are downloading all sorts of large binary blobs containing the trained model data. That data is stored in your home directory at: `~/.cache/huggingface/hub`. You can remove these models at any time by deleting this directory or parts of it's content.
 
 #### Trouble-shooting
 
@@ -354,7 +356,7 @@ Things to try:
 
 ## Conda uninstallation notes
 
-> **Note:** This paragraph is to uninstall conda that was used in older versions of this guide:
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) This paragraph is to uninstall conda that was used in older versions of this guide:
 
 `brew uninstall miniconda`
 
