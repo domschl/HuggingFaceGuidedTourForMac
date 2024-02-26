@@ -58,7 +58,7 @@ brew install python@3.11 git
 
 #### Optional: make homebrew's Python the system-default:
 
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Apple does not put to much energy into keeping MacOS's python up-to-date. If you want to use an up-to-date default python, it makes sense to make homebrew's python the default system python.
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Apple does not put too much energy into keeping MacOS's python up-to-date. If you want to use an up-to-date default python, it makes sense to make homebrew's python the default system python.
 So, if, you want to use homebrew's Python 3.11 or 3.12 system-globally, the easiest way
 way to do so (after `brew install python@3.12` or `3.11`):
 
