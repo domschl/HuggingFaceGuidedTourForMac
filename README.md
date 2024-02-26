@@ -5,11 +5,11 @@ A guided tour on how to install optimized `pytorch` and optionally Apple's new `
 We will perform the following steps:
 
 - Install `homebrew` 
-- Install Pytorch with MPS (metal performance shaders) support using Apple Silicon GPUs
-- (optional) Install Apple's new MLX framework
-- (optional) Install Tensorflow with and Apple's metal pluggable metal driver  optimizations
+- Install `pytorch` with MPS (metal performance shaders) support using Apple Silicon GPUs
+- (optional) Install Apple's new `mlx` framework
+- (optional) Install `tensorflow` with and Apple's metal pluggable metal driver optimizations
 - Install `jupyter lab` to run notebooks
-- Install `HuggingFace` and run some pre-trained language models using `transformers` and just a few lines of code within jupyter lab.
+- Install `huggingface` and run some pre-trained language models using `transformers` and just a few lines of code within jupyter lab.
 
 Then we provide additional HowTos for:
 
