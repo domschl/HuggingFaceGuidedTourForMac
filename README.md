@@ -1,4 +1,6 @@
-# HuggingFace and Deep Learning guided tour for Macs with Apple Silicon (Version 3)
+![Version](http://img.shields.io/badge/Version-3-blue.svg?style=flat)
+
+# HuggingFace and Deep Learning guided tour for Macs with Apple Silicon
 
 A guided tour on how to install optimized `pytorch` and optionally Apple's new `MLX` and/or Google's `tensorflow` on Apple Silicon Macs and how to use `HuggingFace` large language models for your own experiments. Recent Mac show good performance for machine learning tasks.
 
