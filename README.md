@@ -38,9 +38,9 @@ Tensorflow, Pytorch, and MLX are deep-learning platforms that provide the requir
 If you haven't done so, go to <https://brew.sh/> and follow the instructions to install homebrew.
 Once done, open a terminal and type `brew --version` to check that it is installed correctly.
 
-Now use `brew` to install more recent versions of `python` and `git`. You need to decide, which main Python version you are going to use. If you want to try tensorflow or if you dislike virtual environments, `venv`, use python 3.11 (2024-02 status). As of 2024-02, both Pytorch and MLX support Python 3.12
+Now use `brew` to install more recent versions of `python` and `git`. You need to decide, which main Python version you are going to use. If you want to try tensorflow or if you dislike virtual environments, `venv`, use python 3.11 (2024-02 status). As of 2024-02, Huggingface and both Pytorch and MLX support Python 3.12
 
-#### Current Python for Pytorch and MLX, Python 3.12, Homebrew default
+#### Current Python for Huggingface, Pytorch, and MLX, Python 3.12, Homebrew default
 
 ```bash
 brew install python@3.12 git
