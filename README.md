@@ -197,7 +197,7 @@ This should print a version, such as `0.4.0` (2024-02)
 
 ## 4. Install `tensorflow` ![Optional](http://img.shields.io/badge/legacy-optional-brightgreen.svg?style=flat)
 
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Tensorflow is currently (2024-02) not supported with Python 3.12, so use Python 3.11:
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) While Tensorflow 2.6 supports Python 3.12, the macOS `tensorflow-metel` accelerator is currently (2024-03) not supported that version, so use Python 3.11:
 
 Make sure that your virtual environment is active with `pip -V` (uppercase V), this should show a path for `pip` within your project:
 
