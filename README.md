@@ -17,7 +17,7 @@ Then we provide additional HowTos for:
 
 - Running large language models (LLMs) that rival commercial projects: Llama 2 with llama.cpp (s.b.) using Mac Metal acceleration.
 
-## Additonal overview notes
+## Additional overview notes
 
 (skip to **1. Preparations** if you know which platform you are going to use)
 
