@@ -190,7 +190,7 @@ import mlx.core as mx
 print(mx.__version__)
 ```
 
-This should print a version, such as `0.4.0` (2024-02)
+This should print a version, such as `0.8.0` (2024-03)
 
 - Visit the Apple [MLX project](https://github.com/ml-explore/) and especially [mlx-examples](https://github.com/ml-explore/mlx-examples)!
 - There is a vibrant MLX community on Huggingface that has ported many nets to MLX: [Huggingface MLX-Community](https://huggingface.co/mlx-community)
