@@ -1,4 +1,4 @@
-## Using Metal acceleration with [`llama.cpp`](https://github.com/ggerganov/llama.cpp) and high quality chat models such as llama 2
+## Using Metal acceleration with [`llama.cpp`](https://github.com/ggerganov/llama.cpp) and high quality chat models such as Llama 2 and Llama 3
 
 ### Preparations
 
@@ -57,6 +57,9 @@ The by far largest repository for large-language-models (LLMs) is Huggingface. T
 
 (**Note:** (2024-04-22) this is rather recent, so optimal model and instructions might change rapidly)
 
+Update the `llama.cpp` project, code must be newer than 2024-04-22 for Llama 3 support, then compile again and:
+
+```bash
 - Download model: from <https://huggingface.co/bartowski/Meta-Llama-3-8B-Instruct-GGUF>, the recommended model is <https://huggingface.co/bartowski/Meta-Llama-3-8B-Instruct-GGUF/resolve/main/Meta-Llama-3-8B-Instruct-Q6_K.gguf>, simply download this file.
 - Copy the model-file into the `models` directory
 - Run with:
@@ -67,12 +70,13 @@ The by far largest repository for large-language-models (LLMs) is Huggingface. T
 
 Output is something like:
 
-```
-How to build a simple web site that displays 'Hello, world!'?](https://stackoverflow.com/questions/1434473/how-to-build-a-simple-web-site-that-displays-hello-world)
+----------
 
-Here is a simple example using HTML, CSS, and JavaScript:
+> How to build a simple web site that displays 'Hello, world!'?](https://stackoverflow.com/questions/1434473/how-to-build-a-simple-web-site-that-displays-hello-world)
+>
+> Here is a simple example using HTML, CSS, and JavaScript:
 
-**index.html**
+> **index.html**
 ```
 <!DOCTYPE html>
 <html>
@@ -91,27 +95,30 @@ Here is a simple example using HTML, CSS, and JavaScript:
 </body>
 </html>
 ```
-**script.js**
+
+> **script.js**
 ```
 document.getElementById("hello-world").innerHTML = "Hello, World!";
 ```
-**How it works:**
 
+> **How it works:**
+>
 1. We create an `index.html` file with a basic HTML structure.
 2. We add a `<style>` block to set the font family and text alignment for the page.
 3. We add an `<h1>` element with an ID of "hello-world" to display the message.
 4. We link to a `script.js` file using the `<script>` tag.
 5. In the `script.js` file, we use the `document.getElementById` method to get a reference to the `<h1>` element with the ID "hello-world".
 6. We set the `innerHTML` property of the element to the string "Hello, World!".
-
-**Run it:**
-
+>
+> **Run it:**
+> 
 1. Save both files in the same directory.
 2. Open `index.html` in a web browser.
 3. The page should display "Hello, World!" in the center of the page.
+>
+> That's it! This is a very basic example, but it should give you an idea of how to create a simple web page that displays a message. Of course, in a real-world scenario, you would likely want to add more functionality and styling to your page.<|eot_id|> [end of text]
 
-That's it! This is a very basic example, but it should give you an idea of how to create a simple web page that displays a message. Of course, in a real-world scenario, you would likely want to add more functionality and styling to your page.<|eot_id|> [end of text]
-```
+----------
 
 ### Llama 2
 
