@@ -354,7 +354,7 @@ Things to try:
 
 ## Next steps
 
-- Your Mac can run large language models that rival the performance of commercial solutions. An excellent example is the [`llama.cpp` project](https://github.com/ggerganov/llama.cpp) that implements the inference code necessary to run LLMs in highly optimized C++ code, supporting the Mac's Metal acceleration.<br>A step-by-step guide to compile and run Llama 2 first for benchmarking and then for chat can be found here:<br>[Llama.cpp chat using the Llama 2 model](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md). Additionally a first version for Llama 3 is provided.
+- Your Mac can run large language models that rival the performance of commercial solutions. An excellent example is the [`llama.cpp` project](https://github.com/ggerganov/llama.cpp) that implements the inference code necessary to run LLMs in highly optimized C++ code, supporting the Mac's Metal acceleration.<br>A step-by-step guide to compile and run Llama 3 or Llama 2 first for benchmarking and then for chat can be found here:<br>[Llama.cpp chat using the Llama 2 model, with first Llama 3 support](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md). Additionally a first version for Llama 3 is provided.
 
 ## Conda uninstallation notes
 
