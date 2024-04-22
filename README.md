@@ -356,6 +356,11 @@ Things to try:
 
 - Your Mac can run large language models that rival the performance of commercial solutions. An excellent example is the [`llama.cpp` project](https://github.com/ggerganov/llama.cpp) that implements the inference code necessary to run LLMs in highly optimized C++ code, supporting the Mac's Metal acceleration.<br>A step-by-step guide to compile and run Llama 3 or Llama 2 first for benchmarking and then for chat can be found here:<br>[Llama.cpp chat using the Llama 2 model, with first Llama 3 support](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md). Additionally a first version for Llama 3 is provided.
 
+## Learning resources
+
+- One of the (currently) best sources for information about new releases of models on Huggingface is [LocalLLama reddit group](https://old.reddit.com/r/LocalLLaMA/).
+- The fast-track to learning how neural network and specifically large languages models actually work, is Andrej Karpathy's course on Youtube: [The spelled-out intro to neural networks and backpropagation: building micrograd](https://www.youtube.com/watch?v=VMj-3S1tku0&list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ). If you know some python and how to multiply a matrix with numpy, this is the course that takes you all the way to being able to build your own Large-language model from scratch.
+
 ## Conda uninstallation notes
 
 > ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) This paragraph is to uninstall conda that was used in older versions of this guide:
