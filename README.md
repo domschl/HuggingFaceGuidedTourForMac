@@ -15,7 +15,7 @@ We will perform the following steps:
 
 Then we provide additional HowTos for:
 
-- Running large language models (LLMs) that rival commercial projects: Llama 2 with llama.cpp (s.b.) using Mac Metal acceleration.
+- Running large language models (LLMs) that rival commercial projects: Llama 2 or Llama 3 with llama.cpp (s.b.) using Mac Metal acceleration.
 
 ## Additional overview notes
 
@@ -354,7 +354,7 @@ Things to try:
 
 ## Next steps
 
-- Your Mac can run large language models that rival the performance of commercial solutions. An excellent example is the [`llama.cpp` project](https://github.com/ggerganov/llama.cpp) that implements the inference code necessary to run LLMs in highly optimized C++ code, supporting the Mac's Metal acceleration.<br>A step-by-step guide to compile and run Llama 2 first for benchmarking and then for chat can be found here:<br>[Llama.cpp chat using the Llama 2 model](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md)
+- Your Mac can run large language models that rival the performance of commercial solutions. An excellent example is the [`llama.cpp` project](https://github.com/ggerganov/llama.cpp) that implements the inference code necessary to run LLMs in highly optimized C++ code, supporting the Mac's Metal acceleration.<br>A step-by-step guide to compile and run Llama 2 first for benchmarking and then for chat can be found here:<br>[Llama.cpp chat using the Llama 2 model](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md). Additionally a first version for Llama 3 is provided.
 
 ## Conda uninstallation notes
 
@@ -370,6 +370,7 @@ Additional modifications are (all of them are inactive, once miniconda is remove
 
 ## Changes
 
+- 2024-04-22: Llama 3.
 - 2024-02-24: (Guide version 3.0) Updates for Python 3.12 and Apple MLX framework, Tensorflow is legacy-option.
 - 2023-12-14: Pin python version of homebrew to 3.11.
 - 2023-10-30: Restested with macOS 14.1 Sonoma, Tensorflow 2.14, Pytorch 2.1. Next steps added for more advanced projects.
