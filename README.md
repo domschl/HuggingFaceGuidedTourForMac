@@ -377,6 +377,7 @@ Additional modifications are (all of them are inactive, once miniconda is remove
 
 ## Changes
 
+- 2024-04-26: Apple's corenet
 - 2024-04-22: Llama 3.
 - 2024-02-24: (Guide version 3.0) Updates for Python 3.12 and Apple MLX framework, Tensorflow is legacy-option.
 - 2023-12-14: Pin python version of homebrew to 3.11.
