@@ -24,7 +24,7 @@ Then we provide additional HowTos for:
 
 ### What is Tensorflow vs. JAX vs. Pytorch vs. MLX and how relates Huggingface to it all?
 
-Tensorflow, Pytorch, and MLX are deep-learning platforms that provide the required libraries to perform optimized tensor operations used in training and inference. On high level, the functionality of all three is equivalent. Huggingface builds on top of any of the those platforms and provides a large library of pretrained models for many different use-cases, ready to use or to customize plus a number of convenience libraries and sample code for easy getting-started.
+Tensorflow, JAX, Pytorch, and MLX are deep-learning platforms that provide the required libraries to perform optimized tensor operations used in training and inference. On high level, the functionality of all three is equivalent. Huggingface builds on top of any of the those platforms and provides a large library of pretrained models for many different use-cases, ready to use or to customize plus a number of convenience libraries and sample code for easy getting-started.
 
 - **Pytorch** is the most general and currently most widely used deep learning platform. In case of doubt, use Pytorch. It supports many different hardware platforms (including Apple Silicon optimizations).
 - **Tensorflow** is the 'COBOL' of deep learning. If you are not forced to use Tensorflow (because your organisation already uses it), ignore it. Look at Pytorch for production and JAX for research.
