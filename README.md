@@ -333,7 +333,7 @@ If you've received a label classification of `POSITIVE` with a score of `0.99`, 
 
 #### Trouble-shooting
 
-- If self-tests fail ('xyz not found!'), make sure that tensorflow (optional), jax (option), MLX,  pytorch, jupyter, and transformers by huggingface are all installed into the same, active Python virtual environment, otherwise the components won't 'see' each other!
+- If self-tests fail ('xyz not found!'), make sure that tensorflow (optional), jax (optional), MLX (optional),  pytorch, jupyter, and transformers by huggingface are all installed into the same, active Python virtual environment, otherwise the components won't 'see' each other!
 
 ### 7.2 Minimal chat-bot
 
