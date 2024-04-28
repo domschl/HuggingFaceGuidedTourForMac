@@ -43,7 +43,7 @@ Once done, open a terminal and type `brew --version` to check that it is install
 
 Now use `brew` to install more recent versions of `python` and `git`. You need to decide, which main Python version you are going to use. If you want to try tensorflow or if you dislike virtual environments, `venv`, use python 3.11 (2024-02 status). As of 2024-02, Huggingface and both Pytorch and MLX support Python 3.12
 
-#### Current Python for Huggingface, Pytorch, and MLX, Python 3.12, Homebrew default
+#### Current Python for Huggingface, Pytorch, JAX, and MLX, Python 3.12, Homebrew default
 
 ```bash
 brew install python@3.12 git
