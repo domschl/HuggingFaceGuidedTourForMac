@@ -2,7 +2,7 @@
 
 # HuggingFace and Deep Learning guided tour for Macs with Apple Silicon
 
-A guided tour on how to install optimized `pytorch` and optionally Apple's new `MLX` and/or Google's `tensorflow` on Apple Silicon Macs and how to use `HuggingFace` large language models for your own experiments. Recent Mac show good performance for machine learning tasks.
+A guided tour on how to install optimized `pytorch` and optionally Apple's new `MLX` and/or Google's `tensorflow` or `JAX` on Apple Silicon Macs and how to use `HuggingFace` large language models for your own experiments. Recent Mac show good performance for machine learning tasks.
 
 We will perform the following steps:
 
@@ -10,6 +10,7 @@ We will perform the following steps:
 - Install `pytorch` with MPS (metal performance shaders) support using Apple Silicon GPUs
 - Install Apple's new `mlx` framework ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 - Install `tensorflow` with and Apple's metal pluggable metal driver optimizations ![Optional](http://img.shields.io/badge/legacy-optional-brightgreen.svg?style=flat)
+- Install `JAX` with Apple's metal drivers (experimental is this point int time(2024-04)) ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 - Install `jupyter lab` to run notebooks
 - Install `huggingface` and run some pre-trained language models using `transformers` and just a few lines of code within jupyter lab.
 
@@ -21,12 +22,13 @@ Then we provide additional HowTos for:
 
 (skip to **1. Preparations** if you know which platform you are going to use)
 
-### What is Tensorflow vs. Pytorch vs. MLX and how relates Huggingface to it all?
+### What is Tensorflow vs. JAX vs. Pytorch vs. MLX and how relates Huggingface to it all?
 
 Tensorflow, Pytorch, and MLX are deep-learning platforms that provide the required libraries to perform optimized tensor operations used in training and inference. On high level, the functionality of all three is equivalent. Huggingface builds on top of any of the those platforms and provides a large library of pretrained models for many different use-cases, ready to use or to customize plus a number of convenience libraries and sample code for easy getting-started.
 
 - **Pytorch** is the most general and currently most widely used deep learning platform. In case of doubt, use Pytorch. It supports many different hardware platforms (including Apple Silicon optimizations).
 - **Tensorflow** is the 'COBOL' of deep learning. If you are not forced to use Tensorflow (because your organisation already uses it), ignore it.
+- **JAX** is a newer Google platform that is considered especially by researchers as the better alternative to Tensorflow. It is more flexible and more powerful than Pytorch, yet also more complex. It is not as widely used as Pytorch, yet it is gaining traction. It support GPUs, TPUs, and Apple's Metal framework (still experimental).
 - **MLX** is Apple's new kid on the block, and thus overall support and documentation is (currently) much more limited than for the other two platforms. It is beautiful and well designed (they took lessons learned for torch and tensorflow), yet it is closely tied to Apple Silicon. It's currently best for students that have Apple hardware and want to learn or experiment with deep learning. Things you learn with MLX easily transfer to Pytorch, yet be aware that conversion of models and porting of training and inference code is needed in order to deploy whatever you developed into the non-Apple universe.
 - **corenet** is Apple's [newly released training library](https://github.com/apple/corenet) that utilizes PyTorch and the HuggingFace infrastructure, and additionally contains examples how to migrate models to MLX. See the example: [OpenElm (MLX)](https://github.com/apple/corenet/blob/main/mlx_examples/open_elm).
 
@@ -197,7 +199,39 @@ This should print a version, such as `0.11.1` (2024-04)
 - There is a vibrant MLX community on Huggingface that has ported many nets to MLX: [Huggingface MLX-Community](https://huggingface.co/mlx-community)
 - Apple's new [corenet](https://github.com/apple/corenet) utilizes PyTorch and the HuggingFace infrastructure, and additionally contains examples how to migrate models to MLX. See the example: [OpenElm (MLX)](https://github.com/apple/corenet/blob/main/mlx_examples/open_elm).
 
-## 4. Install `tensorflow` ![Optional](http://img.shields.io/badge/legacy-optional-brightgreen.svg?style=flat)
+## 4.1 Install `JAX` ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
+
+JAX supports (experimental) Apple's Metal framework. To install `JAX` with `pip`:
+
+```bash
+pip install -U jax jax-metal
+```
+
+#### 4.2 Quick-test JAX
+
+Start `python` (3.12 is supported) and enter:
+
+```python
+import jax
+print(jax.devices()[0])
+```
+
+This should display something like:
+
+```
+Platform 'METAL' is experimental and not all JAX functionality may be correctly supported!
+2024-04-28 10:28:09.561877: W pjrt_plugin/src/mps_client.cc:563] WARNING: JAX Apple GPU support is experimental and not all JAX functionality is correctly supported!
+Metal device set to: Apple M2 Max
+
+systemMemory: 32.00 GB
+maxCacheSize: 10.67 GB
+
+METAL:0
+```
+
+Here `META:0` is the device that JAX will use for calculations, and Apple Silicon is supported.
+
+## 4.3 Install `tensorflow` ![Optional](http://img.shields.io/badge/legacy-optional-brightgreen.svg?style=flat)
 
 > ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) While Tensorflow 2.16 supports Python 3.12, the macOS `tensorflow-metal` accelerator is currently (2024-03) not supported that version, so use Python 3.11:
 
@@ -211,7 +245,7 @@ Following <https://developer.apple.com/metal/tensorflow-plugin/>, we will instal
 pip install -U tensorflow tensorflow-metal
 ```
 
-#### 4.1 Quick-test Tensorflow
+#### 4.4 Quick-test Tensorflow
 
 To test that `tensorflow` is installed correctly, open a terminal, type `python` and within the python shell, enter:
 
@@ -227,7 +261,7 @@ You should see something like:
 
 ### 5 Jupyter lab
 
-At this point, your Apple Silicon Mac should be ready to run `pytorch` and optionally `MLX` and/or `tensorflow` with hardware acceleration support, using the Apple Metal framework.
+At this point, your Apple Silicon Mac should be ready to run `pytorch` and optionally `MLX` and/or `JAX` or `tensorflow` with hardware acceleration support, using the Apple Metal framework.
 
 To test this, you can use `jupyter lab` to run some notebooks. To install `jupyter lab`, first make sure the virtual environment you want to use is active (`pip -V`), and type:
 
@@ -293,7 +327,7 @@ If you've received a label classification of `POSITIVE` with a score of `0.99`, 
 
 #### Trouble-shooting
 
-- If self-tests fail ('xyz not found!'), make sure that tensorflow (optional), pytorch, jupyter, and huggingface are all installed into the same, active Python virtual environment, otherwise the components won't 'see' each other!
+- If self-tests fail ('xyz not found!'), make sure that tensorflow (optional), jax (option), MLX,  pytorch, jupyter, and transformers by huggingface are all installed into the same, active Python virtual environment, otherwise the components won't 'see' each other!
 
 ### 7.2 Minimal chat-bot
 
@@ -377,6 +411,7 @@ Additional modifications are (all of them are inactive, once miniconda is remove
 
 ## Changes
 
+- 2024-04-28: Added JAX installation with Metal support and quick-test.
 - 2024-04-26: Apple's corenet
 - 2024-04-22: Llama 3.
 - 2024-02-24: (Guide version 3.0) Updates for Python 3.12 and Apple MLX framework, Tensorflow is legacy-option.
