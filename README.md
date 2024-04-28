@@ -201,7 +201,9 @@ This should print a version, such as `0.11.1` (2024-04)
 
 ## 4.1 Install `JAX` ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 
-JAX supports (experimental) Apple's Metal framework. To install `JAX` with `pip`:
+JAX is an excellent choice, if low-level optimization of algorithms and research beyond the boundaries of established deep-learning algorithms is your focus. Modelled after `numpy`, it supports [automatic differentiation](https://jax.readthedocs.io/en/latest/jax-101/04-advanced-autodiff.html) of 'everything' (for optimization problems) and supports [vectorization](https://jax.readthedocs.io/en/latest/jax-101/03-vectorization.html) and [parallelization](https://jax.readthedocs.io/en/latest/jax-101/06-parallelism.html) of python algorithms beyond mere deep learning. To get functionality that is expected from other deep learning frameworks (layers, training-loop functions and similar 'high-level'), consider installing additional layers such as: [`flax`](https://flax.readthedocs.io/) or [`haiku`](https://dm-haiku.readthedocs.io/en/latest/) (Deep-Mind). 
+
+To install `JAX` with `pip` into the active environment:
 
 ```bash
 pip install -U jax jax-metal
@@ -229,7 +231,7 @@ maxCacheSize: 10.67 GB
 METAL:0
 ```
 
-Here `META:0` is the device that JAX will use for calculations, and Apple Silicon is supported.
+Here `METAL:0` is the device that JAX will use for calculations, and Apple Silicon is supported.
 
 - Apple's rather terse documentation is found at [Apple's JAX documentation](https://developer.apple.com/metal/jax/).
 
@@ -315,11 +317,13 @@ pip install -U transformers
 
 ### 7.1 Simple sentiment analysis
 
-Within the directory `HuggingFaceGuidedTourForMac` and active `venv`, start `jupyter lab` and load the `00-SystemCheck.ipynb` notebook. Use `<Shift>-Enter` to run the notebook's cells.
+Within the directory `HuggingFaceGuidedTourForMac` and active `venv`, start `jupyter lab` and load the `00-SystemCheck.ipynb` notebook.  The notebook will first check all the deep-learning frameworks and give information, if they are correctly installed. Afterward, Pytorch is used for a simple experiment.
+
+Use `<Shift>-Enter` to run the notebook's cells.
 
 > ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) If you started Jupyter Lab before installing Huggingface, you either need to restart the python kernel in Jupyter or simply restart Jupyter Lab, otherwise it won't find the Transformers library.
 
-Your should see something like this:
+After the various tests, your should finally see something like this:
 
 ![](Resources/huggingface-transformers.png)
 
