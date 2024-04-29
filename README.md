@@ -27,10 +27,10 @@ Then we provide additional HowTos for:
 Tensorflow, JAX, Pytorch, and MLX are deep-learning platforms that provide the required libraries to perform optimized tensor operations used in training and inference. On high level, the functionality of all three is equivalent. Huggingface builds on top of any of the those platforms and provides a large library of pretrained models for many different use-cases, ready to use or to customize plus a number of convenience libraries and sample code for easy getting-started.
 
 - **Pytorch** is the most general and currently most widely used deep learning platform. In case of doubt, use Pytorch. It supports many different hardware platforms (including Apple Silicon optimizations).
-- **Tensorflow** is the 'COBOL' of deep learning. If you are not forced to use Tensorflow (because your organisation already uses it), ignore it. Look at Pytorch for production and JAX for research.
 - **JAX** is a newer Google platform that is considered especially by researchers as the better alternative to Tensorflow. It is more flexible and more powerful than Pytorch, yet also more complex. It is not as widely used as Pytorch, yet it is gaining traction. It support GPUs, TPUs, and Apple's Metal framework (still experimental). JAX on Apple Silicon is still 'exotic', hence for production projects, use Pytorch, and for research projects, both JAX and MLX are interesting: MLX has more dynamic development (at this point in time), JAX supports more hardware platforms (GPUs and TPUs) besides Apple Silicon.
 - **MLX** is Apple's new kid on the block, and thus overall support and documentation is (currently) much more limited than for the other main platforms. It is beautiful and well designed (they took lessons learned for torch and tensorflow), yet it is closely tied to Apple Silicon. It's currently best for students that have Apple hardware and want to learn or experiment with deep learning. Things you learn with MLX easily transfer to Pytorch, yet be aware that conversion of models and porting of training and inference code is needed in order to deploy whatever you developed into the non-Apple universe.
 - **corenet** is Apple's [newly released training library](https://github.com/apple/corenet) that utilizes PyTorch and the HuggingFace infrastructure, and additionally contains examples how to migrate models to MLX. See the example: [OpenElm (MLX)](https://github.com/apple/corenet/blob/main/mlx_examples/open_elm).
+- **Tensorflow** is the 'COBOL' of deep learning. If you are not forced to use Tensorflow (because your organisation already uses it), ignore it. Look at Pytorch for production and JAX for research.
 
 > ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) For the (probably too simplified) answer to the question "What's the fastest?" have a look at the Jupyter notebook [02-Benchmarks](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/02-Benchmarks.ipynb), and once you've completed the installation, you can test your own environment. The notebook allows to compare the speed of matrix multiplications for different platforms. However, the difference between platforms when performing 'standard' model training or inference tasks will most likely be less pronounced.
 
@@ -41,7 +41,7 @@ Tensorflow, JAX, Pytorch, and MLX are deep-learning platforms that provide the r
 If you haven't done so, go to <https://brew.sh/> and follow the instructions to install homebrew.
 Once done, open a terminal and type `brew --version` to check that it is installed correctly.
 
-Now use `brew` to install more recent versions of `python` and `git`. You need to decide, which main Python version you are going to use. If you want to try tensorflow or if you dislike virtual environments, `venv`, use python 3.11 (2024-02 status). As of 2024-02, Huggingface and both Pytorch and MLX support Python 3.12
+Now use `brew` to install more recent versions of `python` and `git`. The recommendation is to use Homebrew's default Python 3.12, if you are not planning to use Tensorflow with Metal optimization (still requires 3.11 (at 2024-04)).
 
 #### Current Python for Huggingface, Pytorch, JAX, and MLX, Python 3.12, Homebrew default
 
@@ -165,6 +165,8 @@ To install `pytorch` into the `venv`:
 ```bash
 pip install -U torch numpy torchvision torchaudio
 ```
+
+Note: to experiment with Pytorch's `compile()` function with Python 3.12, you will need to install the 2.4 nightly (see <https://pytorch.org/get-started/locally/>) until torch 2.4 is released.
 
 #### 2.1 Quick-test pytorch
 
