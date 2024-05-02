@@ -203,7 +203,7 @@ This should print a version, such as `0.11.1` (2024-04)
 
 ## 4.1 Install `JAX` ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 
-JAX is an excellent choice, if low-level optimization of algorithms and research beyond the boundaries of established deep-learning algorithms is your focus. Modelled after `numpy`, it supports [automatic differentiation](https://jax.readthedocs.io/en/latest/jax-101/04-advanced-autodiff.html) of 'everything' (for optimization problems) and supports [vectorization](https://jax.readthedocs.io/en/latest/jax-101/03-vectorization.html) and [parallelization](https://jax.readthedocs.io/en/latest/jax-101/06-parallelism.html) of python algorithms beyond mere deep learning. To get functionality that is expected from other deep learning frameworks (layers, training-loop functions and similar 'high-level'), consider installing additional neural network library such as: [`flax`](https://flax.readthedocs.io/). 
+JAX is an excellent choice, if low-level optimization of algorithms and research beyond the boundaries of established deep-learning algorithms is your focus. Modelled after `numpy`, it supports [automatic differentiation](https://jax.readthedocs.io/en/latest/jax-101/04-advanced-autodiff.html) of 'everything' (for optimization problems) and supports [vectorization](https://jax.readthedocs.io/en/latest/jax-101/03-vectorization.html) and [parallelization](https://jax.readthedocs.io/en/latest/jax-101/06-parallelism.html) of python algorithms beyond mere deep learning. To get functionality that is expected from other deep learning frameworks (layers, training-loop functions and similar 'high-level'), consider installing additional neural network library such as: [`flax`](https://github.com/google/flax). 
 
 To install `JAX` with `pip` into the active environment:
 
@@ -235,6 +235,7 @@ METAL:0
 
 Here `METAL:0` is the device that JAX will use for calculations, and Apple Silicon is supported.
 
+- [HuggingFace example projects with JAX and Flax](https://github.com/huggingface/transformers/tree/main/examples/flax)
 - Apple's rather terse documentation is found at [Apple's JAX documentation](https://developer.apple.com/metal/jax/).
 
 ## 4.3 Install `tensorflow` ![Optional](http://img.shields.io/badge/legacy-optional-brightgreen.svg?style=flat)
