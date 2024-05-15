@@ -18,7 +18,7 @@ Then we provide additional HowTos for:
 
 - Running large language models (LLMs) that rival commercial projects: Llama 2 or Llama 3 with llama.cpp (s.b.) using Mac Metal acceleration.
 
-## Additional overview notes
+## Additional overview notes ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 
 (skip to **1. Preparations** if you know which framework you are going to use)
 
@@ -51,7 +51,7 @@ Now use `brew` to install more recent versions of `python` and `git`. The recomm
 brew install python@3.12 git
 ```
 
-#### Legacy installations (Tensorflow), Python 3.11
+#### Legacy installations (Tensorflow), Python 3.11 ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 
 ```bash
 brew install python@3.11 git
@@ -61,13 +61,13 @@ brew install python@3.11 git
 
 > ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) If you plan to also use Linux, be aware that Python version support sometimes differs between Mac and Linux version of frameworks.
 
-#### Optional: make homebrew's Python the system-default:
+#### Make homebrew's Python the system-default ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 
 > ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Apple does not put too much energy into keeping MacOS's python up-to-date. If you want to use an up-to-date default python, it makes sense to make homebrew's python the default system python.
 So, if, you want to use homebrew's Python 3.11 or 3.12 system-globally, the easiest way
 way to do so (after `brew install python@3.12` or `3.11`):
 
-Edit `.zshrc` and insert:
+Edit `~/.zshrc` and insert:
 
 ```bash
 # This is OPTIONAL and only required if you want to make homebrew's Python 3.12 as the global version:
@@ -140,6 +140,7 @@ To re-activate it, enter the directory that contains the `venv`, here: `HuggingF
 source bin/activate
 ```
 
+### Additional notes on `venv` ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 > ![Warning](http://img.shields.io/badge/⚠️-Warning:-orange.svg?style=flat) A very **unintuitive property of `venv`** is the fact: while you enter an environment by activating it in the subdirectory of your project (with `source bin/activate`), the `venv` **stays active** when you leave the project folder and start working on something completely different _until you explicitly deactivate_ the `venv` with `deactivate`. 
 >
 > There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Checkout [`powerline`](https://powerline.readthedocs.io/en/master/installation/osx.html), or [`powerlevel10k`](https://github.com/romkatv/powerlevel10k) [recommended], or, if you like embellishment [`Oh My Zsh`](https://ohmyz.sh/).
