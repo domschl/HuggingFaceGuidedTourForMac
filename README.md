@@ -22,7 +22,7 @@ Then we provide additional HowTos for:
 
 (skip to **1. Preparations** if you know which framework you are going to use)
 
-### What is Tensorflow vs. JAX vs. Pytorch vs. MLX and how relates Huggingface to it all?
+### downloadWhat is Tensorflow vs. JAX vs. Pytorch vs. MLX and how relates Huggingface to it all?
 
 Tensorflow, JAX, Pytorch, and MLX are deep-learning frameworks that provide the required libraries to perform optimized tensor operations used in training and inference. On high level, the functionality of all four is equivalent. Huggingface builds on top of any of the those frameworks and provides a large library of pretrained models for many different use-cases, ready to use or to customize plus a number of convenience libraries and sample code for easy getting-started.
 
@@ -30,7 +30,7 @@ Tensorflow, JAX, Pytorch, and MLX are deep-learning frameworks that provide the 
 - **JAX** is a newer Google framework that is considered especially by researchers as the better alternative to Tensorflow. It support GPUs, TPUs, and Apple's Metal framework (still experimental) and is more 'low-level', especially when used without complementary neural network-layers such as [flax](https://github.com/google/flax). JAX on Apple Silicon is still 'exotic', hence for production projects, use Pytorch, and for research projects, both JAX and MLX are interesting: MLX has more dynamic development (at this point in time), JAX supports more hardware framework (GPUs and TPUs) besides Apple Silicon.
 - **MLX** is Apple's new kid on the block, and thus overall support and documentation is (currently) much more limited than for the other main frameworks. It is beautiful and well designed (they took lessons learned for torch and tensorflow), yet it is closely tied to Apple Silicon. It's currently best for students that have Apple hardware and want to learn or experiment with deep learning. Things you learn with MLX easily transfer to Pytorch, yet be aware that conversion of models and porting of training and inference code is needed in order to deploy whatever you developed into the non-Apple universe.
 - **corenet** is Apple's [newly released training library](https://github.com/apple/corenet) that utilizes PyTorch and the HuggingFace infrastructure, and additionally contains examples how to migrate models to MLX. See the example: [OpenElm (MLX)](https://github.com/apple/corenet/blob/main/mlx_examples/open_elm).
-- **Tensorflow** is the 'COBOL' of deep learning. If you are not forced to use Tensorflow (because your organisation already uses it), ignore it. Look at Pytorch for production and JAX for research.
+- **Tensorflow** is the 'COBOL' of deep learning and it's practically silently EoL'ed by Google. Google themselves publishes new models for PyTorch and JAX/Flax, and not for Tensorflow. If you are not forced to use Tensorflow, because your organisation already uses it, ignore it. If your organziation uses TF, make a migration plan! Look at Pytorch for production and JAX for research.
 
 HuggingFace publishes an [Overview of model-support](https://huggingface.co/docs/transformers/index#supported-frameworks) for each framework. Currently, Pytorch is the defacto standard, if you want to make use of existing models.
 
@@ -242,6 +242,8 @@ Here `METAL:0` is the device that JAX will use for calculations, and Apple Silic
 - Apple's rather terse documentation is found at [Apple's JAX documentation](https://developer.apple.com/metal/jax/).
 
 ## 4.3 Install `tensorflow` ![Optional](http://img.shields.io/badge/legacy-optional-brightgreen.svg?style=flat)
+
+> ![Warning:](http://img.shields.io/badge/⚠-Note:-orange.svg?style=flat) Tensorflow is losing support fast, and not even Google publishes new models for Tensorflow. A migration plan is recommended, if you plan to use this.
 
 > ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) While Tensorflow 2.16 supports Python 3.12, the macOS `tensorflow-metal` accelerator is currently (2024-03) not supported that version, so use Python 3.11:
 
