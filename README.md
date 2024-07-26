@@ -333,11 +333,14 @@ HuggingFace is a great resource for NLP and Deep Learning experiments. It provid
 From the [huggingface installation instructions](https://huggingface.co/docs/transformers/installation), we use `pip` to install `transformers`:
 
 ```bash
-pip install -U transformers accelerate
+pip install -U transformers accelerate "huggingface_hub[cli]"
 ```
 
 > ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) When experimenting with HuggingFace, you will download large models that will be stored in your home directory at: `~/.cache/huggingface/hub`. 
 > You can remove these models at any time by deleting this directory or parts of it's content.
+
+- `accelerate` is optional, but used to run some large models. Side-effect of installing `accelerate` might be downgrade of some other modules like `numpy`.
+- `"huggingface_hub[cli]"` installs the huggingface command line tools that are sometimes required to download (partially proprietarilly licensed) models like Llama 3.
 
 ## 7 Experiments
 
