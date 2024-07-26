@@ -443,6 +443,7 @@ Additional modifications are (all of them are inactive, once miniconda is remove
 
 ## Changes
 
+- 2024-07-26: Version updates for the platforms.
 - 2024-04-28: Added JAX installation with Metal support and quick-test.
 - 2024-04-26: Apple's corenet
 - 2024-04-22: Llama 3.
