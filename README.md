@@ -206,10 +206,15 @@ This should print a version, such as `0.16.1` (2024-07)
 
 JAX is an excellent choice, if low-level optimization of algorithms and research beyond the boundaries of established deep-learning algorithms is your focus. Modelled after `numpy`, it supports [automatic differentiation](https://jax.readthedocs.io/en/latest/jax-101/04-advanced-autodiff.html) of 'everything' (for optimization problems) and supports [vectorization](https://jax.readthedocs.io/en/latest/jax-101/03-vectorization.html) and [parallelization](https://jax.readthedocs.io/en/latest/jax-101/06-parallelism.html) of python algorithms beyond mere deep learning. To get functionality that is expected from other deep learning frameworks (layers, training-loop functions and similar 'high-level'), consider installing additional neural network library such as: [`flax`](https://github.com/google/flax). 
 
-To install `JAX` with `pip` into the active environment:
+### Check supported versions
+
+Unfortunately, the `JAX` metal drivers have started to lag behind JAX releases, and therefore you need to check the [compatibility table](https://pypi.org/project/jax-metal/) for the supported versions of `JAX` that match the available `jax-metal` drivers.
+
+To install a specific version of `JAX` and the latest `jax-metal` with `pip` into the active environment:
 
 ```bash
-pip install -U jax jax-metal
+# The version 0.4.26 is taken from the compatibility table mentioned above. Update as required.
+pip install -U jax==0.4.26 jaxlib==0.4.26 jax-metal
 ```
 
 #### 4.2 Quick-test JAX
@@ -221,20 +226,35 @@ import jax
 print(jax.devices()[0])
 ```
 
-This should display something like:
+This should display (on first run only):
 
 ```
 Platform 'METAL' is experimental and not all JAX functionality may be correctly supported!
-2024-04-28 10:28:09.561877: W pjrt_plugin/src/mps_client.cc:563] WARNING: JAX Apple GPU support is experimental and not all JAX functionality is correctly supported!
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1721975334.430133   43061 mps_client.cc:510] WARNING: JAX Apple GPU support is experimental and not all JAX functionality is correctly supported!
 Metal device set to: Apple M2 Max
 
 systemMemory: 32.00 GB
 maxCacheSize: 10.67 GB
 
-METAL:0
+I0000 00:00:1721975334.446739   43061 service.cc:145] XLA service 0x60000031d100 initialized for platform METAL (this does not guarantee that XLA will be used). Devices:
+I0000 00:00:1721975334.446771   43061 service.cc:153]   StreamExecutor device (0): Metal, <undefined>
+I0000 00:00:1721975334.448269   43061 mps_client.cc:406] Using Simple allocator.
+I0000 00:00:1721975334.448308   43061 mps_client.cc:384] XLA backend will use up to 22906109952 bytes on device 0 for SimpleAllocator.
+[METAL(id=0)]
 ```
 
 Here `METAL:0` is the device that JAX will use for calculations, and Apple Silicon is supported.
+
+##### Errors
+
+If, instead you see errors like:
+
+```
+RuntimeError: Unable to initialize backend 'METAL': INVALID_ARGUMENT: Mismatched PJRT plugin PJRT API version (0.47) and framework PJRT API version 0.54). (you may need to uninstall the failing plugin package, or set JAX_PLATFORMS=cpu to skip this backend.)
+```
+
+Your version of `jax` and `jaxlib` are incompatible with `jax-metal`. Check the [compatibility table](https://pypi.org/project/jax-metal/) for `jax-metal` and install the required versions as indicated in the table. 
 
 - [HuggingFace example projects with JAX and Flax](https://github.com/huggingface/transformers/tree/main/examples/flax)
 - Apple's rather terse documentation is found at [Apple's JAX documentation](https://developer.apple.com/metal/jax/).
