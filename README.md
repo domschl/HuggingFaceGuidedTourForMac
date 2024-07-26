@@ -79,7 +79,7 @@ Change all references of `3.12` to `3.11` when wanting to make homebrew's Python
 
 (Restart your terminal to activate the path changes, or enter `source ~/.zshrc` in your current terminal session.)
 
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Regardless of the system python in use, when creating a virtual environment, you can always select the specific python version you want to use in the `venv` by creating the `venv` with exactly that python. E.g. `/usr/bin/python3 -m venv my_venv_name` creates a virtual environment using Apple's macOS python (which at the time of this writing, 2024-02, is still stuck at 3.9.6). See below, **Virtual environments**, for more details.
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Regardless of the system python in use, when creating a virtual environment, you can always select the specific python version you want to use in the `venv` by creating the `venv` with exactly that python. E.g. `/usr/bin/python3 -m venv my_venv_name` creates a virtual environment using Apple's macOS python (which at the time of this writing, 2024-07, is still stuck at 3.9.6). See below, **Virtual environments**, for more details.
 
 ### 1.2 Test project
 
@@ -143,7 +143,7 @@ source bin/activate
 ### Additional notes on `venv` ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 > ![Warning](http://img.shields.io/badge/⚠️-Warning:-orange.svg?style=flat) A very **unintuitive property of `venv`** is the fact: while you enter an environment by activating it in the subdirectory of your project (with `source bin/activate`), the `venv` **stays active** when you leave the project folder and start working on something completely different _until you explicitly deactivate_ the `venv` with `deactivate`. 
 >
-> There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Checkout [`powerline`](https://powerline.readthedocs.io/en/master/installation/osx.html), or [`powerlevel10k`](https://github.com/romkatv/powerlevel10k) [recommended], or, if you like embellishment [`Oh My Zsh`](https://ohmyz.sh/).
+> There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Check out [starship](https://github.com/starship/starship) (recommended), or, if you like embellishment [`Oh My Zsh`](https://ohmyz.sh/).
 
 ![No venv active](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/Resources/no_venv.png)
 _Example with `powerlevel10k` installed. The left side of the system prompt shows the current directory, the right side would show the name of the `venv`. Currently, no `venv` is active._
