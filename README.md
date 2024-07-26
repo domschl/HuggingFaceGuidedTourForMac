@@ -263,7 +263,7 @@ Your version of `jax` and `jaxlib` are incompatible with `jax-metal`. Check the 
 
 > ![Warning:](http://img.shields.io/badge/⚠-Note:-orange.svg?style=flat) Tensorflow is losing support fast, and not even Google publishes new models for Tensorflow. A migration plan is recommended, if you plan to use this.
 
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) While Tensorflow 2.16 supports Python 3.12, the macOS `tensorflow-metal` accelerator is currently (2024-03) not supported that version, so use Python 3.11:
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) While Tensorflow supports Python 3.12 since 2.16, the macOS `tensorflow-metal` accelerator has not been updated since 2023-09 (status of 2024-07) and requires Python 3.11:
 
 Make sure that your virtual environment is active with `pip -V` (uppercase V), this should show a path for `pip` within your project:
 
@@ -359,7 +359,7 @@ If you've received a label classification of `POSITIVE` with a score of `0.99`, 
 
 #### Trouble-shooting
 
-- If self-tests fail ('xyz not found!'), make sure that tensorflow (optional), jax (optional), MLX (optional),  pytorch, jupyter, and transformers by huggingface are all installed into the same, active Python virtual environment, otherwise the components won't 'see' each other!
+- If self-tests fail ('xyz not found!'), make sure that pytorch, jax (optional), MLX (optional), tensorflow (optional), jupyter, and transformers by huggingface are all installed into the same, active Python virtual environment, otherwise the components won't 'see' each other!
 
 ### 7.2 Minimal chat-bot
 
