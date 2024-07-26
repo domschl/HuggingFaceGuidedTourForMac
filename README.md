@@ -22,7 +22,7 @@ Then we provide additional HowTos for:
 
 (skip to **1. Preparations** if you know which framework you are going to use)
 
-### downloadWhat is Tensorflow vs. JAX vs. Pytorch vs. MLX and how relates Huggingface to it all?
+### What is Tensorflow vs. JAX vs. Pytorch vs. MLX and how relates Huggingface to it all?
 
 Tensorflow, JAX, Pytorch, and MLX are deep-learning frameworks that provide the required libraries to perform optimized tensor operations used in training and inference. On high level, the functionality of all four is equivalent. Huggingface builds on top of any of the those frameworks and provides a large library of pretrained models for many different use-cases, ready to use or to customize plus a number of convenience libraries and sample code for easy getting-started.
 
