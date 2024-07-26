@@ -169,8 +169,6 @@ To install `pytorch` into the `venv`:
 pip install -U torch numpy torchvision torchaudio
 ```
 
-Note: to experiment with Pytorch's `compile()` function with Python 3.12, you will need to install the 2.4 nightly (see <https://pytorch.org/get-started/locally/>) until torch 2.4 is released.
-
 #### 2.1 Quick-test pytorch
 
 To test that `pytorch` is installed correctly, and MPS metal performance shaders are available, open a terminal, type `python` and within the python shell, enter:
@@ -198,7 +196,7 @@ import mlx.core as mx
 print(mx.__version__)
 ```
 
-This should print a version, such as `0.11.1` (2024-04)
+This should print a version, such as `0.16.1` (2024-07)
 
 - Visit the Apple [MLX project](https://github.com/ml-explore/) and especially [mlx-examples](https://github.com/ml-explore/mlx-examples)!
 - There is a vibrant MLX community on Huggingface that has ported many nets to MLX: [Huggingface MLX-Community](https://huggingface.co/mlx-community)
