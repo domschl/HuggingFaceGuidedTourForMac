@@ -333,7 +333,7 @@ HuggingFace is a great resource for NLP and Deep Learning experiments. It provid
 From the [huggingface installation instructions](https://huggingface.co/docs/transformers/installation), we use `pip` to install `transformers`:
 
 ```bash
-pip install -U transformers
+pip install -U transformers accelerate
 ```
 
 > ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) When experimenting with HuggingFace, you will download large models that will be stored in your home directory at: `~/.cache/huggingface/hub`. 
