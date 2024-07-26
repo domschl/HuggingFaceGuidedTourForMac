@@ -9,7 +9,7 @@ We will perform the following steps:
 - Install `homebrew` 
 - Install `pytorch` with MPS (metal performance shaders) support using Apple Silicon GPUs
 - Install Apple's new `mlx` framework ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
-- Install `JAX` with Apple's metal drivers (experimental is this point in time(2024-04)) ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
+- Install `JAX` with Apple's metal drivers (experimental is this point in time (2024-07), and not always up-to-date.) ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 - Install `tensorflow` with and Apple's metal pluggable metal driver optimizations ![Optional](http://img.shields.io/badge/legacy-optional-brightgreen.svg?style=flat)
 - Install `jupyter lab` to run notebooks
 - Install `huggingface` and run some pre-trained language models using `transformers` and just a few lines of code within jupyter lab.
@@ -22,12 +22,12 @@ Then we provide additional HowTos for:
 
 (skip to **1. Preparations** if you know which framework you are going to use)
 
-### downloadWhat is Tensorflow vs. JAX vs. Pytorch vs. MLX and how relates Huggingface to it all?
+### What is Tensorflow vs. JAX vs. Pytorch vs. MLX and how relates Huggingface to it all?
 
 Tensorflow, JAX, Pytorch, and MLX are deep-learning frameworks that provide the required libraries to perform optimized tensor operations used in training and inference. On high level, the functionality of all four is equivalent. Huggingface builds on top of any of the those frameworks and provides a large library of pretrained models for many different use-cases, ready to use or to customize plus a number of convenience libraries and sample code for easy getting-started.
 
 - **Pytorch** is the most general and currently most widely used deep learning framework. In case of doubt, use Pytorch. It supports many different hardware platforms (including Apple Silicon optimizations).
-- **JAX** is a newer Google framework that is considered especially by researchers as the better alternative to Tensorflow. It support GPUs, TPUs, and Apple's Metal framework (still experimental) and is more 'low-level', especially when used without complementary neural network-layers such as [flax](https://github.com/google/flax). JAX on Apple Silicon is still 'exotic', hence for production projects, use Pytorch, and for research projects, both JAX and MLX are interesting: MLX has more dynamic development (at this point in time), JAX supports more hardware framework (GPUs and TPUs) besides Apple Silicon.
+- **JAX** is a newer Google framework that is considered especially by researchers as the better alternative to Tensorflow. It support GPUs, TPUs, and Apple's Metal framework (still experimental) and is more 'low-level', especially when used without complementary neural network-layers such as [flax](https://github.com/google/flax). JAX on Apple Silicon is still 'exotic', hence for production projects, use Pytorch, and for research projects, both JAX and MLX are interesting: MLX has more dynamic development (at this point in time), JAX supports more hardware framework (GPUs and TPUs) besides Apple Silicon, but development of the `jax-metal` drivers is not always up-to-date with the latest versions of `JAX`.
 - **MLX** is Apple's new kid on the block, and thus overall support and documentation is (currently) much more limited than for the other main frameworks. It is beautiful and well designed (they took lessons learned for torch and tensorflow), yet it is closely tied to Apple Silicon. It's currently best for students that have Apple hardware and want to learn or experiment with deep learning. Things you learn with MLX easily transfer to Pytorch, yet be aware that conversion of models and porting of training and inference code is needed in order to deploy whatever you developed into the non-Apple universe.
 - **corenet** is Apple's [newly released training library](https://github.com/apple/corenet) that utilizes PyTorch and the HuggingFace infrastructure, and additionally contains examples how to migrate models to MLX. See the example: [OpenElm (MLX)](https://github.com/apple/corenet/blob/main/mlx_examples/open_elm).
 - **Tensorflow** is the 'COBOL' of deep learning and it's practically silently EoL'ed by Google. Google themselves publishes new models for PyTorch and JAX/Flax, and not for Tensorflow. If you are not forced to use Tensorflow, because your organisation already uses it, ignore it. If your organziation uses TF, make a migration plan! Look at Pytorch for production and JAX for research.
@@ -79,7 +79,7 @@ Change all references of `3.12` to `3.11` when wanting to make homebrew's Python
 
 (Restart your terminal to activate the path changes, or enter `source ~/.zshrc` in your current terminal session.)
 
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Regardless of the system python in use, when creating a virtual environment, you can always select the specific python version you want to use in the `venv` by creating the `venv` with exactly that python. E.g. `/usr/bin/python3 -m venv my_venv_name` creates a virtual environment using Apple's macOS python (which at the time of this writing, 2024-02, is still stuck at 3.9.6). See below, **Virtual environments**, for more details.
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Regardless of the system python in use, when creating a virtual environment, you can always select the specific python version you want to use in the `venv` by creating the `venv` with exactly that python. E.g. `/usr/bin/python3 -m venv my_venv_name` creates a virtual environment using Apple's macOS python (which at the time of this writing, 2024-07, is still stuck at 3.9.6). See below, **Virtual environments**, for more details.
 
 ### 1.2 Test project
 
@@ -143,7 +143,7 @@ source bin/activate
 ### Additional notes on `venv` ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 > ![Warning](http://img.shields.io/badge/⚠️-Warning:-orange.svg?style=flat) A very **unintuitive property of `venv`** is the fact: while you enter an environment by activating it in the subdirectory of your project (with `source bin/activate`), the `venv` **stays active** when you leave the project folder and start working on something completely different _until you explicitly deactivate_ the `venv` with `deactivate`. 
 >
-> There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Checkout [`powerline`](https://powerline.readthedocs.io/en/master/installation/osx.html), or [`powerlevel10k`](https://github.com/romkatv/powerlevel10k) [recommended], or, if you like embellishment [`Oh My Zsh`](https://ohmyz.sh/).
+> There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Check out [starship](https://github.com/starship/starship) (recommended), or, if you like embellishment [`Oh My Zsh`](https://ohmyz.sh/).
 
 ![No venv active](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/Resources/no_venv.png)
 _Example with `powerlevel10k` installed. The left side of the system prompt shows the current directory, the right side would show the name of the `venv`. Currently, no `venv` is active._
@@ -168,8 +168,6 @@ To install `pytorch` into the `venv`:
 ```bash
 pip install -U torch numpy torchvision torchaudio
 ```
-
-Note: to experiment with Pytorch's `compile()` function with Python 3.12, you will need to install the 2.4 nightly (see <https://pytorch.org/get-started/locally/>) until torch 2.4 is released.
 
 #### 2.1 Quick-test pytorch
 
@@ -198,7 +196,7 @@ import mlx.core as mx
 print(mx.__version__)
 ```
 
-This should print a version, such as `0.11.1` (2024-04)
+This should print a version, such as `0.16.1` (2024-07)
 
 - Visit the Apple [MLX project](https://github.com/ml-explore/) and especially [mlx-examples](https://github.com/ml-explore/mlx-examples)!
 - There is a vibrant MLX community on Huggingface that has ported many nets to MLX: [Huggingface MLX-Community](https://huggingface.co/mlx-community)
@@ -208,10 +206,15 @@ This should print a version, such as `0.11.1` (2024-04)
 
 JAX is an excellent choice, if low-level optimization of algorithms and research beyond the boundaries of established deep-learning algorithms is your focus. Modelled after `numpy`, it supports [automatic differentiation](https://jax.readthedocs.io/en/latest/jax-101/04-advanced-autodiff.html) of 'everything' (for optimization problems) and supports [vectorization](https://jax.readthedocs.io/en/latest/jax-101/03-vectorization.html) and [parallelization](https://jax.readthedocs.io/en/latest/jax-101/06-parallelism.html) of python algorithms beyond mere deep learning. To get functionality that is expected from other deep learning frameworks (layers, training-loop functions and similar 'high-level'), consider installing additional neural network library such as: [`flax`](https://github.com/google/flax). 
 
-To install `JAX` with `pip` into the active environment:
+### Check supported versions
+
+Unfortunately, the `JAX` metal drivers have started to lag behind JAX releases, and therefore you need to check the [compatibility table](https://pypi.org/project/jax-metal/) for the supported versions of `JAX` that match the available `jax-metal` drivers.
+
+To install a specific version of `JAX` and the latest `jax-metal` with `pip` into the active environment:
 
 ```bash
-pip install -U jax jax-metal
+# The version 0.4.26 is taken from the compatibility table mentioned above. Update as required.
+pip install -U jax==0.4.26 jaxlib==0.4.26 jax-metal
 ```
 
 #### 4.2 Quick-test JAX
@@ -223,20 +226,35 @@ import jax
 print(jax.devices()[0])
 ```
 
-This should display something like:
+This should display (on first run only):
 
 ```
 Platform 'METAL' is experimental and not all JAX functionality may be correctly supported!
-2024-04-28 10:28:09.561877: W pjrt_plugin/src/mps_client.cc:563] WARNING: JAX Apple GPU support is experimental and not all JAX functionality is correctly supported!
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+W0000 00:00:1721975334.430133   43061 mps_client.cc:510] WARNING: JAX Apple GPU support is experimental and not all JAX functionality is correctly supported!
 Metal device set to: Apple M2 Max
 
 systemMemory: 32.00 GB
 maxCacheSize: 10.67 GB
 
-METAL:0
+I0000 00:00:1721975334.446739   43061 service.cc:145] XLA service 0x60000031d100 initialized for platform METAL (this does not guarantee that XLA will be used). Devices:
+I0000 00:00:1721975334.446771   43061 service.cc:153]   StreamExecutor device (0): Metal, <undefined>
+I0000 00:00:1721975334.448269   43061 mps_client.cc:406] Using Simple allocator.
+I0000 00:00:1721975334.448308   43061 mps_client.cc:384] XLA backend will use up to 22906109952 bytes on device 0 for SimpleAllocator.
+[METAL(id=0)]
 ```
 
 Here `METAL:0` is the device that JAX will use for calculations, and Apple Silicon is supported.
+
+##### Errors
+
+If, instead you see errors like:
+
+```
+RuntimeError: Unable to initialize backend 'METAL': INVALID_ARGUMENT: Mismatched PJRT plugin PJRT API version (0.47) and framework PJRT API version 0.54). (you may need to uninstall the failing plugin package, or set JAX_PLATFORMS=cpu to skip this backend.)
+```
+
+Your version of `jax` and `jaxlib` are incompatible with `jax-metal`. Check the [compatibility table](https://pypi.org/project/jax-metal/) for `jax-metal` and install the required versions as indicated in the table. 
 
 - [HuggingFace example projects with JAX and Flax](https://github.com/huggingface/transformers/tree/main/examples/flax)
 - Apple's rather terse documentation is found at [Apple's JAX documentation](https://developer.apple.com/metal/jax/).
