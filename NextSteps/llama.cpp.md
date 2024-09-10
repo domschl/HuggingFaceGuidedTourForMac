@@ -1,8 +1,20 @@
 ## Using Metal acceleration with [`llama.cpp`](https://github.com/ggerganov/llama.cpp) and high quality chat models such as Llama 2 and Llama 3
 
-### Preparations
-
 This project is independent of Python, Jupyter, Tensorflow, Pytorch. We use Huggingface's site as source for models, and the `llama.cpp` project to access the Mac's accelerator Hardware directly via metal. 
+
+## Installation
+
+### via homebrew
+
+Since `llama.cpp` is available via homebrew, and it's version is updated regularily, it's no longer necessary to compile llama yourself:
+
+```bash
+brew install llama.cpp
+```
+
+### Alternative: compile yourself
+
+#### Preparation and tools
 
 First, let's install some tools useful for C++ development:
 
@@ -21,7 +33,7 @@ git lfs install
 
 You should see: 'Git LFS initialized'.
 
-## Compilation of `llama.cpp`
+#### Compilation of `llama.cpp`
 
 Clone the `llama.cpp` project with:
 
