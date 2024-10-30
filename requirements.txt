@@ -6,3 +6,4 @@ mlx
 jupyterlab
 ipywidgets
 transformers
+accelerate
