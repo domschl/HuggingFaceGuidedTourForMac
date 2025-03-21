@@ -1,12 +1,12 @@
-## Using Metal acceleration with [`llama.cpp`](https://github.com/ggerganov/llama.cpp) and high quality chat models such as Llama 2 and Llama 3
+## Using Metal acceleration with [`llama.cpp`](https://github.com/ggerganov/llama.cpp) and high-quality chat models such as Llama 2 and Llama 3
 
-This project is independent of Python, Jupyter, Tensorflow, Pytorch. We use Huggingface's site as source for models, and the `llama.cpp` project to access the Mac's accelerator Hardware directly via metal. 
+This project is independent of Python, Jupyter, Tensorflow, and Pytorch. We use Huggingface's site as source for models, and the `llama.cpp` project to access the Mac's accelerator Hardware directly via metal. 
 
 ## Installation
 
 ### via homebrew
 
-Since `llama.cpp` is available via homebrew, and it's version is updated regularily, it's no longer necessary to compile llama yourself:
+Since `llama.cpp` is available via homebrew, and its version is updated regularly, it's no longer necessary to compile llama yourself:
 
 ```bash
 brew install llama.cpp
@@ -18,13 +18,13 @@ brew install llama.cpp
 
 First, let's install some tools useful for C++ development:
 
-> **Note:** This installation is optional, since the core-tools (compiler and make) are already installed, if Homebrew is installed, or as part of macOS. This simply installs newer versions and optional compilers and build-tools:
+> **Note:** This installation is optional, since the core-tools (compiler and make) are already installed, if Homebrew is installed, or as part of macOS. This simply installs newer versions and optional compilers and build tools:
 
 ```bash
 brew install llvm gcc make cmake ccache
 ```
 
-In order to download large model projects from Huggingface, we need larg-file-support (LFS) for GIT:
+In order to download large model projects from Huggingface, we need large-file-support (LFS) for GIT:
 
 ```bash
 brew install git-lfs
@@ -53,14 +53,14 @@ and compile the project:
 make
 ```
 
-> **Notes:** You can speed up the build process by specifiying the number of cores used for compilation `make -j4` would use 4 cores. To retry a build, use `make clean` first to remove existing build artifacts.
+> **Notes:** You can speed up the build process by specifying the number of cores used for compilation `make -j4` would use 4 cores. To retry a build, use `make clean` first to remove existing build artefacts.
 
 ## Downloading model data
 
-> **Warning**: The entire situation with copyright and moral right to use large language models that have mostly been created by using vast undisclosed datasources is unclear at best. The underlying training data-collections have been created by a vast number of different authors and have been used without explicit consent in almost all cases. That is the reason why the actual source of the model data and it's origins is obfuscated in many cases, even by large cooperations offering commercial services. 
+> **Warning**: The entire situation with copyright and moral right to use large language models that have mostly been created by using vast undisclosed data sources is unclear at best. The underlying training data-collections have been created by a vast number of different authors and have been used without explicit consent in almost all cases. That is the reason why the actual source of the model data and its origins is obfuscated in many cases, even by large corporations offering commercial services. 
 > Here we try to use the models that at least try to be open about their provenance, but it is important to consider that even those models should be considered as having an undefined state concerning copyright and moral status.
 
-The by far largest repository for large-language-models (LLMs) is Huggingface. There are basically two ways to download a model:
+The by far largest repository for large-language models (LLMs) is Huggingface. There are basically two ways to download a model:
 
 - Clone a Huggingface model repository using Git LFS (as installed above)
 - Download a single model file directly
@@ -71,20 +71,19 @@ The by far largest repository for large-language-models (LLMs) is Huggingface. T
 
 Update the `llama.cpp` project, code must be newer than 2024-04-22 for Llama 3 support, then compile again and:
 
-```bash
 - Download model: from <https://huggingface.co/bartowski/Meta-Llama-3-8B-Instruct-GGUF>, the recommended model is <https://huggingface.co/bartowski/Meta-Llama-3-8B-Instruct-GGUF/resolve/main/Meta-Llama-3-8B-Instruct-Q6_K.gguf>, simply download this file.
-- Copy the model-file into the `models` directory
+- Copy the model file into the `models` directory
 - Run with:
 
 ```bash
-./main -m models/Meta-Llama-3-8B-Instruct-Q6_K.gguf -p "How to build a simple web site that displays 'Hello, world!'?"
+./main -m models/Meta-Llama-3-8B-Instruct-Q6_K.gguf -p "How to build a simple website that displays 'Hello, world!'?"
 ```
 
 Output is something like:
 
 ----------
 
-> How to build a simple web site that displays 'Hello, world!'?](https://stackoverflow.com/questions/1434473/how-to-build-a-simple-web-site-that-displays-hello-world)
+> How to build a simple website that displays 'Hello, world!'?](https://stackoverflow.com/questions/1434473/how-to-build-a-simple-web-site-that-displays-hello-world)
 >
 > Here is a simple example using HTML, CSS, and JavaScript:
 
@@ -135,11 +134,11 @@ document.getElementById("hello-world").innerHTML = "Hello, World!";
 ### Llama 2
 
 Llama 2 is a large language model released by Facebook / Meta. A version converted
-into the GGUF format (currently) been used by `llama.cpp` can be optained from:
+into the GGUF format (currently) being used by `llama.cpp` can be obtained from:
 
 - <https://huggingface.co/TheBloke/Llama-2-7B-GGUF>
 
-Enter the tab 'Files and versions' and look for the file `llama-2-7b.Q4_0.gguf`. Click the download icon to right of the filename:
+Enter the tab 'Files and versions' and look for the file `llama-2-7b.Q4_0.gguf`. Click the download icon to the right of the filename:
 
 ![Huggingface model download](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/Resources/llama-model.png)
 
@@ -154,7 +153,7 @@ mv ~/Downloads/llama-2-7b.Q4_0.gguf models/7B
 
 #### Some benchmarks
 
-As a first test, use the [benchmark tool](https://github.com/ggerganov/llama.cpp/tree/master/examples/llama-bench) (built in directory `llama.cpp`):
+As a first test, use the [benchmark tool](https://github.com/ggerganov/llama.cpp/tree/master/examples/llama-bench) (built-in directory `llama.cpp`):
 
 ```bash
 ./llama-bench -m models/7B/llama-2-7b.Q4_0.gguf
@@ -184,7 +183,7 @@ The official documentation for the `main` program used for chatting is at:
 
 - <https://github.com/ggerganov/llama.cpp/tree/master/examples/main>
 
-The most important part, to get a model into 'chat-mode', is an appropriate prompt. We follow the project's example and insert our model-file for Llama 2:
+The most important part, of getting a model into 'chat-mode', is an appropriate prompt. We follow the project's example and insert our model-file for Llama 2:
 
 In directory `llama.cpp` execute:
 
@@ -197,7 +196,7 @@ AI: What would you like to talk about?
 User:'
 ```
 
-A typical dialog looks like this:
+A typical dialogue looks like this:
 
 ![Huggingface model download](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/Resources/llama2-chat.png)
 
