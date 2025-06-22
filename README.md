@@ -86,7 +86,7 @@ uv sync
 source .venv/bin/activate
 ```
 
-This will install a virtual environment at `HuggingFaceGuidedTourForMac/.venv` using the python version defined in the project's [`.python_version`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/.python_version) file and install the dependencies defined in [`pyproject.toml`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/pyproject.toml) and finally activate that environment. Have a look at each of those locations and files to get an understanding what `uv sync` installed. Checkout `uv` [documentation](https://docs.astral.sh/uv/) for general information on `uv`.
+This will install a virtual environment at `HuggingFaceGuidedTourForMac/.venv` using the python version defined in the project's [`.python-version`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/.python-version) file and install the dependencies defined in [`pyproject.toml`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/pyproject.toml) and finally activate that environment. Have a look at each of those locations and files to get an understanding what `uv sync` installed. Checkout `uv` [documentation](https://docs.astral.sh/uv/) for general information on `uv`.
 
 You have now a virtual environment with _all_ of the mentioned deep learning frameworks installed. (Look at [pyproject.toml](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/pyproject.toml) for the installed versions.) This is only useful for a first overview, and below we will install each separately and step-by-step.
 
