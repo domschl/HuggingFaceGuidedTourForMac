@@ -45,25 +45,25 @@ HuggingFace publishes an [Overview of model-support](https://huggingface.co/docs
 If you haven't done so, go to <https://brew.sh/> and follow the instructions to install homebrew.
 Once done, open a terminal and type `brew --version` to check that it is installed correctly.
 
-Now use `brew` to install more recent versions of `python`, `uv`, and `git`. The recommendation is to use Homebrew's default Python 3.13.
+Now use `brew` to install more recent versions of `python`, `uv`, and `git`. The recommendation is to use Homebrew's Python 3.12, because that is currently the Python version that allows installation of _all_ frameworks. The roadblock for version 3.13 is Tensorflow. Below, we'll install each framework separately using updated Python versions.
 
-#### Current Python for Huggingface, Pytorch, JAX, and MLX, Python 3.13, Homebrew default
+#### Current Python for Huggingface, Pytorch, JAX, and MLX, Python 3.12, Homebrew default
 
 ```bash
-brew install python@3.13 uv git
+brew install python@3.12 uv git
 ```
 
 #### Make homebrew's Python the system-default ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 
 > ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Apple does not put too much energy into keeping MacOS's python up-to-date. If you want to use an up-to-date default python, it makes sense to make homebrew's python the default system python.
-So, if, you want to use homebrew's Python 3.13 in Terminal, the easiest way way to do so (after `brew install python@3.13`):
+So, if, you want to use homebrew's Python 3.12 in Terminal, the easiest way way to do so (after `brew install python@3.12`):
 
 Edit `~/.zshrc` and insert:
 
 ```bash
-# This is OPTIONAL and only required if you want to make homebrew's Python 3.13 as the global version:
-export PATH="/opt/homebrew/opt/python@3.13/bin:$PATH"                     
-export PATH=/opt/homebrew/opt/python@3.13/libexec/bin:$PATH
+# This is OPTIONAL and only required if you want to make homebrew's Python 3.12 as the global version:
+export PATH="/opt/homebrew/opt/python@3.12/bin:$PATH"                     
+export PATH=/opt/homebrew/opt/python@3.12/libexec/bin:$PATH
 ```
 
 (Restart your terminal to activate the path changes, or enter `source ~/.zshrc` in your current terminal session.)
@@ -88,9 +88,19 @@ uv sync
 source .venv/bin/activate
 ```
 
-This will install a virtual environment at `HuggingFaceGuidedTourForMac/.venv` using the python version defined in the project's `.python_version` file and install the dependencies defined in `pyproject.toml` and finally activater that environment. Have a look at each of those locations and files to get an understanding what `uv sync` installed. Checkout `uv` [documentation](https://docs.astral.sh/uv/).
+This will install a virtual environment at `HuggingFaceGuidedTourForMac/.venv` using the python version defined in the project's [`.python_version`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/.python_version) file and install the dependencies defined in [`pyproject.toml`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/pyproject.toml) and finally activate that environment. Have a look at each of those locations and files to get an understanding what `uv sync` installed. Checkout `uv` [documentation](https://docs.astral.sh/uv/) for general information on `uv`.
 
-This 
+You have now a virtual environment with _all_ of the mentioned deep learning frameworks installed. (Look at [pyproject.toml](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/pyproject.toml) for the installed versions.) This is only useful for a first overview, and below we will install each separately and step-by-step.
+
+### First test
+
+Execute:
+
+```bash
+uv run jupyter lab 00-SystemCheck.ipynb
+```
+
+This will open a jupyter notebook that will test each of the installed frameworks. Use `shift-enter` to execute each notebook cell and verify that all tests complete successfully.
 
 ### Additional notes on `venv` ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 
@@ -102,39 +112,80 @@ deactivate
 
 > There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Check out [starship](https://github.com/starship/starship) (recommended). Once `starship` is active, your terminal prompt will show the active Python version and the name of the virtual environment.
 
-### 2 Install `pytorch`
+### 2. A fresh `pytorch` project
 
-Make sure that your virtual environment is active with `pip -V` (uppercase V), this should show a path for `pip` within your project:
+We will now perform a step-by-step installation for a new `pytorch` project. Checkout `https://pytorch.org`, but here, we will install Pytorch with `uv`.
 
-`<your-path>/HuggingFaceGuidedTourForMac/lib/python3.12/site-packages/pip (python 3.12)`
-
-Following `https://pytorch.org`, we will install Pytorch with `pip`. You need at least version 2.x (default since 2023) in order to get MPS (Metal Performance Shaders) support within pytorch, which offers significant performance advantage on Apple Silicon.
-
-To install `pytorch` into the `venv`:
+Create a new directory for your test project and install pytorch using the latest Python version:
 
 ```bash
-pip install -U torch numpy torchvision torchaudio
+mkdir torch_test
+cd torch_test
+uv init --python 3.13
+uv venv
+uv add torch numpy
+source .venv/bin/activate
 ```
 
-#### 2.1 Quick-test pytorch
+This: creates a new project directory, enters it, initializes a new project using Python 3.13 (which is support with Apple Metal acceleration)
+and installs a torch and numpy in a new virtual environment.
 
-To test that `pytorch` is installed correctly, and MPS metal performance shaders are available, open a terminal, type `python` and within the python shell, enter:
+We can now start python and enter a short test sequence to verify everything works:
+
+```
+python
+Python 3.13.5 (main, Jun 11 2025, 15:36:57) [Clang 17.0.0 (clang-1700.0.13.3)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import torch
+>>> torch.backends.mps.is_available()
+True
+>>>
+```
+
+If you see `True` as answer on `torch.backends.mps.is_available()`, Metal acceleration is working ok.
+
+#### 2.1 Alternative: use an Editor, e.g. Visual Studio Code:
+
+Enter `code main.py`. This will open the default 'Hello, world' created by `uv`.
+
+Change the code to:
 
 ```python
 import torch
-# check if MPS is available:
-torch.backends.mps.is_available()
+
+def main():
+    print("Hello from torch-test!")
+    if torch.backends.mps.is_available():
+        print("Excellent! MPS backend is available.")
+    else:
+        print("MPS backend is not available: Something went wrong! Are you running this on a Mac with Apple Silicon chip?")
+
+if __name__ == "__main__":
+    main()
 ```
 
-This should return `True`.
-
-### 3 Install `MLX` ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
+Save and exit the editor and run with:
 
 ```bash
-pip install -U mlx
+uv run main.py
 ```
 
-#### 3.1 Quick-test MLX
+Deactivate this environment with `deactivate`, re-activate it with `source .venv/bin/activate`.
+
+### 3. A fresh `MLX` project ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
+
+In similar fashion, we create now a new MLX project:
+
+Create a new directory for your test project and install pytorch using the latest Python version:
+
+```bash
+mkdir mlx_test
+cd mlx_test
+uv init --python 3.13
+uv venv
+uv add mlx
+source .venv/bin/activate
+```
 
 Again, start `python` and enter:
 
@@ -143,87 +194,78 @@ import mlx.core as mx
 print(mx.__version__)
 ```
 
-This should print a version, such as `0.16.1` (2024-07)
+This should print a version, such as `0.26.1` (2025-06)
 
 - Visit the Apple [MLX project](https://github.com/ml-explore/) and especially [mlx-examples](https://github.com/ml-explore/mlx-examples)!
 - There is a vibrant MLX community on Huggingface that has ported many nets to MLX: [Huggingface MLX-Community](https://huggingface.co/mlx-community)
 - Apple's new [corenet](https://github.com/apple/corenet) utilizes PyTorch and the HuggingFace infrastructure, and additionally contains examples how to migrate models to MLX. See the example: [OpenElm (MLX)](https://github.com/apple/corenet/blob/main/mlx_examples/open_elm).
 
-## 4.1 Install `JAX` ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
+Deactivate with `deactivate`.
 
-JAX is an excellent choice, if low-level optimization of algorithms and research beyond the boundaries of established deep-learning algorithms is your focus. Modelled after `numpy`, it supports [automatic differentiation](https://jax.readthedocs.io/en/latest/jax-101/04-advanced-autodiff.html) of 'everything' (for optimization problems) and supports [vectorization](https://jax.readthedocs.io/en/latest/jax-101/03-vectorization.html) and [parallelization](https://jax.readthedocs.io/en/latest/jax-101/06-parallelism.html) of python algorithms beyond mere deep learning. To get functionality that is expected from other deep learning frameworks (layers, training-loop functions and similar 'high-level'), consider installing additional neural network library such as: [`flax`](https://github.com/google/flax). 
+## 4. A `JAX` project ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 
-### Check supported versions
-
-Unfortunately, the `JAX` metal drivers have started to lag behind JAX releases, and therefore you need to check the [compatibility table](https://pypi.org/project/jax-metal/) for the supported versions of `JAX` that match the available `jax-metal` drivers.
-
-To install a specific version of `JAX` and the latest `jax-metal` with `pip` into the active environment:
+JAX is an excellent choice, if low-level optimization of algorithms and research beyond the boundaries of established deep-learning algorithms is your focus. Modelled after `numpy`, it supports [automatic differentiation](https://jax.readthedocs.io/en/latest/jax-101/04-advanced-autodiff.html) of 'everything' (for optimization problems) and supports [vectorization](https://jax.readthedocs.io/en/latest/jax-101/03-vectorization.html) and [parallelization](https://jax.readthedocs.io/en/latest/jax-101/06-parallelism.html) of python algorithms beyond mere deep learning. To get functionality that is expected from other deep learning frameworks (layers, training-loop functions and similar 'high-level'), consider installing additional neural network library such as: [`Flax NNX`](https://github.com/google/flax). 
 
 ```bash
-# The version 0.4.26 is taken from the compatibility table mentioned above. Update as required.
-pip install -U jax==0.4.26 jaxlib==0.4.26 jax-metal
+mkdir jax_test
+cd jax_test
+uv init --python 3.13
+uv venv
+uv add jax jax-metal
+source .venv/bin/activate
 ```
 
-#### 4.2 Quick-test JAX
-
-Start `python` (3.12 is supported) and enter:
+Start `python` and enter:
 
 ```python
 import jax
 print(jax.devices()[0])
 ```
 
-This should display (on first run only):
+This should output something like:
 
 ```
-Platform 'METAL' is experimental and not all JAX functionality may be correctly supported!
+Python 3.13.5 (main, Jun 11 2025, 15:36:57) [Clang 17.0.0 (clang-1700.0.13.3)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import jax
+... print(jax.devices()[0])
+...
+WARNING:2025-06-22 11:42:20,970:jax._src.xla_bridge:825: Platform 'METAL' is experimental and not all JAX functionality may be correctly supported!
 WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-W0000 00:00:1721975334.430133   43061 mps_client.cc:510] WARNING: JAX Apple GPU support is experimental and not all JAX functionality is correctly supported!
+W0000 00:00:1750585340.970522 5130842 mps_client.cc:510] WARNING: JAX Apple GPU support is experimental and not all JAX functionality is correctly supported!
 Metal device set to: Apple M2 Max
 
 systemMemory: 32.00 GB
 maxCacheSize: 10.67 GB
 
-I0000 00:00:1721975334.446739   43061 service.cc:145] XLA service 0x60000031d100 initialized for platform METAL (this does not guarantee that XLA will be used). Devices:
-I0000 00:00:1721975334.446771   43061 service.cc:153]   StreamExecutor device (0): Metal, <undefined>
-I0000 00:00:1721975334.448269   43061 mps_client.cc:406] Using Simple allocator.
-I0000 00:00:1721975334.448308   43061 mps_client.cc:384] XLA backend will use up to 22906109952 bytes on device 0 for SimpleAllocator.
-[METAL(id=0)]
+I0000 00:00:1750585340.988405 5130842 service.cc:145] XLA service 0x600001b9d200 initialized for platform METAL (this does not guarantee that XLA will be used). Devices:
+I0000 00:00:1750585340.988577 5130842 service.cc:153]   StreamExecutor device (0): Metal, <undefined>
+I0000 00:00:1750585340.989956 5130842 mps_client.cc:406] Using Simple allocator.
+I0000 00:00:1750585340.989963 5130842 mps_client.cc:384] XLA backend will use up to 22906109952 bytes on device 0 for SimpleAllocator.
+METAL:0
 ```
 
-Here `METAL:0` is the device that JAX will use for calculations, and Apple Silicon is supported.
+#### 4.1 Check supported versions for JAX and Metal:
 
-##### Errors
+Note: `uv` does a good job in resolving version dependencies between JAX and the required metal drivers. If you plan to use `pip`, you will need to manually verify version compliance:
 
-If, instead you see errors like:
+Check the [compatibility table](https://pypi.org/project/jax-metal/) for the supported versions of `JAX` that match the available `jax-metal` drivers.
 
-```
-RuntimeError: Unable to initialize backend 'METAL': INVALID_ARGUMENT: Mismatched PJRT plugin PJRT API version (0.47) and framework PJRT API version 0.54). (you may need to uninstall the failing plugin package, or set JAX_PLATFORMS=cpu to skip this backend.)
-```
-
-Your version of `jax` and `jaxlib` are incompatible with `jax-metal`. Check the [compatibility table](https://pypi.org/project/jax-metal/) for `jax-metal` and install the required versions as indicated in the table. 
-
-- [HuggingFace example projects with JAX and Flax](https://github.com/huggingface/transformers/tree/main/examples/flax)
-- Apple's rather terse documentation is found at [Apple's JAX documentation](https://developer.apple.com/metal/jax/).
-
-## 4.3 Install `tensorflow` ![Optional](http://img.shields.io/badge/legacy-optional-brightgreen.svg?style=flat)
+## 5. A fresh `tensorflow` project ![Optional](http://img.shields.io/badge/legacy-optional-brightgreen.svg?style=flat)
 
 > ![Warning:](http://img.shields.io/badge/⚠-Note:-orange.svg?style=flat) Tensorflow is losing support fast, and not even Google publishes new models for Tensorflow. A migration plan is recommended, if you plan to use this.
 
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) While Tensorflow supports Python 3.12 since 2.16, the macOS `tensorflow-metal` accelerator has not been updated since 2023-09 (status of 2024-07) and requires Python 3.11:
-
-Make sure that your virtual environment is active with `pip -V` (uppercase V), this should show a path for `pip` within your project:
-
-`<your-path>/HuggingFaceGuidedTourForMac/lib/python3.11/site-packages/pip (python 3.11)`
-
-Following <https://developer.apple.com/metal/tensorflow-plugin/>, we will install `tensorflow` with `pip` within our `venv`:
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Tensorflow supports Python 3.12 and the metal drivers are only available for 3.12.
 
 ```bash
-pip install -U tensorflow tensorflow-metal
+mkdir tensorflow_test
+cd tensorflow_test
+uv init --python 3.12
+uv venv
+uv add tensorflow tensorflow-metal
+source .venv/bin/activate
 ```
-
-#### 4.4 Quick-test Tensorflow
-
+ 
 To test that `tensorflow` is installed correctly, open a terminal, type `python` and within the python shell, enter:
 
 ```python
@@ -231,26 +273,23 @@ import tensorflow as tf
 tf.config.list_physical_devices('GPU')
 ```
 
-You should see something like:
+You should see a GPU-type device:
+
 ```
 [PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
 ```
 
-### 5 Jupyter lab
+### 6. Putting it all together: Jupyter lab, Huggingface, Pytorch, and a first chat-bot experiment
 
-At this point, your Apple Silicon Mac should be ready to run `pytorch` and optionally `MLX` and/or `JAX` or `tensorflow` with hardware acceleration support, using the Apple Metal framework.
-
-To test this, you can use `jupyter lab` to run some notebooks. To install `jupyter lab`, first make sure the virtual environment you want to use is active (`pip -V`), and type:
+Let's now create a full project and do a first experiment by implementing a chat-bot in a Jupyter notebook:
 
 ```bash
-pip install -U jupyterlab ipywidgets
-```
-
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) If you have other Jupyter versions installed, the path to the newly installed jupyter version within the `venv` is often not updated correctly, re-activate the environment to make sure that the correct local Jupyter version is used:
-
-```bash
-deactivate
-source bin/activate
+mkdir chat_test
+cd chat_test
+uv init --python 3.13
+uv venv
+uv add torch numpy jupyterlab ipywidgets transformers accelerate "huggingface_hub[cli]"
+source .venv/bin/activate
 ```
 
 To start Jupyter lab, type:
@@ -259,124 +298,53 @@ To start Jupyter lab, type:
 jupyter lab
 ```
 
-This should open a browser window with `jupyter lab` running. You can then create a new python notebook and run some code to test that `tensorflow` and `pytorch` are working correctly:
-
-![](Resources/jupyterlab.png)
+Either copy the notebook `01-ChatBot.ipynb` into your project `chat_test`, or enter the code into a new notebook:
 
 ```python
 import torch
+from transformers import pipeline
 
-print("Pytorch version:", torch.__version__)
+model_name = "Qwen/Qwen2.5-0.5B-Instruct"
+pipeline = pipeline(task="text-generation", model=model_name, torch_dtype=torch.bfloat16, device_map="auto")  # or request device_map="mps"
+chat = [
+    {"role": "system", "content": "You are a super-intelligent assistant"},
+]
+first = True
+while True:
+    if first is True:
+        first = False
+        print("Please press enter (not SHIFT-enter) after your input, enter 'bye' to end:")
+    try:
+        input_text = input("> ")
+        if input_text in ["", "bye", "quit", "exit"]:
+            break
+        print()
+        chat.append({"role": "user", "content": input_text})
+        response = pipeline(chat, max_new_tokens=512)
+        print(response[0]["generated_text"][-1]["content"])
+        chat = response[0]["generated_text"]
+        print()
+    except KeyboardInterrupt:
+        break
 ```
 
-If this completed successful, your Mac is now ready for Deep Learning experiments.
+That all that is required to build a simple chat-bot with dialog history.
 
-## 6 HuggingFace
+Try to:
 
-HuggingFace is a great resource for NLP and Deep Learning experiments. It provides a large number of pre-trained language models and a simple API to use them. It will allow us to quickly get started with Deep Learning experiments.
-
-### 6.1 Install `transformers`
-
-From the [huggingface installation instructions](https://huggingface.co/docs/transformers/installation), we use `pip` to install `transformers`:
-
-```bash
-pip install -U transformers accelerate "huggingface_hub[cli]"
-```
+- Change the chat model to larger versions: "Qwen/Qwen2.5-3B-Instruct", "meta-llama/Meta-Llama-3-8B-Instruct"
+- Check out <https://huggingface.co/models?pipeline_tag=text-generation&sort=trending> for the latest chat models!
 
 > ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) When experimenting with HuggingFace, you will download large models that will be stored in your home directory at: `~/.cache/huggingface/hub`. 
 > You can remove these models at any time by deleting this directory or parts of it's content.
 
-- `accelerate` is optional, but used to run some large models. Side-effect of installing `accelerate` might be downgrade of some other modules like `numpy`.
-- `"huggingface_hub[cli]"` installs the huggingface command line tools that are sometimes required to download (partially proprietarilly licensed) models like Llama 3.
+- The `accelerate` library is optional, but used to run some large models.
+- `"huggingface_hub[cli]"` installs the huggingface command line tools that are sometimes required to download (proprietary licensed) models.
 
-## 7 Experiments
-
-### 7.1 Simple sentiment analysis
-
-Within the directory `HuggingFaceGuidedTourForMac` and active `venv`, start `jupyter lab` and load the `00-SystemCheck.ipynb` notebook.  The notebook will first check all the deep-learning frameworks and give information, if they are correctly installed. Afterward, Pytorch is used for a simple experiment.
-
-Use `<Shift>-Enter` to run the notebook's cells.
-
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) If you started Jupyter Lab before installing Huggingface, you either need to restart the python kernel in Jupyter or simply restart Jupyter Lab, otherwise it won't find the Transformers library.
-
-After the various tests, your should finally see something like this:
-
-![](Resources/huggingface-transformers.png)
-
-If you've received a label classification of `POSITIVE` with a score of `0.99`, then you are ready to start experimenting with HuggingFace!
-
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) You'll see that the `HuggingFace` libraries are downloading all sorts of large binary blobs containing the trained model data. That data is stored in your home directory at: `~/.cache/huggingface/hub`. You can remove these models at any time by deleting this directory or parts of it's content.
-
-#### Trouble-shooting
-
-- If self-tests fail ('xyz not found!'), make sure that pytorch, jax (optional), MLX (optional), tensorflow (optional), jupyter, and transformers by huggingface are all installed into the same, active Python virtual environment, otherwise the components won't 'see' each other!
-
-### 7.2 Minimal chat-bot
-
-You can open the notebook [`01-ChatBot.ipynb`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/01-ChatBot.ipynb) to try out a very simple chatbot on your Mac.
-
-The python code used is:
-
-```python
-import torch 
-from transformers import AutoModelForCausalLM, AutoTokenizer
-from transformers.utils import logging
-
-# Disable warnings about padding_side that cannot be rectified with current software:
-logging.set_verbosity_error()
-
-model_names = ["microsoft/DialoGPT-small", "microsoft/DialoGPT-medium", "microsoft/DialoGPT-large"]
-use_model_index = 1  # Change 0: small model, 1: medium, 2: large model (requires most resources!)
-model_name = model_names[use_model_index]
-          
-tokenizer = AutoTokenizer.from_pretrained(model_name) # , padding_side='left')
-model = AutoModelForCausalLM.from_pretrained(model_name)
-
-# The chat function: received a user input and chat-history and returns the model's reply and chat-history:
-def reply(input_text, history=None):
-    # encode the new user input, add the eos_token and return a tensor in Pytorch
-    new_user_input_ids = tokenizer.encode(input_text + tokenizer.eos_token, return_tensors='pt')
-
-    # append the new user input tokens to the chat history
-    bot_input_ids = torch.cat([history, new_user_input_ids], dim=-1) if history is not None else new_user_input_ids
-
-    # generated a response while limiting the total chat history to 1000 tokens, 
-    chat_history_ids = model.generate(bot_input_ids, max_length=1000, pad_token_id=tokenizer.eos_token_id)
-
-    # pretty print last ouput tokens from bot
-    return tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True), chat_history_ids
-
-history = None
-while True:
-    input_text = input("> ")
-    if input_text in ["", "bye", "quit", "exit"]:
-        break
-    reply_text, history_new = reply(input_text, history)
-    history=history_new
-    if history.shape[1]>80:
-        old_shape = history.shape
-        history = history[:,-80:]
-        print(f"History cut from {old_shape} to {history.shape}")
-    # history_text = tokenizer.decode(history[0])
-    # print(f"Current history: {history_text}")
-    print(f"D_GPT: {reply_text}")
-```
-
-This shows a (quite limited and repetitive) chatbot using Microsoft's [DialoGPT](https://huggingface.co/microsoft/DialoGPT-medium?text=Hey+my+name+is+Mariama%21+How+are+you%3F) models.
-
-Things to try:
-
-- By changing `use_model_index` between `0..2`, you can select either a small, medium or large language model.
-- To see the history that the model maintains you can uncomment the two `history_text` related lines above.
-- To get rid of the downloaded models, clean up `~/.cache/huggingface/hub`. Missing stuff is automatically re-downloaded when needed.
-
-## Next steps
-
-- Your Mac can run large language models that rival the performance of commercial solutions. An excellent example is the [`llama.cpp` project](https://github.com/ggerganov/llama.cpp) that implements the inference code necessary to run LLMs in highly optimized C++ code, supporting the Mac's Metal acceleration.<br>A step-by-step guide to compile and run Llama 3 or Llama 2 first for benchmarking and then for chat can be found here:<br>[Llama.cpp chat using the Llama 2 model, with first Llama 3 support](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/NextSteps/llama.cpp.md). Additionally a first version for Llama 3 is provided.
+## 7. Further Experiments
 
 ## Learning resources
 
-- One of the (currently) best sources for information about new releases of models on Huggingface is [LocalLLama reddit group](https://old.reddit.com/r/LocalLLaMA/).
 - The fast-track to learning how neural network and specifically large languages models actually work, is Andrej Karpathy's course on Youtube: [The spelled-out intro to neural networks and backpropagation: building micrograd](https://www.youtube.com/watch?v=VMj-3S1tku0&list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ). If you know some python and how to multiply a matrix with numpy, this is the course that takes you all the way to being able to build your own Large-language model from scratch.
 
 ## Changes
