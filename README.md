@@ -86,7 +86,7 @@ uv sync
 source .venv/bin/activate
 ```
 
-This will install a virtual environment at `HuggingFaceGuidedTourForMac/.venv` using the python version defined in the project's [`.python-version`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/.python-version) file and install the dependencies defined in [`pyproject.toml`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/pyproject.toml) and finally activate that environment. Have a look at each of those locations and files to get an understanding what `uv sync` installed. Checkout `uv` [documentation](https://docs.astral.sh/uv/) for general information on `uv`.
+This will install a virtual environment at `HuggingFaceGuidedTourForMac/.venv` using the python version defined in the project's [`.python-version`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/.python-version) file and install the dependencies defined in [`pyproject.toml`](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/pyproject.toml) and finally activate that environment. Have a look at each of those locations and files to get an understanding what `uv sync` installed. Check out `uv` [documentation](https://docs.astral.sh/uv/) for general information on `uv`.
 
 You have now a virtual environment with _all_ of the mentioned deep learning frameworks installed. (Look at [pyproject.toml](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/pyproject.toml) for the installed versions.) This is only useful for a first overview, and below we will install each separately and step-by-step.
 
@@ -112,7 +112,7 @@ deactivate
 
 ### 2. A fresh `pytorch` project
 
-We will now perform a step-by-step installation for a new `pytorch` project. Checkout `https://pytorch.org`, but here, we will install Pytorch with `uv`.
+We will now perform a step-by-step installation for a new `pytorch` project. Check out `https://pytorch.org`, but here, we will install Pytorch with `uv`.
 
 Create a new directory for your test project and install pytorch using the latest Python version:
 
