@@ -1,8 +1,10 @@
-![Version](http://img.shields.io/badge/Version-3-blue.svg?style=flat)
+![Version](http://img.shields.io/badge/Version-4-blue.svg?style=flat)
 
 # HuggingFace and Deep Learning guided tour for Macs with Apple Silicon
 
-A guided tour on how to install optimized `pytorch` and optionally Apple's new `MLX` and/or Google's `tensorflow` or `JAX` on Apple Silicon Macs and how to use `HuggingFace` large language models for your own experiments. Recent Mac show good performance for machine learning tasks.
+A guided tour on how to install optimized `pytorch` and optionally Apple's new `MLX` and Google's `JAX` on Apple Silicon Macs and how to use `HuggingFace` large language models for your own experiments. Apple Silicon Macs show good performance for many machine learning tasks.
+
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) This guide is currently being updated to **Version 4**: main change is the usage of the `uv` package manager. The previous version 3 that uses Python's standard `pip` package manager is still available [here]()
 
 We will perform the following steps:
 
