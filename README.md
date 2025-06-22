@@ -206,12 +206,14 @@ Deactivate with `deactivate`.
 
 JAX is an excellent choice, if low-level optimization of algorithms and research beyond the boundaries of established deep-learning algorithms is your focus. Modelled after `numpy`, it supports [automatic differentiation](https://jax.readthedocs.io/en/latest/jax-101/04-advanced-autodiff.html) of 'everything' (for optimization problems) and supports [vectorization](https://jax.readthedocs.io/en/latest/jax-101/03-vectorization.html) and [parallelization](https://jax.readthedocs.io/en/latest/jax-101/06-parallelism.html) of python algorithms beyond mere deep learning. To get functionality that is expected from other deep learning frameworks (layers, training-loop functions and similar 'high-level'), consider installing additional neural network library such as: [`Flax NNX`](https://github.com/google/flax). 
 
+Unfortunately, the JAX metal drivers have started to lag behind JAX releases, and therefore you need to check the compatibility table for the supported versions of JAX that match the available jax-metal drivers. Currently, Jax is therefore pinned to the outdated version 0.4.34. Check for new `jax-metal` releases for updates, [compatibility table](https://pypi.org/project/jax-metal/).
+
 ```bash
 mkdir jax_test
 cd jax_test
 uv init --python 3.13
 uv venv
-uv add jax jax-metal
+uv add jax==0.4.34 jax-metal
 source .venv/bin/activate
 ```
 
@@ -230,18 +232,18 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> import jax
 ... print(jax.devices()[0])
 ...
-WARNING:2025-06-22 11:42:20,970:jax._src.xla_bridge:825: Platform 'METAL' is experimental and not all JAX functionality may be correctly supported!
+Platform 'METAL' is experimental and not all JAX functionality may be correctly supported!
 WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
-W0000 00:00:1750585340.970522 5130842 mps_client.cc:510] WARNING: JAX Apple GPU support is experimental and not all JAX functionality is correctly supported!
+W0000 00:00:1750594202.639458 5239992 mps_client.cc:510] WARNING: JAX Apple GPU support is experimental and not all JAX functionality is correctly supported!
 Metal device set to: Apple M2 Max
 
 systemMemory: 32.00 GB
 maxCacheSize: 10.67 GB
 
-I0000 00:00:1750585340.988405 5130842 service.cc:145] XLA service 0x600001b9d200 initialized for platform METAL (this does not guarantee that XLA will be used). Devices:
-I0000 00:00:1750585340.988577 5130842 service.cc:153]   StreamExecutor device (0): Metal, <undefined>
-I0000 00:00:1750585340.989956 5130842 mps_client.cc:406] Using Simple allocator.
-I0000 00:00:1750585340.989963 5130842 mps_client.cc:384] XLA backend will use up to 22906109952 bytes on device 0 for SimpleAllocator.
+I0000 00:00:1750594202.655851 5239992 service.cc:145] XLA service 0x600002f0c500 initialized for platform METAL (this does not guarantee that XLA will be used). Devices:
+I0000 00:00:1750594202.655998 5239992 service.cc:153]   StreamExecutor device (0): Metal, <undefined>
+I0000 00:00:1750594202.657356 5239992 mps_client.cc:406] Using Simple allocator.
+I0000 00:00:1750594202.657365 5239992 mps_client.cc:384] XLA backend will use up to 22906109952 bytes on device 0 for SimpleAllocator.
 METAL:0
 ```
 
@@ -338,7 +340,6 @@ Try to:
 > ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) When experimenting with HuggingFace, you will download large models that will be stored in your home directory at: `~/.cache/huggingface/hub`. 
 > You can remove these models at any time by deleting this directory or parts of it's content.
 
-- The `accelerate` library is optional, but used to run some large models.
 - `"huggingface_hub[cli]"` installs the huggingface command line tools that are sometimes required to download (proprietary licensed) models.
 
 ## 7. Further Experiments
@@ -357,6 +358,6 @@ Try to:
 - 2024-04-22: Llama 3.
 - 2024-02-24: (Guide version 3.0) Updates for Python 3.12 and Apple MLX framework, Tensorflow is legacy-option.
 - 2023-12-14: Pin python version of homebrew to 3.11.
-- 2023-10-30: Restested with macOS 14.1 Sonoma, Tensorflow 2.14, Pytorch 2.1. Next steps added for more advanced projects.
+- 2023-10-30: Re-tested with macOS 14.1 Sonoma, Tensorflow 2.14, Pytorch 2.1. Next steps added for more advanced projects.
 - 2023-09-25: (Guide version 2.0) Switched from `conda` to `pip` and `venv` for latest versions of tensorflow 2.13, Pytorch 2, macOS Sonoma, installation is now much simpler.
 - 2023-03-16: Since `pytorch` v2.0 is now released, the channel `pytorch-nightly` can now be replaced by `pytorch` in the installation instructions. The `pytorch-nightly` channel is no longer needed for MPS support.
