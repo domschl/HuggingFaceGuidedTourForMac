@@ -43,23 +43,25 @@ Once done, open a terminal and type `brew --version` to check that it is install
 
 Now use `brew` to install more recent versions of `python`, `uv`, and `git`. The recommendation is to use Homebrew's Python 3.12, because that is currently the Python version that allows installation of _all_ frameworks. The roadblock for version 3.13 is Tensorflow. Below, we'll install each framework separately using updated Python versions.
 
-#### Current Python for Huggingface, Pytorch, JAX, and MLX, Python 3.12, Homebrew default
+#### Current Python for Huggingface, Pytorch, JAX, and MLX, Python 3.13, Homebrew default
+
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Use `python@3.12`, if you care about Tensorflow.
 
 ```bash
-brew install python@3.12 uv git
+brew install python@3.13 uv git
 ```
 
 #### Make homebrew's Python the system-default ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 
 > ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Apple does not put too much energy into keeping MacOS's python up-to-date. If you want to use an up-to-date default python, it makes sense to make homebrew's python the default system python.
-So, if, you want to use homebrew's Python 3.12 in Terminal, the easiest way way to do so (after `brew install python@3.12`):
+So, if, you want to use homebrew's Python 3.12 or 3.13 in Terminal, the easiest way way to do so (after `brew install python@3.13`):
 
-Edit `~/.zshrc` and insert:
+Edit `~/.zshrc` and insert (again use `python@3.12`, if you care about Tensorflow):
 
 ```bash
-# This is OPTIONAL and only required if you want to make homebrew's Python 3.12 as the global version:
-export PATH="/opt/homebrew/opt/python@3.12/bin:$PATH"                     
-export PATH=/opt/homebrew/opt/python@3.12/libexec/bin:$PATH
+# This is OPTIONAL and only required if you want to make homebrew's Python 3.13 as the global version:
+export PATH="/opt/homebrew/opt/python@3.13/bin:$PATH"                     
+export PATH=/opt/homebrew/opt/python@3.13/libexec/bin:$PATH
 ```
 
 (Restart your terminal to activate the path changes, or enter `source ~/.zshrc` in your current terminal session.)
