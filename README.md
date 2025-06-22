@@ -11,7 +11,7 @@ We will perform the following steps:
 - Install `homebrew` 
 - Install `pytorch` with MPS (metal performance shaders) support using Apple Silicon GPUs
 - Install Apple's new `mlx` framework ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
-- Install `JAX` with Apple's metal drivers (experimental is this point in time (2024-07), and not always up-to-date.) ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
+- Install `JAX` with Apple's metal drivers (experimental is this point in time (2025-06), and not up-to-date.) ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 - Install `tensorflow` with and Apple's metal pluggable metal driver optimizations ![Optional](http://img.shields.io/badge/legacy-optional-brightgreen.svg?style=flat)
 - Install `jupyter lab` to run notebooks
 - Install `huggingface` and run some pre-trained language models using `transformers` and just a few lines of code within jupyter lab.
