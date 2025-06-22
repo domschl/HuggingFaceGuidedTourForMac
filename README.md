@@ -114,7 +114,7 @@ deactivate
 
 We will now perform a step-by-step installation for a new `pytorch` project. Check out <[https://pytorch.org](https://pytorch.org/get-started/locally/)>, but here, we will install Pytorch with `uv`.
 
-Create a new directory for your test project and install pytorch using the latest Python version:
+Create a new directory for your test project and install Pytorch using the latest Python version:
 
 ```bash
 mkdir torch_test
@@ -126,7 +126,7 @@ source .venv/bin/activate
 ```
 
 This: creates a new project directory, enters it, initializes a new project using Python 3.13 (which is support with Apple Metal acceleration)
-and installs a torch and numpy in a new virtual environment.
+and installs a `torch` and `numpy` in a new virtual environment.
 
 We can now start python and enter a short test sequence to verify everything works:
 
