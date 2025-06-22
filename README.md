@@ -4,7 +4,7 @@
 
 A guided tour on how to install optimized `pytorch` and optionally Apple's new `MLX` and Google's `JAX` on Apple Silicon Macs and how to use `HuggingFace` large language models for your own experiments. Apple Silicon Macs show good performance for many machine learning tasks.
 
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) This guide is currently being updated to **Version 4**: main change is the usage of the `uv` package manager. The previous version 3 that uses Python's standard `pip` and package manager and explicit `venv` management, is still available [here](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/LegacyGuides/README_v3.md).
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) This guide is currently being updated to **Version 4**: main change is the usage of the [`uv`](https://docs.astral.sh/uv/) package manager. The previous version 3 that uses Python's standard `pip` and package manager and explicit `venv` management, is still available [here](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/LegacyGuides/README_v3.md).
 
 We will perform the following steps:
 
@@ -80,16 +80,17 @@ This clones the test-project into a directory `HuggingFaceGuidedTourForMac`
 
 #### Virtual environment using `uv`
 
-Now execute `uv sync`. This will install a virtual environment at `HuggingFaceGuidedTourForMac/.venv` using the python version defined in the project's `.python_version` file and install the dependencies defined in `pyproject.toml`. Have a look at each of those locations and files to get an understanding what `uv sync` installed.
-
-
-
-
-To re-activate it, enter the directory that contains the `venv`, here: `HuggingFaceGuidedTourForMac` and use:
+Now execute:
 
 ```bash
-source bin/activate
+cd HuggingFaceGuidedTourForMac
+uv sync
+source .venv/bin/activate
 ```
+
+This will install a virtual environment at `HuggingFaceGuidedTourForMac/.venv` using the python version defined in the project's `.python_version` file and install the dependencies defined in `pyproject.toml` and finally activater that environment. Have a look at each of those locations and files to get an understanding what `uv sync` installed. Checkout `uv` [documentation](https://docs.astral.sh/uv/).
+
+This 
 
 ### Additional notes on `venv` ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 
@@ -98,7 +99,8 @@ source bin/activate
 ```bash
 deactivate
 ```
-> There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Check out [starship](https://github.com/starship/starship) (recommended).
+
+> There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Check out [starship](https://github.com/starship/starship) (recommended). Once `starship` is active, your terminal prompt will show the active Python version and the name of the virtual environment.
 
 ### 2 Install `pytorch`
 
@@ -377,20 +379,9 @@ Things to try:
 - One of the (currently) best sources for information about new releases of models on Huggingface is [LocalLLama reddit group](https://old.reddit.com/r/LocalLLaMA/).
 - The fast-track to learning how neural network and specifically large languages models actually work, is Andrej Karpathy's course on Youtube: [The spelled-out intro to neural networks and backpropagation: building micrograd](https://www.youtube.com/watch?v=VMj-3S1tku0&list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ). If you know some python and how to multiply a matrix with numpy, this is the course that takes you all the way to being able to build your own Large-language model from scratch.
 
-## Conda uninstallation notes
-
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) This paragraph is to uninstall conda that was used in older versions of this guide:
-
-`brew uninstall miniconda`
-
-Additional modifications are (all of them are inactive, once miniconda is removed):
-
-- `~/.condarc` (list of channels), and `~/.conda\`.
-- `~/.zshrc` (or `.bashrc`) for the setup of path and environment.
-- After using hugginface models, large model binary blobs may reside at: `~/.cache/huggingface/hub`. Simply remove the directory.
-
 ## Changes
 
+- 2025-06-22: (Guide version 4): Version updates and usage of `uv` package manager. Old v3 version using `pip` available at [v3](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/LegacyGuides/README_v3.md).
 - 2024-09-10: Version updates for the platforms.
 - 2024-07-26: Version updates for the platforms.
 - 2024-04-28: Added JAX installation with Metal support and quick-test.
