@@ -4,7 +4,7 @@
 
 A guided tour on how to install optimized `pytorch` and optionally Apple's new `MLX` and Google's `JAX` on Apple Silicon Macs and how to use `HuggingFace` large language models for your own experiments. Apple Silicon Macs show good performance for many machine learning tasks.
 
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) This guide is currently being updated to **Version 4**: main change is the usage of the [`uv`](https://docs.astral.sh/uv/) package manager. The previous version 3 that uses Python's standard `pip` and package manager and explicit `venv` management, is still available [here](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/LegacyGuides/README_v3.md).
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) This guide was updated to **Version 4**: main change is the usage of the [`uv`](https://docs.astral.sh/uv/) package manager. The previous version 3 that uses Python's standard `pip` and package manager and explicit `venv` management, is still available [here](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/LegacyGuides/README_v3.md).
 
 We will perform the following steps:
 
