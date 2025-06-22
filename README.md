@@ -4,7 +4,7 @@
 
 A guided tour on how to install optimized `pytorch` and optionally Apple's new `MLX` and Google's `JAX` on Apple Silicon Macs and how to use `HuggingFace` large language models for your own experiments. Apple Silicon Macs show good performance for many machine learning tasks.
 
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) This guide is currently being updated to **Version 4**: main change is the usage of the `uv` package manager. The previous version 3 that uses Python's standard `pip` package manager is still available [here]()
+> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) This guide is currently being updated to **Version 4**: main change is the usage of the `uv` package manager. The previous version 3 that uses Python's standard `pip` and package manager and explicit `venv` management, is still available [here](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/LegacyGuides/README_v3.md).
 
 We will perform the following steps:
 
@@ -18,7 +18,7 @@ We will perform the following steps:
 
 Then we provide additional HowTos for:
 
-- Running large language models (LLMs) that rival commercial projects: Llama 2 or Llama 3 with llama.cpp (s.b.) using Mac Metal acceleration.
+- Running large language models (LLMs) that rival commercial projects: Gemma 3 or Llama 3 with ollama (s.b.) using Mac Metal acceleration.
 
 ## Additional overview notes ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 
@@ -32,7 +32,7 @@ Tensorflow, JAX, Pytorch, and MLX are deep-learning frameworks that provide the 
 - **JAX** is a newer Google framework that is considered especially by researchers as the better alternative to Tensorflow. It support GPUs, TPUs, and Apple's Metal framework (still experimental) and is more 'low-level', especially when used without complementary neural network-layers such as [flax](https://github.com/google/flax). JAX on Apple Silicon is still 'exotic', hence for production projects, use Pytorch, and for research projects, both JAX and MLX are interesting: MLX has more dynamic development (at this point in time), JAX supports more hardware framework (GPUs and TPUs) besides Apple Silicon, but development of the `jax-metal` drivers is not always up-to-date with the latest versions of `JAX`.
 - **MLX** is Apple's new kid on the block, and thus overall support and documentation is (currently) much more limited than for the other main frameworks. It is beautiful and well designed (they took lessons learned for torch and tensorflow), yet it is closely tied to Apple Silicon. It's currently best for students that have Apple hardware and want to learn or experiment with deep learning. Things you learn with MLX easily transfer to Pytorch, yet be aware that conversion of models and porting of training and inference code is needed in order to deploy whatever you developed into the non-Apple universe.
 - **corenet** is Apple's [newly released training library](https://github.com/apple/corenet) that utilizes PyTorch and the HuggingFace infrastructure, and additionally contains examples how to migrate models to MLX. See the example: [OpenElm (MLX)](https://github.com/apple/corenet/blob/main/mlx_examples/open_elm).
-- **Tensorflow** is the 'COBOL' of deep learning and it's practically silently EoL'ed by Google. Google themselves publishes new models for PyTorch and JAX/Flax, and not for Tensorflow. If you are not forced to use Tensorflow, because your organisation already uses it, ignore it. If your organziation uses TF, make a migration plan! Look at Pytorch for production and JAX for research.
+- **Tensorflow** is the 'COBOL' of deep learning and it's practically silently EoL'ed by Google. Google themselves publishes new models for PyTorch and JAX/Flax, and not for Tensorflow. If you are not forced to use Tensorflow, because your organisation already uses it, ignore it. If your organziation uses TF, make a migration plan! Look at Pytorch for production and JAX for research. Another reason to still look into Tensorflow are embedded applications and Tensorflow's C-library.
 
 HuggingFace publishes an [Overview of model-support](https://huggingface.co/docs/transformers/index#supported-frameworks) for each framework. Currently, Pytorch is the defacto standard, if you want to make use of existing models.
 
@@ -45,43 +45,28 @@ HuggingFace publishes an [Overview of model-support](https://huggingface.co/docs
 If you haven't done so, go to <https://brew.sh/> and follow the instructions to install homebrew.
 Once done, open a terminal and type `brew --version` to check that it is installed correctly.
 
-Now use `brew` to install more recent versions of `python` and `git`. The recommendation is to use Homebrew's default Python 3.12, if you are not planning to use Tensorflow with Metal optimization (still requires 3.11 (at 2024-04)).
+Now use `brew` to install more recent versions of `python`, `uv`, and `git`. The recommendation is to use Homebrew's default Python 3.13.
 
-#### Current Python for Huggingface, Pytorch, JAX, and MLX, Python 3.12, Homebrew default
-
-```bash
-brew install python@3.12 git
-```
-
-#### Legacy installations (Tensorflow), Python 3.11 ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
+#### Current Python for Huggingface, Pytorch, JAX, and MLX, Python 3.13, Homebrew default
 
 ```bash
-brew install python@3.11 git
+brew install python@3.13 uv git
 ```
-
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat)  you can install both versions of Python and then create a virtual environment using the specific python version you need for each case.
-
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) If you plan to also use Linux, be aware that Python version support sometimes differs between Mac and Linux version of frameworks.
 
 #### Make homebrew's Python the system-default ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 
 > ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Apple does not put too much energy into keeping MacOS's python up-to-date. If you want to use an up-to-date default python, it makes sense to make homebrew's python the default system python.
-So, if, you want to use homebrew's Python 3.11 or 3.12 system-globally, the easiest way
-way to do so (after `brew install python@3.12` or `3.11`):
+So, if, you want to use homebrew's Python 3.13 in Terminal, the easiest way way to do so (after `brew install python@3.13`):
 
 Edit `~/.zshrc` and insert:
 
 ```bash
-# This is OPTIONAL and only required if you want to make homebrew's Python 3.12 as the global version:
-export PATH="/opt/homebrew/opt/python@3.12/bin:$PATH"                     
-export PATH=/opt/homebrew/opt/python@3.12/libexec/bin:$PATH
+# This is OPTIONAL and only required if you want to make homebrew's Python 3.13 as the global version:
+export PATH="/opt/homebrew/opt/python@3.13/bin:$PATH"                     
+export PATH=/opt/homebrew/opt/python@3.13/libexec/bin:$PATH
 ```
 
-Change all references of `3.12` to `3.11` when wanting to make homebrew's Python 3.11 system-standard python.
-
 (Restart your terminal to activate the path changes, or enter `source ~/.zshrc` in your current terminal session.)
-
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) Regardless of the system python in use, when creating a virtual environment, you can always select the specific python version you want to use in the `venv` by creating the `venv` with exactly that python. E.g. `/usr/bin/python3 -m venv my_venv_name` creates a virtual environment using Apple's macOS python (which at the time of this writing, 2024-07, is still stuck at 3.9.6). See below, **Virtual environments**, for more details.
 
 ### 1.2 Test project
 
@@ -93,48 +78,12 @@ git clone https://github.com/domschl/HuggingFaceGuidedTourForMac
 
 This clones the test-project into a directory `HuggingFaceGuidedTourForMac`
 
-#### Virtual environment
+#### Virtual environment using `uv`
 
-Now create a Python 3.12 environment for this project and activate it:
+Now execute `uv sync`. This will install a virtual environment at `HuggingFaceGuidedTourForMac/.venv` using the python version defined in the project's `.python_version` file and install the dependencies defined in `pyproject.toml`. Have a look at each of those locations and files to get an understanding what `uv sync` installed.
 
-(Again: replace with `3.11`, if you need)
 
-```bash
-python3.12 -m venv HuggingFaceGuidedTourForMac
-```
 
-Creating a venv adds the files required (python binaries, libraries, configs) for the virtual python environment to the project folder we just cloned, using again the same directory `HuggingFaceGuidedTourForMac`. Enter the directory and activate the virtual environment:
-
-```bash
-cd HuggingFaceGuidedTourForMac
-source bin/activate
-```
-
-Now the directory `HuggingFaceGuidedTourForMac` contains the content of the github repository (e.g. `00-SystemCheck.ipynb`) _and_ the the files for the virtual env (e.g. `bin`, `lib`, `etc`, `include`, `share`, `pyvenv.cfg`):
-
-![Folder content](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/Resources/ProjectFolder.png)
-
-**Alternatives:** If you have many different python versions installed, you can create an environment that uses a specific version by specifying the path of the python that is used to create the `venv`, e.g.: 
-
-```bash
-/opt/homebrew/opt/python@3.12/bin/python3.12 -m venv my_new_312_env
-```
-
-uses homebrew's python explicitly to create a new `venv`, whereas
-
-```bash
-/usr/bin/python3 -m venv my_old_system_venv
-```
-
-would use Apple's macOS python version for the new environment.
-
-### 1.3 When you done with your project
-
-Do deactivate this virtual environment, simply use:
-
-```bash
-deactivate
-```
 
 To re-activate it, enter the directory that contains the `venv`, here: `HuggingFaceGuidedTourForMac` and use:
 
@@ -143,19 +92,13 @@ source bin/activate
 ```
 
 ### Additional notes on `venv` ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
-> ![Warning](http://img.shields.io/badge/⚠️-Warning:-orange.svg?style=flat) A very **unintuitive property of `venv`** is the fact: while you enter an environment by activating it in the subdirectory of your project (with `source bin/activate`), the `venv` **stays active** when you leave the project folder and start working on something completely different _until you explicitly deactivate_ the `venv` with `deactivate`. 
->
-> There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Check out [starship](https://github.com/starship/starship) (recommended), or, if you like embellishment [`Oh My Zsh`](https://ohmyz.sh/).
 
-![No venv active](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/Resources/no_venv.png)
-_Example with `powerlevel10k` installed. The left side of the system prompt shows the current directory, the right side would show the name of the `venv`. Currently, no `venv` is active._
+> ![Warning](http://img.shields.io/badge/⚠️-Warning:-orange.svg?style=flat) A very **unintuitive property of virtual environments** is the fact: while you enter an environment by activating it in the subdirectory of your project (with `.venv/bin/activate` or `uv sync`), the `venv` **stays active** when you leave the project folder and start working on something completely different _until you explicitly deactivate_ the `venv` with `deactivate`:
 
-After activating a `venv` in `HuggingFaceGuidedTourForMac`:
-
-![venv is still active](https://github.com/domschl/HuggingFaceGuidedTourForMac/blob/main/Resources/venv_remind.png)
-_Even is the working directoy is changed (here to `home`), since the `venv` is still active, it's name is displayed on the right side by `powerlevel10k`. Very handy._
-
-> ![Note:](http://img.shields.io/badge/📝-Note:-green.svg?style=flat) See <https://docs.python.org/3/tutorial/venv.html> for more information about Python virtual environments.
+```bash
+deactivate
+```
+> There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Check out [starship](https://github.com/starship/starship) (recommended).
 
 ### 2 Install `pytorch`
 
