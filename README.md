@@ -112,7 +112,7 @@ deactivate
 
 ### 2. A fresh `pytorch` project
 
-We will now perform a step-by-step installation for a new `pytorch` project. Check out `https://pytorch.org`, but here, we will install Pytorch with `uv`.
+We will now perform a step-by-step installation for a new `pytorch` project. Check out <https://pytorch.org>, but here, we will install Pytorch with `uv`.
 
 Create a new directory for your test project and install pytorch using the latest Python version:
 
