@@ -14,11 +14,7 @@ We will perform the following steps:
 - Install `JAX` with Apple's metal drivers (experimental is this point in time (2025-06), and not up-to-date.) ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 - Install `tensorflow` with and Apple's metal pluggable metal driver optimizations ![Optional](http://img.shields.io/badge/legacy-optional-brightgreen.svg?style=flat)
 - Install `jupyter lab` to run notebooks
-- Install `huggingface` and run some pre-trained language models using `transformers` and just a few lines of code within jupyter lab.
-
-Then we provide additional HowTos for:
-
-- Running large language models (LLMs) that rival commercial projects: Gemma 3 or Llama 3 with ollama (s.b.) using Mac Metal acceleration.
+- Install `huggingface` and run some pre-trained language models using `transformers` and just a few lines of code within jupyter lab for simple chat bot.
 
 ## Additional overview notes ![Optional](http://img.shields.io/badge/optional-brightgreen.svg?style=flat)
 
