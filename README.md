@@ -108,7 +108,7 @@ This will open a jupyter notebook that will test each of the installed framework
 deactivate
 ```
 
-> There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful thing. Check out [starship](https://github.com/starship/starship) (recommended). Once `starship` is active, your terminal prompt will show the active Python version and the name of the virtual environment.
+> There are a number of tools that modify the terminal system prompt to display the currently active `venv`, which is very helpful. Check out [starship](https://github.com/starship/starship) (recommended). Once `starship` is active, your terminal prompt will show the active Python version and the name of the virtual environment.
 
 ### 2. A fresh `pytorch` project
 
