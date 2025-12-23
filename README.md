@@ -125,7 +125,7 @@ uv add torch numpy
 source .venv/bin/activate
 ```
 
-This: creates a new project directory, enters it, initializes a new project using Python 3.13 (which is support with Apple Metal acceleration)
+This: creates a new project directory, enters it, initializes a new project using Python 3.13 (drivers for Apple Metal acceleration are available in torch)
 and installs a `torch` and `numpy` in a new virtual environment.
 
 We can now start python and enter a short test sequence to verify everything works:
